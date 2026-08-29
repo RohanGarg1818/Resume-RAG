@@ -1,0 +1,241 @@
+Date/Time,Media Description,Media Link
+"You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)","Hacknite ? Code Royal | 12-Hour Hackathon Grand Finale
+On 10th August, I had the opportunity to participate in the Hacknite ? Code Royal Grand Finale at Master?s Union with Team CodeCrunchers.
+We took our project JugaadHub, a campus-focused peer-to-peer rental platform, and pushed it further by integrating a Gemini-powered AI Assistant.
+
+My key contributions during the hackathon included:
+? Integrating Gemini AI into our existing application
+? Working on the AI assistant?s interaction flow and functionality
+? Debugging and resolving integration issues under a strict deadline
+? Testing and refining the feature to improve the overall user experience
+The biggest takeaway was learning how to adapt quickly, debug efficiently, and build practical solutions under pressure.
+Team Members: Vaibhav Singla, Bhavya Bansal, Aryan Kumar Srivastava
+Thanks to Hackers Cult for organizing the event and giving us the opportunity to build and compete!
+On to the next one. ?
+#Hacknite #CodeRoyal #Hackathon #CodeCrunchers #JugaadHub #GeminiAI #AI #BuildInPublic #Developers",
+"You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQHEJEuDKqnZLQ/feedshare-shrink_480/B56aAufZJHHUAg-/0/1787486376767?e=1789603200&v=beta&t=IX5m6tLbGS04RxYrOxZBiUe79ccQCJUfzo08M00UfW8
+"You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQE2vGY6TMXT2g/feedshare-shrink_20/B56aAufZGDGgAI-/0/1787486376617?e=1789603200&v=beta&t=0_z-CaMjzC_qMDlJ3nRRizVZBidClvCczYwjNWvMGYY
+"You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQFpbF6VrqEbbQ/feedshare-shrink_1280/B56aAufZFLGgAM-/0/1787486376498?e=1789603200&v=beta&t=g3wjJ8PaxvnlXgwMPxuMkwGfiGG5q0cC7prOgygvIvE
+"You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQFlUqnZ_xWZFA/feedshare-shrink_800/B56aAufZIbIcAc-/0/1787486376702?e=1789603200&v=beta&t=Xqb3ob__4XoOKoJ8gizZEaTFH1bjkYDerhV4m2waK8o
+"You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQHI7si-YKR0zg/feedshare-shrink_480/B56aAufZCIIEAg-/0/1787486376303?e=1789603200&v=beta&t=Rw2jdhIvZJIrp_18DIRn6MQtPmdZ3aVnDsxDXarS9fs
+"You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)","? Excited to share my latest full-stack project: CollabSphere!
+
+CollabSphere is a resilient, real-time collaboration platform engineered to address modern distributed backend challenges, asynchronous state synchronization, and high-concurrency real-time communication.
+
+Rather than assembling basic UI abstractions, my primary objective was engineering a production-ready application that balances automated backend cache eviction with imperceptible UI latency.
+
+Architectural Deep-Dive & Core Innovations:
+? Redis-Driven State Management & Automated TTL Eviction:
+?? Architected self-destructing, ephemeral messaging utilizing Redis TTL indices paired with scheduled background worker threads.
+?? Offloaded volatile, transient state to Redis to eliminate relational database bloat, optimize PostgreSQL IOPS, and drastically reduce query execution overhead.
+
+? Perceived Latency Mitigation & Skeleton UI Orchestration:
+?? Implemented structural Skeleton Screens using Next.js 15 Suspense boundaries to mitigate Cumulative Layout Shift (CLS) and optimize perceived rendering metrics.
+?? Synergized skeleton fallbacks with optimistic UI updates to achieve deterministic, immediate feedback loops across workspace channels.
+
+? Ultra-Low Latency Audio/Video & Event Streaming: Leveraged WebSockets  for real-time duplex channel synchronization and integrated LiveKit to stream encrypted, sub-second latency WebRTC audio/video feeds.
+
+? Ephemeral Cryptographic Identity & Granular RBAC: Designed identity-masked anonymous discussion channels governed by fine-grained Role-Based Access Control (RBAC) across multi-tenant workspaces.
+
+?? Cloud Infrastructure & Deployment: Fully containerized and deployed on Render cloud infrastructure, leveraging Clerk for zero-trust session security and UploadThing for distributed blob storage.
+
+?? Modern Engineering Stack
+Frontend Architecture: Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS, shadcn/ui
+Backend Systems: Next.js Route Handlers, Node.js Runtime, WebSockets, LiveKit WebRTC
+Data Persistence & Caching Layer: Redis (Volatile TTL & Worker Jobs), PostgreSQL, Prisma ORM
+Deployment & Infrastructure Services: Render Cloud Deployment, Clerk Auth, UploadThing S3
+
+? Continuous Engineering Iteration
+Building CollabSphere provided valuable hands-on experience in distributed caching strategies, asynchronous event loops, and relational schema optimization. I treat every project as an evolving engineering artifact and am actively open to implementing architectural modifications, refactoring infrastructure components, and scaling backend throughput.
+
+? Live Deployment (Render): https://lnkd.in/g79i8FvM
+? Source Code (GitHub): https://lnkd.in/grGjJnB6
+
+#FullStackDevelopment #Nextjs #TypeScript #Redis #BackendEngineering #SystemDesign #WebSockets #PostgreSQL #Render #CloudDeployment #SoftwareEngineering #TechInnovation #OpenToOpportunities
+",
+"You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQFpoNAOmXj2_A/feedshare-shrink_1280/B56aAFd5ylGUAM-/0/1786798121171?e=1789603200&v=beta&t=ISfe9Xmg9wZhNEpHGGrC29sSacEGNZEMtqUngtR4VC0
+"You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQH1hZ-m2GptXw/feedshare-shrink_20/B56aAFd54RIwAI-/0/1786798121520?e=1789603200&v=beta&t=DzvKAhsOoig_zPEN_GLzQlaDXrMoo3VzDq90NNQRW5A
+"You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQHedpeofUR98g/feedshare-shrink_480/B56aAFd542GgAg-/0/1786798121633?e=1789603200&v=beta&t=IJblwh-QFchGkcslo3XX7hW2P9fRpZumreDAJ2XoYy4
+"You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQHnfy8XhnBD4w/feedshare-image-high-res/B56aAFd6iGGQAU-/0/1786798124161?e=1789603200&v=beta&t=aXcv35fLcViTVQpE83pI0SKlfSuSn7sef_75e7oRfZw
+"You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQEOQMCNdEVLRw/feedshare-image-high-res/B56aAFd6O8KwAY-/0/1786798122959?e=1789603200&v=beta&t=XluwNpBR7FGqKpRHWx5qW880vfTHcixXiOVZvLdfesE
+"You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQGQm0ncvlH3xA/feedshare-shrink_1280/B56aAFd6ByKsAM-/0/1786798122230?e=1789603200&v=beta&t=6w8taRRvo5Zq6OJNsbvwgdWZDrB-vBDPNKylvSq4tRI
+"You uploaded a document on June 28, 2026 at 10:17 AM (GMT)", -,https://media.licdn.com/dms/document/media/v2/D562DAQEHICrnmI7obA/profile-treasury-document-chunked-pdf/B56Z8Nu_ztHUBU-/0/1782641853311?e=1788519600&v=beta&t=px5cxazG0jLyXwFW_Ub0E7nRvGig_gYYQGl7HdNged4
+"You uploaded a document on June 28, 2026 at 10:17 AM (GMT)", -,https://media.licdn.com/dms/document/media/v2/D562DAQGazhYPKaQ5XQ/profile-treasury-document-chunked-pdf/B56Z8Nu_h3IUBU-/0/1782641852068?e=1788519600&v=beta&t=FRzLLEg_s8iPdtl64zp1cPMALZnhc0tt3CB8VB6TEBo
+"You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)","Excited to share VideoTube ? a full-stack video streaming platform that became one of my biggest learning experiences as a developer.
+
+When I started this project, my goal was simple: learn backend development by building something real. What followed was weeks of designing APIs, debugging countless errors, integrating services, and understanding how a production-level application comes together.
+
+Through VideoTube, I learned:
+? Authentication & Authorization with JWT
+? REST API design and backend architecture
+? MongoDB data modeling
+? File uploads and media management with Cloudinary
+? Frontend?Backend integration
+? Deployment and production setup
+
+Features:
+? Video Upload & Streaming
+? Comments, Likes & Subscriptions
+? Playlists
+? User Dashboard
+? Secure Authentication
+? Responsive UI
+
+Tech Stack: React, Node.js, Express.js, MongoDB, Cloudinary, Tailwind CSS
+
+There were many moments when a small change broke something else, and some bugs took hours to solve. But every error taught me something new and helped me become a better developer.
+
+Github repo: https://lnkd.in/gEvcR6VP
+Live Demo: https://lnkd.in/gtjjdhAr
+
+#FullStackDevelopment #MERN #BackendDevelopment #ReactJS #NodeJS #MongoDB #WebDevelopment #SoftwareEngineering 
+",
+"You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQEQaYeHNanpgQ/feedshare-shrink_160/B56Z6i_mZFHQAk-/0/1780851043000?e=1789603200&v=beta&t=gioi3-nRmX0qjaB8k7syi0s43q8s0Qjmsg7IhnUO1AM
+"You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQFdD-R0oYN-Lg/feedshare-shrink_20/B56Z6i_mW1GsAI-/0/1780851042815?e=1789603200&v=beta&t=TbnJVgM8Djpgdjj_7euJ7zpZZ5fQK-xcoFoUXnMG25s
+"You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQGMZiL4PueO6Q/feedshare-shrink_800/B56Z6i_l78KYAc-/0/1780851040889?e=1789603200&v=beta&t=CR5lB77VecDYh5luTFAwux2ez0lOTj2KqALHg1hQHzc
+"You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQEFkpigkz5RoA/feedshare-shrink_160/B56Z6i_mEaGoAk-/0/1780851042056?e=1789603200&v=beta&t=4tUFbepXxZeHr82bzxl2mua2_h63av-NNOv42awOa3A
+"You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQETq5QXcylHwA/feedshare-image-high-res/B56Z6i_l92GkAU-/0/1780851041094?e=1789603200&v=beta&t=Ffk4x06mC4F_8WHIJBQyvzdKreJVH-veebG6nX4m4HE
+"You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQHEHjc8hktsLw/feedshare-shrink_20/B56Z6i_mPwJsAM-/0/1780851042314?e=1789603200&v=beta&t=APdLgBUMjShPmWAYVf6h9nkHKL6v-LO3FI7DW6DVRGI
+"You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)","I went into Vihaan 9.0 thinking the biggest challenge would be writing code.
+As the Team Lead and Tech Lead of my team, I quickly realized that the real challenge was making decisions under pressure, coordinating the team, solving unexpected issues, and keeping everyone moving toward a common goal.
+Over 24 hours, we enhanced JugaadHub with features like Razorpay integration, Trie-based product search, improved chat security, and a built-in negotiation system. There were bugs, last-minute fixes, and plenty of learning along the way.
+While we didn't make it to the final round, I came away with something more valuable?experience. This hackathon taught me that building great products isn't just about technical skills; it's also about communication, adaptability, and teamwork.
+Grateful to my teammates Vaibhav Singla, Bhavya Bansal, Aryan Kumar Srivastava, mentors, judges, and the organizers of Vihaan 9.0 for an amazing experience.
+#Vihaan #Hackathon #Leadership #SoftwareDevelopment #Teamwork #Learning #WebDevelopment",
+"You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQESsuOJAn2AKw/feedshare-shrink_480/B56Z6cZ9YGHQAk-/0/1780740512146?e=1789603200&v=beta&t=TSiir5jJ6VCxzi1ULNr_q9d7IEJvZ23o5kgaXhH-31w
+"You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQG_FsV22lQhTQ/feedshare-shrink_160/B56Z6cZ9LqGoAk-/0/1780740510746?e=1789603200&v=beta&t=PpEWrK7b-wu3fBWAmJ-JM2v97hHT2cCbQshquyjkyO4
+"You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQHRN3vSr8eGtw/feedshare-shrink_480/B56Z6cZ.KEI8Ao-/0/1780740515905?e=1789603200&v=beta&t=UjA5w1kH1ORRvUCnCUzulxglS9RCcPXoulWcLJbtr6k
+"You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQGm3wDxrz18_A/feedshare-shrink_800/B56Z6cZ9SnHQAg-/0/1780740511270?e=1789603200&v=beta&t=-TvyHouvrrAxcUh6IqZ7sGy34NaK1bPVguunPrQQbU0
+"You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQH0dZ_Ip_SLyw/feedshare-shrink_480/B56Z6cZ9fPIQAg-/0/1780740512122?e=1789603200&v=beta&t=u727ABBhMoLlZ-VwQf6mrGmgY0b1L7WIKQxu2xw3BiE
+"You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)","18 hours. One product. Real impact.
+I recently participated in the Orbix Hackathon at IIIT Delhi (25?26 March) with team CodeCrunchers, where we secured a place in the Top 7 teams (Software Track).
+For me, this hackathon was more than just another event. It was a very real test of how much I?ve grown as a developer. Taking full ownership of the entire tech side in such a high-pressure environment pushed me out of my comfort zone.
+This time, instead of starting from scratch, we focused on evolving our existing product JugaadHub into something more practical and trustworthy. I wasn?t just building features, I was thinking about how each decision would impact real users using the platform.
+What we worked on:
+? Built pre/post rental image verification to track item condition
+? Worked on wallet system with UPI integration
+? Improved escrow-based transaction flow for safer exchanges
+? Strengthened backend logic and overall system performance
+What made this experience different was the shift in mindset ? not just ?what can we build,? but what actually makes this usable and trustworthy for users.
+I learned how to prioritize impact over perfection, take fast technical decisions, and continuously ship under pressure.
+Grateful to be building with an amazing team and pushing limits every time.
+Team Members: Vaibhav Singla, Bhavya Bansal, Aryan Kumar Srivastava
+GitHub Repo: https://lnkd.in/ggph97xz
+#Hackathon  #WebDevelopment #React #LearningByBuilding",
+"You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQGgWPGEFcvYHA/feedshare-shrink_480/B56Z1YKu72JgAk-/0/1775300702162?e=1789603200&v=beta&t=K2gSl250M5c16o4T-HijLroe7EJ8A4G1WEXaQ14VwoY
+"You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQFk_ubnMfFifg/feedshare-shrink_1280/B56Z1YKvGaKkAM-/0/1775300702880?e=1789603200&v=beta&t=LMuv9Kg4dFgrOzkwlxDlUfYk9tH6FMyXf24G2Hwk2U0
+"You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQEKwy50JDt9uw/feedshare-shrink_160/B56Z1YKu24JgAo-/0/1775300701911?e=1789603200&v=beta&t=wnJJn7e5BWgCIw86gw45j1U-gjJZzD6HhXDrxFT0kzY
+"You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQHsJs49Bq3qYg/feedshare-shrink_160/B56Z1YKu2fK0Ao-/0/1775300701870?e=1789603200&v=beta&t=sxyCD8kHQiR7FTFSgxOnRPmZikXd8sywSqsphU6sjNg
+"You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQHgxc___PwKYw/feedshare-shrink_1280/B56Z1YKvD6KMAM-/0/1775300702726?e=1789603200&v=beta&t=0JaA3sDucYrQNpzASECvR9aTmsCVEP-ERIIF_v1dfwA
+"You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)","Excited to share that our team CodeCrunchers secured a spot in the Top 10 at the HackXtract Hackathon, hosted by TechXtract at MAIT.
+For me, this experience was about owning the end-to-end technical development of our product under tight timelines.
+Project: JugaadHub
+ A peer-to-peer campus rental platform for sharing everyday resources.
+My Role (Full Stack):
+ ? Built the app using React + TypeScript
+ ? Implemented JWT auth + OTP verification
+ ? Integrated Supabase (DB) and Cloudinary (media)
+ ? Managed complete frontend-backend integration
+Key Takeaways:
+ ? Turning an idea into a working product, fast
+ ? Handling scalability + clean architecture under pressure
+ ? Balancing development with real-world usability
+Being the only first-year team in the finals made this even more special ? a strong reminder that execution > experience.
+Grateful to my team: Vaibhav Singla, Aryan Kumar Srivastava, Bhavya Bansal
+GitHub Repository : https://lnkd.in/ggph97xz
+
+#Hackathon #FullStack #React #Supabase #WebDevelopment ",
+"You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQH6DsKm37Oe2w/feedshare-shrink_480/B56Z045oRGGYAk-/0/1774776125031?e=1789603200&v=beta&t=tjk1AK3oPQXdLiF0yhzy9Zjo6qF537dKonU1KYdaeZs
+"You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQFbue6ZogBYzg/feedshare-shrink_20/B56Z045oehH8AI-/0/1774776125620?e=1789603200&v=beta&t=BulcsyD8dhud5FrGkVZ8Uw0qCjDumrLqFfasxy70ipk
+"You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQHLK15iWs1lqg/feedshare-shrink_480/B56Z045n_iHwAk-/0/1774776123600?e=1789603200&v=beta&t=iylNGxN_nRkaqevla3NqqWs0atGy7eyq4msjfeLaRkU
+"You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQGvK_CNFD1zSA/feedshare-shrink_160/B56Z045n.qJsAo-/0/1774776123541?e=1789603200&v=beta&t=T-SizM1BjV1VuJStVNqcnJ4i1C6nh0asSojYFxjfkOM
+"You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQG2k_Pn16DzTQ/feedshare-shrink_20/B56Z045ogyHEAI-/0/1774776125903?e=1789603200&v=beta&t=ceJsJdUjrvJQ7B0hqL82CdkDvykoJ_30513ENY2jnjw
+"You uploaded a profile background photo on March 27, 2026 at 3:37 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5616AQHxC5Y6gRXe_g/profile-displaybackgroundimage-shrink_200_800/B56Z0v8bwwG8AU-/0/1774625869705?e=1789603200&v=beta&t=A_xcLWwdwKvOEaSuVO5HZ1Qb30Yn8f7saB3CD2cJy5c
+"You uploaded a profile background photo on March 27, 2026 at 3:37 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5604AQGiwjfmS1sW_w/profile-background-servable-original-image/B56Z0v8bxGH0AM-/0/1774625871293?e=1789603200&v=beta&t=Wse4Xzwq5UllZYrxYTm37oMMfd064s_CQECzcK75NSk
+"You uploaded a profile photo on March 27, 2026 at 1:05 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5604AQHZ9YOa4J-ayw/profile-originalphoto-shrink_900_1200/B56Z0vZo.THkAI-/0/1774616750438?e=1789603200&v=beta&t=_t59lLf-gTMoVrMhJ3I7cGTIdJc4SCUBVRGOKn-CIgk
+"You uploaded a photo on March 27, 2026 at 1:05 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5603AQHxtvEDiYk1bA/profile-displayphoto-scale_100_100/B56Z0vZo24G8Ac-/0/1774616749846?e=1789603200&v=beta&t=xAeJ-ueQqFga3axVQz8JygVQ-u0gvAOdHP2-x8n4eh4
+"You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)","Excited to share that our team Stack Overflowers has successfully cleared the internal round of Smart India Hackathon 2025! 
+This experience was more than just a competition?it was about building a solution that can create real-world impact.
+Problem Statement: Disaster preparedness and response education system for schools and colleges
+Our Solution ? PrepConnect
+We developed a platform to make disaster management education engaging, practical, and accessible:
+? Gamified quiz modules with progressive levels to enhance learning
+? Real-life mock drill simulations to prepare for emergencies
+? A verified emergency contacts directory covering all Indian states
+Key Takeaways:
+? The best solutions come from truly understanding the problem
+? Strong teamwork and collaboration drive meaningful outcomes
+? Technology is most impactful when aligned with purpose
+Grateful to be part of a team that put in consistent effort and energy throughout:
+Vaibhav Singla, Bhavya Bansal, Aryan Kumar Srivastava
+Check out PrepConnect: https://lnkd.in/gSgwNM3G
+#SmartIndiaHackathon #SIH2025 #EdTech #DisasterPreparedness #Teamwork #Innovation
+",
+"You uploaded a feed photo on March 27, 2026 at 11:54 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQFJMGE4xVsIhQ/feedshare-shrink_160/B56Z0vJc0EJgAo-/0/1774612499953?e=1789603200&v=beta&t=rqEutGjPB7wDMd7F_XSyZ1wueV4lxNXB1Ax75CIT5L4
+"You uploaded a feed photo on March 27, 2026 at 11:54 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQE-M8Xz1UzYvg/feedshare-shrink_20/B56Z0vJc2hH0AI-/0/1774612500120?e=1789603200&v=beta&t=Kus4LykmSYy7yO5PM5IkubzPekoYxsuOeIfMeml_ZjI
+"You uploaded a feed photo on March 27, 2026 at 11:54 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQHXOZTr47eP4w/feedshare-shrink_160/B56Z0vJc3UK4Aw-/0/1774612500148?e=1789603200&v=beta&t=28kdH7E5EA8-RTfBavN7SO6slejNBTJMpHbTVyoV-Mg
+"You uploaded a feed photo on March 27, 2026 at 11:54 AM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQHb-rubw9sa2Q/feedshare-shrink_20/B56Z0vJcyvJsAI-/0/1774612499861?e=1789603200&v=beta&t=l3NYln5YJq7rA4nCcBgOLkb5AAk7gBjev-LIvjjj-_Q
+"You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)","Had a great experience participating in AM HACKS 2.0 hosted by Indira Gandhi Delhi Technical University for Women with my team CodeCrunchers.
+
+This hackathon strengthened my problem-solving mindset, teamwork under tight deadlines, and ability to design user-centric solutions with real-world impact. It reinforced an important lesson for me: meaningful tech starts with understanding people?s needs.
+
+We presented an upgraded version of our Smart India Hackathon project ? PrepConnect, a disaster management platform focused on making emergency response faster, smarter, and more inclusive. Key additions included an AI assistant, personalized ?My Needs? profiles, and a localized SOS system for real-time community support.
+
+Proud of what we built and grateful for the learning journey.
+
+Team CodeCrunchers:
+Vaibhav Singla | Rohan Garg | Monit Sharma | Aryan Kumar Srivastava | Bhavya Bansal
+
+? GitHub: https://lnkd.in/gSgwNM3G
+
+#Hackathon #AMHacks #IGDTUW #DisasterManagement #AI #Innovation #StudentDevelopers #PrepConnect",
+"You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQGYi7jNtBf7PA/feedshare-shrink_480/B56Zx7JnxpI0Aw-/0/1771592646034?e=1789603200&v=beta&t=MamWmroWRqwo43-quPEx2IlIFVCqwXLtoIH2RPaNuoU
+"You uploaded a feed photo on February 20, 2026 at 1:03 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQH7-Z3TFGdVtA/feedshare-shrink_160/B56Zx7JlbrIgAs-/0/1771592636363?e=1789603200&v=beta&t=SNiVArTgpRNgUlG2rUTc2Ljio8hxIh0EnfM2w2nuXzE
+"You uploaded a feed photo on February 20, 2026 at 1:03 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQHz2prF4UEH0w/feedshare-image-high-res/B56Zx7JlUbGwAY-/0/1771592635905?e=1789603200&v=beta&t=4FyB1CFBm-0pAU_t_Ls8Odo9tWz_OOCZJwDUjCzxdWQ
+"You uploaded a feed photo on February 20, 2026 at 1:03 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQHhkFriQJb96w/feedshare-shrink_1280/B56Zx7JldCKsAc-/0/1771592636460?e=1789603200&v=beta&t=l5nNBtu5Q17adSoRjDpxov2sMTp-tIiY3H3RdxkIUnY
+"You uploaded a feed photo on February 20, 2026 at 1:03 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D5622AQFwaaWt6S0JXw/feedshare-shrink_800/B56Zx7JlUUGoAg-/0/1771592635913?e=1789603200&v=beta&t=gRA29CGvhxW5xk7D_fa8qw4HLZ0eh5COqd3GaTUh7ec
+"You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)","I led the organization and delivery of an 8-session Data Structures & Algorithms Bootcamp under the ACM ICPC Student Chapter, GGSIP University.
+
+??? Role: Instructor & Organizer
+? Timeline: 9 Nov ? 13 Dec
+?? Mode: Online
+? Sponsor: HackerRank
+
+Key Contributions & Impact:
+? Designed and delivered 8 structured DSA sessions aligned with LeetCode 75
+? Curated 75+ LeetCode problems emphasizing hands-on problem solving
+? Mentored participants through core DSA concepts and interview-oriented patterns
+? Ensured progressive difficulty and continuity across sessions
+
+Technical Coverage:
+? Standard Template Library (STL)
+? Strings, Arrays, Two Pointers, Sliding Window
+? Prefix Sum, HashMaps
+? Stack, Queue, Linked List
+? Binary Search, Bit Manipulation, Monotonic Stack
+? Trees, Depth & Breadth First Search
+? Heaps & Priority Queues
+? Graph Algorithms
+? Dynamic Programming
+
+This experience strengthened my ability to translate complex concepts into structured, scalable learning frameworks while leading technical initiatives with measurable outcomes. It also sharpened my algorithmic thinking, technical communication, and systematic approach to complex problem-solving.
+
+#DSA #TeachingExperience #Leadership #ICPC #LeetCode #CompetitiveProgramming #HackerRank #SoftwareEngineering",https://media.licdn.com/dms/image/v2/D4D22AQHoHVuPrBF7bQ/feedshare-image-high-res/B4DZwAyHcHJoAU-/0/1769539664025?e=1789603200&v=beta&t=IUjIUhulaPbMur6A6ezjz2Zw9ULXPMl2U6SW-P3ZOIo
+"You uploaded a profile background photo on November 30, 2025 at 4:03 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D4E16AQEZh3zN2VT7Tg/profile-displaybackgroundimage-shrink_200_800/B4EZrVgSHbGYAY-/0/1764518606706?e=1789603200&v=beta&t=ggwBO_N2tQkTiYGWXIPomxzW_z2MPciIJ_ZoNjrbMjA
+"You uploaded a profile background photo on November 30, 2025 at 4:03 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D4E04AQG8TFMY1qkayg/profile-background-servable-original-image/B4EZrVgSGoHgAI-/0/1764518607495?e=1789603200&v=beta&t=oLBRnaedrkEJVxc7gG2KYK6zDk1spxfBKF_spBXorw8
+"You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)","Thrilled to announce that our team, Stack OverFlowers, has successfully cleared Round 1 of the Internal Smart India Hackathon 2025! 
+The journey so far has been an incredible learning experience ? filled with innovation, teamwork, and the drive to create something meaningful.
+Our problem statement challenged us to design a
+ ? ?Disaster preparedness and response education system for schools and colleges.?
+To address this, we built PrepConnect, a web platform aimed at transforming disaster management education into an interactive and engaging experience for students.
+? Highlights of PrepConnect:
+? Gamified Learning: Multi-level quiz modules that make learning fun while tracking progress.
+? Virtual Mock Drills: Simulated emergency scenarios offering a safe and realistic learning experience.
+?? Emergency Directory: Verified contact details from every Indian state for easy access in critical situations.
+What began as a hackathon challenge quickly evolved into a mission ? to explore how technology can empower students to be better prepared and resilient during crises.
+I?m immensely proud of what we?ve accomplished together as a team: Vaibhav Singla, Aryan Kumar Shrivastav and Bhavya Bansal .
+? Take a look at our project here: https://lnkd.in/dvgSBB2V
+#SmartIndiaHackathon #Innovation #DisasterPreparedness #EdTech #Teamwork #DigitalEmpowerment",
+"You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D4D22AQHoTy9nJft38w/feedshare-shrink_160/B4DZnuYCNCGsAg-/0/1760640902993?e=1789603200&v=beta&t=HzVZxVmUirIOQ3zWqwBDQZjcLRMJS-9cPxfmdIvRve4
+"You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D4D22AQFbI_Bi9oHdMw/feedshare-shrink_160/B4DZnuYCMOHYAc-/0/1760640902685?e=1789603200&v=beta&t=JoPpubOG4_u6PvExppSCFscW4ipI5w4OdNnZgfSXmwI
+"You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)", -,https://media.licdn.com/dms/image/v2/D4D22AQELTaqG8aXx5Q/feedshare-shrink_160/B4DZnuYCLtKoAc-/0/1760640902983?e=1789603200&v=beta&t=GR_WZWKkB8oMQCMVpl8xWgrFAfl-Bheg5Vub43ip3Ys

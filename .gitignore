@@ -1,0 +1,24 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# ChromaDB
+chroma_db/
+
+# Next.js
+node_modules/
+.next/
+out/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log

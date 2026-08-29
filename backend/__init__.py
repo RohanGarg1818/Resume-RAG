@@ -1,0 +1,1 @@
+"""FastAPI backend for the Resume RAG application."""

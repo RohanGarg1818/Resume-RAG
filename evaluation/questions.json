@@ -1,0 +1,194 @@
+{
+  "description": "Resume RAG retrieval evaluation set. acceptable_sections lists which ChromaDB sections count as a relevant hit. must_answer=false questions must be REFUSED (no confident context sent to the LLM). expected_keywords are checked against LLM answers during end-to-end eval runs.",
+  "questions": [
+    {
+      "id": "q01",
+      "question": "What projects has he built?",
+      "category": "projects-generic",
+      "acceptable_sections": ["projects"],
+      "must_answer": true,
+      "expected_keywords": ["JugaadHub"]
+    },
+    {
+      "id": "q02",
+      "question": "Tell me about his projects.",
+      "category": "projects-generic",
+      "acceptable_sections": ["projects"],
+      "must_answer": true,
+      "expected_keywords": ["CollabSphere"]
+    },
+    {
+      "id": "q03",
+      "question": "What are his main projects?",
+      "category": "projects-generic",
+      "acceptable_sections": ["projects"],
+      "must_answer": true,
+      "expected_keywords": ["VideoTube"]
+    },
+    {
+      "id": "q04",
+      "question": "What skills does he have?",
+      "category": "skills",
+      "acceptable_sections": ["skills"],
+      "must_answer": true,
+      "expected_keywords": ["Python"]
+    },
+    {
+      "id": "q05",
+      "question": "Where did he study?",
+      "category": "education",
+      "acceptable_sections": ["education"],
+      "must_answer": true,
+      "expected_keywords": ["Information Technology"]
+    },
+    {
+      "id": "q06",
+      "question": "What hackathons has he participated in?",
+      "category": "hackathons",
+      "acceptable_sections": ["achievements", "hackathons", "competitive programming"],
+      "must_answer": true,
+      "expected_keywords": ["Smart India Hackathon"]
+    },
+    {
+      "id": "q07",
+      "question": "What is his experience?",
+      "category": "experience-generic",
+      "acceptable_sections": ["experience"],
+      "must_answer": true,
+      "expected_keywords": ["ACM"]
+    },
+    {
+      "id": "q08",
+      "question": "Tell me about JugaadHub.",
+      "category": "project-specific",
+      "acceptable_sections": ["projects"],
+      "must_answer": true,
+      "expected_keywords": ["rental"]
+    },
+    {
+      "id": "q09",
+      "question": "Tell me about CollabSphere.",
+      "category": "project-specific",
+      "acceptable_sections": ["projects"],
+      "must_answer": true,
+      "expected_keywords": ["messaging"]
+    },
+    {
+      "id": "q10",
+      "question": "What technologies does JugaadHub use?",
+      "category": "project-specific",
+      "acceptable_sections": ["projects", "skills"],
+      "must_answer": true,
+      "expected_keywords": ["Supabase"]
+    },
+    {
+      "id": "q11",
+      "question": "What is his ACM ICPC experience?",
+      "category": "experience-specific",
+      "acceptable_sections": ["experience"],
+      "must_answer": true,
+      "expected_keywords": ["Club Coordinator"]
+    },
+    {
+      "id": "q12",
+      "question": "What is his favorite football team?",
+      "category": "junk-personal",
+      "acceptable_sections": [],
+      "must_answer": false
+    },
+    {
+      "id": "q13",
+      "question": "What is his favorite food?",
+      "category": "junk-personal",
+      "acceptable_sections": [],
+      "must_answer": false
+    },
+    {
+      "id": "q14",
+      "question": "How many LeetCode problems has he solved?",
+      "category": "competitive-programming",
+      "acceptable_sections": ["achievements", "competitive programming"],
+      "must_answer": true,
+      "expected_keywords": ["450"]
+    },
+    {
+      "id": "q15",
+      "question": "What is his CGPA?",
+      "category": "education",
+      "acceptable_sections": ["education"],
+      "must_answer": true,
+      "expected_keywords": ["8.3"]
+    },
+    {
+      "id": "q16",
+      "question": "Which company did he work with at IEEE?",
+      "category": "experience-specific",
+      "acceptable_sections": ["experience"],
+      "must_answer": true,
+      "expected_keywords": ["Tech Team Member"]
+    },
+    {
+      "id": "q17",
+      "question": "Does he know PostgreSQL?",
+      "category": "skills",
+      "acceptable_sections": ["skills", "projects"],
+      "must_answer": true,
+      "expected_keywords": ["PostgreSQL"]
+    },
+    {
+      "id": "q18",
+      "question": "What achievements does he have?",
+      "category": "achievements",
+      "acceptable_sections": ["achievements"],
+      "must_answer": true,
+      "expected_keywords": ["Olympiad"]
+    },
+    {
+      "id": "q19",
+      "question": "Who were his recent employers?",
+      "category": "experience-generic",
+      "acceptable_sections": ["experience"],
+      "must_answer": true,
+      "expected_keywords": ["IEEE"]
+    },
+    {
+      "id": "q20",
+      "question": "What programming languages does he know?",
+      "category": "skills",
+      "acceptable_sections": ["skills"],
+      "must_answer": true,
+      "expected_keywords": ["C++"]
+    },
+    {
+      "id": "q21",
+      "question": "Who is the president of the United States?",
+      "category": "junk-world",
+      "acceptable_sections": [],
+      "must_answer": false
+    },
+    {
+      "id": "q22",
+      "question": "What certifications does he hold?",
+      "category": "unanswerable-but-plausible",
+      "acceptable_sections": [],
+      "must_answer": false,
+      "note": "Resume contains no certifications section - system must not invent any"
+    },
+    {
+      "id": "q23",
+      "question": "Tell me about VideoTube.",
+      "category": "project-specific",
+      "acceptable_sections": ["projects"],
+      "must_answer": true,
+      "expected_keywords": ["video"]
+    },
+    {
+      "id": "q24",
+      "question": "What was his role at ACM ICPC?",
+      "category": "experience-specific",
+      "acceptable_sections": ["experience"],
+      "must_answer": true,
+      "expected_keywords": ["Coordinator"]
+    }
+  ]
+}

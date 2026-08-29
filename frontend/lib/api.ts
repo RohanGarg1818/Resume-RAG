@@ -1,7 +1,13 @@
+
 import type { ChatRequest, ChatResponse } from "@/types/chat";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+if (!API_URL) {
+  throw new Error(
+    "NEXT_PUBLIC_API_URL is not configured."
+  );
+}
 
 export async function sendMessage(
   request: ChatRequest
@@ -15,11 +21,15 @@ export async function sendMessage(
   });
 
   if (!response.ok) {
-    let message = "Failed to communicate with the backend.";
+    let message =
+      "Failed to communicate with the backend.";
 
     try {
       const error = await response.json();
-      message = error.detail || message;
+
+      if (typeof error.detail === "string") {
+        message = error.detail;
+      }
     } catch {
       // Keep default error message.
     }

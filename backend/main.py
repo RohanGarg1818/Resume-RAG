@@ -1,3 +1,4 @@
+
 import logging
 import os
 
@@ -9,10 +10,8 @@ from backend.routes.chat import router as chat_router
 from backend.routes.document import router as documents_router
 from backend.routes.voice import router as voice_router
 
-# Load environment variables before importing/using services
-# that depend on them.
+# Load environment variables
 load_dotenv()
-
 
 logging.basicConfig(
     level=logging.INFO,
@@ -38,13 +37,14 @@ app = FastAPI(
 
 frontend_url = os.getenv(
     "FRONTEND_URL",
-    "http://localhost:3000",
+    "https://rohan-resume-three.vercel.app",
 )
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        frontend_url,
+        "http://localhost:3000",
+        "https://rohan-resume-three.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],

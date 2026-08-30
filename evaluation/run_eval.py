@@ -29,8 +29,9 @@ EVAL_CHROMA_PATH = "/tmp/opencode/rrag_eval_chroma"
 os.environ["CHROMA_PATH"] = EVAL_CHROMA_PATH
 
 from src.chunk import chunk_resume
-from src.retrieve import ABSOLUTE_FLOOR, MIN_BEST_SCORE, RELATIVE_GAP, retrieve_full
-from src.vector_store import add_chunks, query_vectors, reset_collection, embed_query  # noqa: E402
+from src.embeddings import embed_query
+from src.retrieve import ABSOLUTE_FLOOR, CANDIDATE_MULTIPLIER, MIN_BEST_SCORE, RELATIVE_GAP, retrieve_full
+from src.vector_store import add_chunks, query_vectors, reset_collection  # noqa: E402
 
 
 def load_questions() -> list[dict]:

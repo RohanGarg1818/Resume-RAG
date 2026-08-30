@@ -12,6 +12,7 @@ The model is configurable via the GROQ_MODEL env var and defaults to
 the model this project was built with.
 """
 
+import gc
 import logging
 import os
 
@@ -41,13 +42,19 @@ def get_model_name() -> str:
     return os.getenv("GROQ_MODEL", DEFAULT_MODEL)
 
 
+_groq_client: Groq | None = None
+
+
 def _get_client() -> Groq:
-    api_key = os.getenv("GROQ_API_KEY")
-    if not api_key:
-        raise MissingAPIKeyError(
-            "GROQ_API_KEY is not set. Add it to your .env file."
-        )
-    return Groq(api_key=api_key)
+    global _groq_client
+    if _groq_client is None:
+        api_key = os.getenv("GROQ_API_KEY")
+        if not api_key:
+            raise MissingAPIKeyError(
+                "GROQ_API_KEY is not set. Add it to your .env file."
+            )
+        _groq_client = Groq(api_key=api_key)
+    return _groq_client
 
 
 def _build_messages(
@@ -150,6 +157,8 @@ def ask_resume(
             max_tokens=1024,
         )
         answer = (response.choices[0].message.content or "").strip()
+        del response
+        gc.collect()
 
     conversations.append_messages(
         conversation_id,

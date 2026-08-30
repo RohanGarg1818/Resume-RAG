@@ -4,6 +4,9 @@
 The embedding model is loaded lazily and cached so it is initialized only
 once per process. CPU inference is used because the application runs on
 a small Render instance without GPU acceleration.
+
+Torch thread limits are set to 1 to reduce per-thread memory arenas,
+which is critical for staying within Render's 512 MB memory limit.
 """
 
 from typing import Any
@@ -21,6 +24,10 @@ def get_model() -> Any:
 
     if _model is None:
         try:
+            import torch
+            torch.set_num_threads(1)
+            torch.set_num_interop_threads(1)
+
             from sentence_transformers import SentenceTransformer
 
             _model = SentenceTransformer(

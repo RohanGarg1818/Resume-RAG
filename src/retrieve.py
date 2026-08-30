@@ -49,13 +49,22 @@ RELATIVE_GAP = 0.15
 MIN_BEST_SCORE = 0.20
 
 LEXICAL_WEIGHT = 0.25
-SECTION_TOPIC_BONUS = 0.15
+SECTION_TOPIC_BONUS = 0.25
 ENTITY_MATCH_BONUS = 0.10
 
-CANDIDATE_MULTIPLIER = 4
+CANDIDATE_MULTIPLIER = int(
+    os.getenv("RETRIEVAL_CANDIDATE_MULTIPLIER", "4")
+)
 
-CONFIDENT_SCORE = 0.45
-CONFIDENT_SEMANTIC_ONLY = 0.40
+# For small collections, retrieve ALL chunks before hybrid scoring
+# so that generic queries (e.g. "What projects has he built?")
+# never miss relevant chunks due to ChromaDB's semantic-only ranking.
+SMALL_COLLECTION_THRESHOLD = int(
+    os.getenv("RETRIEVAL_SMALL_COLLECTION_THRESHOLD", "50")
+)
+
+CONFIDENT_SCORE = 0.30
+CONFIDENT_SEMANTIC_ONLY = 0.35
 
 
 # ---------------------------------------------------------------------------
@@ -249,6 +258,31 @@ def is_evaluation_query(query: str) -> bool:
     )
 
 
+def _optimal_candidate_count(
+    top_k: int,
+    collection_count: int,
+    min_candidates: int = 0,
+) -> int:
+    """Return the number of ChromaDB candidates to fetch.
+
+    For small collections (below SMALL_COLLECTION_THRESHOLD),
+    retrieve ALL chunks so that hybrid scoring has a complete
+    candidate pool.  For larger collections use the configured
+    multiplier.
+    """
+    if collection_count <= SMALL_COLLECTION_THRESHOLD:
+        return collection_count
+
+    return min(
+        collection_count,
+        max(
+            top_k * CANDIDATE_MULTIPLIER,
+            top_k,
+            min_candidates,
+        ),
+    )
+
+
 def _retrieve_evaluation(
     query: str,
     top_k: int,
@@ -261,7 +295,11 @@ def _retrieve_evaluation(
 
     raw = query_vectors(
         query_embedding,
-        n_results=max(top_k * CANDIDATE_MULTIPLIER, 20),
+        n_results=_optimal_candidate_count(
+            top_k,
+            get_collection().count(),
+            min_candidates=20,
+        ),
     )
 
     documents = raw.get("documents", [[]])[0]
@@ -684,9 +722,10 @@ def _retrieve_overview(
 
     query_embedding = embed_query(query)
 
-    candidate_count = min(
+    candidate_count = _optimal_candidate_count(
+        top_k,
         collection_count,
-        max(top_k * CANDIDATE_MULTIPLIER, 30),
+        min_candidates=30,
     )
 
     raw = query_vectors(
@@ -1036,12 +1075,9 @@ def retrieve_full(
             },
         }
 
-    candidate_count = min(
+    candidate_count = _optimal_candidate_count(
+        top_k,
         collection_count,
-        max(
-            top_k * CANDIDATE_MULTIPLIER,
-            top_k,
-        ),
     )
 
     raw = query_vectors(

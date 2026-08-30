@@ -5,17 +5,23 @@ from groq import Groq
 
 router = APIRouter(prefix="/api/voice", tags=["Voice"])
 
+_groq_client: Groq | None = None
+
 
 def get_groq_client() -> Groq:
-    api_key = os.getenv("GROQ_API_KEY")
+    global _groq_client
+    if _groq_client is None:
+        api_key = os.getenv("GROQ_API_KEY")
 
-    if not api_key:
-        raise HTTPException(
-            status_code=500,
-            detail="GROQ_API_KEY is not configured",
-        )
+        if not api_key:
+            raise HTTPException(
+                status_code=500,
+                detail="GROQ_API_KEY is not configured",
+            )
 
-    return Groq(api_key=api_key)
+        _groq_client = Groq(api_key=api_key)
+
+    return _groq_client
 
 
 @router.post("/transcribe")

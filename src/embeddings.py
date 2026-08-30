@@ -1,9 +1,9 @@
-"""MiniLM embeddings via sentence-transformers.
 
-The model is loaded lazily on first use (not at import time) so that
-importing this module stays cheap for tests and for the FastAPI app,
-and so a missing/corrupt model produces a clear EmbeddingError instead
-of crashing at import.
+"""Lightweight MiniLM embeddings for the Resume RAG pipeline.
+
+The embedding model is loaded lazily and cached so it is initialized only
+once per process. CPU inference is used because the application runs on
+a small Render instance without GPU acceleration.
 """
 
 from typing import Any
@@ -16,39 +16,71 @@ _model: Any = None
 
 
 def get_model() -> Any:
-    """Load and cache the MiniLM model (idempotent)."""
+    """Load and cache the embedding model."""
     global _model
+
     if _model is None:
         try:
             from sentence_transformers import SentenceTransformer
 
-            _model = SentenceTransformer(MODEL_NAME)
+            _model = SentenceTransformer(
+                MODEL_NAME,
+                device="cpu",
+            )
+
         except Exception as exc:
             raise EmbeddingError(
-                f"Failed to load embedding model '{MODEL_NAME}': {exc}"
+                f"Failed to load embedding model "
+                f"'{MODEL_NAME}': {exc}"
             ) from exc
+
     return _model
 
 
-def generate_embeddings(texts: list[str]) -> list[list[float]]:
-    """Embed a list of texts with MiniLM.
+def generate_embeddings(
+    texts: list[str],
+) -> list[list[float]]:
+    """Generate normalized MiniLM embeddings for multiple texts."""
 
-    Raises:
-        EmbeddingError: if encoding fails or the input is empty.
-    """
     if not texts:
-        raise EmbeddingError("Cannot embed an empty list of texts.")
+        raise EmbeddingError(
+            "Cannot embed an empty list of texts."
+        )
+
     try:
-        vectors = get_model().encode(texts, convert_to_numpy=True)
-        return [vector.tolist() for vector in vectors]
+        model = get_model()
+
+        vectors = model.encode(
+            texts,
+            convert_to_numpy=True,
+            normalize_embeddings=True,
+            show_progress_bar=False,
+        )
+
+        return [
+            vector.tolist()
+            for vector in vectors
+        ]
+
     except EmbeddingError:
         raise
+
     except Exception as exc:
-        raise EmbeddingError(f"Embedding generation failed: {exc}") from exc
+        raise EmbeddingError(
+            f"Embedding generation failed: {exc}"
+        ) from exc
 
 
 def embed_query(query: str) -> list[float]:
-    """Embed a single query string."""
+    """Generate an embedding for a single query."""
+
+    query = query.strip()
+
+    if not query:
+        raise EmbeddingError(
+            "Cannot embed an empty query."
+        )
+
     return generate_embeddings([query])[0]
 
 
@@ -58,5 +90,10 @@ if __name__ == "__main__":
         "I build frontend applications using React",
         "I love playing cricket",
     ]
+
     vectors = generate_embeddings(sentences)
-    print(f"{len(vectors)} embeddings of dimension {len(vectors[0])}")
+
+    print(
+        f"{len(vectors)} embeddings "
+        f"of dimension {len(vectors[0])}"
+    )

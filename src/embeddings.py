@@ -13,7 +13,7 @@ from typing import Any
 
 from src.errors import EmbeddingError
 
-MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+MODEL_NAME = "sentence-transformers/paraphrase-MiniLM-L3-v2"
 
 _model: Any = None
 

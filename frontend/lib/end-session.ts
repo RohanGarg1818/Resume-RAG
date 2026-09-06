@@ -1,7 +1,7 @@
 export async function endRagSession() {
 
   const response = await fetch(
-    "http://localhost:8000/api/session/end",
+    `${process.env.NEXT_PUBLIC_API_URL}/session/end`, 
     {
       method: "POST",
       credentials: "include",

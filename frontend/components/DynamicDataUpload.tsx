@@ -24,7 +24,7 @@ setMessage("");
 
 try {
   const response = await fetch(
-    "http://localhost:8000/api/session/upload",
+    `${process.env.NEXT_PUBLIC_API_URL}/session/upload`,
     {
       method: "POST",
       body: formData,

@@ -1,7 +1,7 @@
 export async function startRagSession() {
 
   const response = await fetch(
-    "http://localhost:8000/api/session/start",
+    `${process.env.NEXT_PUBLIC_API_URL}/session/start`, 
     {
       method: "POST",
       credentials: "include",

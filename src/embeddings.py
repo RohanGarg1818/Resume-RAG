@@ -2,8 +2,8 @@
 """Lightweight MiniLM embeddings for the Resume RAG pipeline.
 
 The embedding model is loaded lazily and cached so it is initialized only
-once per process. CPU inference is used because the application runs on
-a small Render instance without GPU acceleration.
+once per process. CPU inference is used because the application runs
+on a small Render instance without GPU acceleration.
 
 Torch thread limits are set to 1 to reduce per-thread memory arenas,
 which is critical for staying within Render's 512 MB memory limit.
@@ -12,6 +12,7 @@ which is critical for staying within Render's 512 MB memory limit.
 from typing import Any
 
 from src.errors import EmbeddingError
+
 
 MODEL_NAME = "sentence-transformers/paraphrase-MiniLM-L3-v2"
 
@@ -25,6 +26,7 @@ def get_model() -> Any:
     if _model is None:
         try:
             import torch
+
             torch.set_num_threads(1)
             torch.set_num_interop_threads(1)
 
@@ -89,6 +91,38 @@ def embed_query(query: str) -> list[float]:
         )
 
     return generate_embeddings([query])[0]
+
+
+def embed_documents(
+    documents: list[str],
+) -> list[list[float]]:
+    """Generate normalized embeddings for uploaded documents."""
+
+    if not documents:
+        return []
+
+    try:
+        model = get_model()
+
+        vectors = model.encode(
+            documents,
+            convert_to_numpy=True,
+            normalize_embeddings=True,
+            show_progress_bar=False,
+        )
+
+        return [
+            vector.tolist()
+            for vector in vectors
+        ]
+
+    except EmbeddingError:
+        raise
+
+    except Exception as exc:
+        raise EmbeddingError(
+            f"Document embedding generation failed: {exc}"
+        ) from exc
 
 
 if __name__ == "__main__":

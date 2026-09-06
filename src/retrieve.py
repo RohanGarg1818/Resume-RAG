@@ -32,6 +32,11 @@ from src.vector_store import (
     query_vectors,
 )
 
+from src.vector_store import (
+    get_session_collection,
+    get_resume_collection,
+)
+
 logger = logging.getLogger(__name__)
 
 
@@ -51,6 +56,13 @@ MIN_BEST_SCORE = 0.20
 LEXICAL_WEIGHT = 0.25
 SECTION_TOPIC_BONUS = 0.25
 ENTITY_MATCH_BONUS = 0.10
+
+
+AI_RELEVANCE_BONUS = 0.20
+SESSION_RELEVANCE_BONUS = 0.08
+
+
+
 
 CANDIDATE_MULTIPLIER = int(
     os.getenv("RETRIEVAL_CANDIDATE_MULTIPLIER", "4")
@@ -110,6 +122,19 @@ _PROFILE_OVERVIEW_TERMS = frozenset(
         "candidate",
     }
 )
+
+
+_PROJECT_COMPARISON_TERMS = frozenset({
+    "best",
+    "strongest",
+    "most",
+    "top",
+    "favorite",
+    "important",
+    "impressive",
+    "relevant",
+    "advanced",
+})
 
 
 _SECTION_SYNONYMS: dict[str, str] = {
@@ -190,6 +215,37 @@ _SECTION_SYNONYMS: dict[str, str] = {
     "coordinator": "positions of responsibility",
 }
 
+
+_AI_TERMS = frozenset({
+    "ai",
+    "artificial",
+    "intelligence",
+    "ml",
+    "machine",
+    "learning",
+    "rag",
+    "llm",
+    "llms",
+    "embedding",
+    "embeddings",
+    "vector",
+    "vectordatabase",
+    "chromadb",
+    "groq",
+    "generative",
+    "generation",
+    "semantic",
+    "retrieval",
+    "transformer",
+    "nlp",
+    "openai",
+    "gemini",
+})
+
+
+
+
+
 _EVALUATION_TERMS = frozenset({
     "hire",
     "hiring",
@@ -225,6 +281,235 @@ def _normalise(token: str) -> str:
         token = token[:-1]
 
     return token
+
+
+def _query_collection(
+    collection,
+    query_embedding,
+    n_results: int,
+) -> list[RetrievedChunk]:
+
+    if collection.count() == 0:
+        return []
+
+    n_results = min(
+        collection.count(),
+        n_results,
+    )
+
+    raw = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=n_results,
+        include=[
+            "documents",
+            "metadatas",
+            "distances",
+        ],
+    )
+
+    documents = raw.get(
+        "documents",
+        [[]],
+    )[0]
+
+    metadatas = raw.get(
+        "metadatas",
+        [[]],
+    )[0]
+
+    distances = raw.get(
+        "distances",
+        [[]],
+    )[0]
+
+    return [
+        {
+            "text": document,
+            "metadata": dict(metadata or {}),
+            "distance": distance,
+            "similarity": 1.0 - distance,
+        }
+        for document, metadata, distance in zip(
+            documents,
+            metadatas,
+            distances,
+        )
+    ]
+def is_project_selection_query(query: str) -> bool:
+    tokens = _content_tokens(query)
+
+    project_terms = {
+        "project",
+        "projects",
+        "built",
+        "application",
+        "applications",
+    }
+
+    selection_terms = {
+        "best",
+        "strongest",
+        "top",
+        "most",
+        "impressive",
+        "advanced",
+        "relevant",
+    }
+
+    return bool(tokens & project_terms) and bool(
+        tokens & selection_terms
+    )
+
+
+def _retrieve_combined(
+    query: str,
+    session_id: str | None,
+    top_k: int,
+    analysis: dict,
+    min_similarity: float,
+) -> tuple[list[RetrievedChunk], str]:
+    """
+    Retrieve from both the permanent resume collection and,
+    when available, the temporary session collection.
+
+    Session retrieval errors are logged with a full traceback so
+    failures cannot silently look like normal resume-only retrieval.
+    """
+
+    query_embedding = embed_query(query)
+
+    candidate_count = max(
+        top_k * CANDIDATE_MULTIPLIER,
+        top_k,
+    )
+
+    # ---------------------------------------------------------------
+    # Permanent Resume + LinkedIn collection
+    # ---------------------------------------------------------------
+
+    resume_collection = get_resume_collection()
+
+    resume_count = resume_collection.count()
+
+    logger.info(
+        "Resume collection: %d chunks",
+        resume_count,
+    )
+
+    resume_candidates = _query_collection(
+        resume_collection,
+        query_embedding,
+        candidate_count,
+    )
+
+    logger.info(
+        "Resume retrieval: %d candidates",
+        len(resume_candidates),
+    )
+
+    # ---------------------------------------------------------------
+    # Temporary session collection
+    # ---------------------------------------------------------------
+
+    session_candidates: list[RetrievedChunk] = []
+
+    if session_id:
+        try:
+            session_collection = get_session_collection(
+                session_id
+            )
+
+            session_count = session_collection.count()
+
+            logger.info(
+                "Session collection '%s': %d chunks",
+                session_id,
+                session_count,
+            )
+
+            if session_count > 0:
+                session_candidates = _query_collection(
+                    session_collection,
+                    query_embedding,
+                    candidate_count,
+                )
+
+            logger.info(
+                "Session retrieval: %d candidates",
+                len(session_candidates),
+            )
+
+        except Exception:
+            # IMPORTANT:
+            # logger.exception() prints the complete traceback.
+            logger.exception(
+                "Session retrieval FAILED for session_id=%s",
+                session_id,
+            )
+
+    # ---------------------------------------------------------------
+    # Combine both sources
+    # ---------------------------------------------------------------
+
+    candidates = (
+        resume_candidates
+        + session_candidates
+    )
+
+    logger.info(
+        "Combined retrieval: resume=%d session=%d total=%d",
+        len(resume_candidates),
+        len(session_candidates),
+        len(candidates),
+    )
+
+    # ---------------------------------------------------------------
+    # Hybrid scoring
+    # ---------------------------------------------------------------
+
+    scored = _score_candidates(
+        candidates,
+        analysis,
+    )
+
+    # Log the top candidates before filtering.
+    for index, chunk in enumerate(scored[:10], start=1):
+        metadata = chunk["metadata"]
+
+        logger.info(
+            "Candidate #%d | source=%s | score=%.3f | semantic=%.3f | "
+            "keywords=%s | section=%s | project=%s",
+            index,
+            metadata.get("source"),
+            chunk.get("final_score", 0.0),
+            chunk.get("semantic_score", 0.0),
+            chunk.get("matched_keywords", []),
+            metadata.get("section"),
+            metadata.get("project"),
+        )
+
+    # ---------------------------------------------------------------
+    # Relevance filtering
+    # ---------------------------------------------------------------
+
+    kept = _filter_relevant(
+        scored,
+        min_similarity,
+    )
+
+    confidence = _confidence(
+        kept[0] if kept else None
+    )
+
+    logger.info(
+        "Final retrieval: kept=%d confidence=%s best_score=%.3f",
+        len(kept),
+        confidence,
+        kept[0]["final_score"] if kept else 0.0,
+    )
+
+    return kept, confidence
+
 
 
 def is_evaluation_query(query: str) -> bool:
@@ -567,6 +852,22 @@ def _score_candidates(
             str(metadata.get("section", "")) in topics
         )
 
+
+        candidate_tokens = _content_tokens(composite)
+
+        ai_query = bool(tokens & _AI_TERMS)
+
+        ai_matches = (
+            candidate_tokens & _AI_TERMS
+        )
+
+        ai_hit = (
+            ai_query
+            and bool(ai_matches)
+        )
+
+
+
         entity_names = [
             str(metadata[key])
             for key in ("project", "company", "role","event")
@@ -578,6 +879,10 @@ def _score_candidates(
             for name in entity_names
             if name.lower() in raw_query.lower()
         ]
+
+        session_hit = bool(
+            metadata.get("session_id")
+        )
 
         final_score = (
             semantic
@@ -592,9 +897,29 @@ def _score_candidates(
                 if entity_hit
                 else 0.0
             )
+            + (
+                AI_RELEVANCE_BONUS
+                if ai_hit
+                else 0.0
+            )
+            + (
+                SESSION_RELEVANCE_BONUS
+                if session_hit
+                else 0.0
+            )
         )
 
         reasons: list[str] = []
+
+        if ai_hit:
+            reasons.append(
+                "ai:" + ",".join(sorted(ai_matches))
+            )
+
+        if session_hit:
+            reasons.append(
+                "temporary-session"
+            )
 
         if matched:
             reasons.append(
@@ -620,6 +945,16 @@ def _score_candidates(
                 "lexical_score": round(
                     lexical_coverage,
                     4,
+                ),
+                "ai_bonus": (
+                    AI_RELEVANCE_BONUS
+                    if ai_hit
+                    else 0.0
+                ),
+                "session_bonus": (
+                    SESSION_RELEVANCE_BONUS
+                    if session_hit
+                    else 0.0
                 ),
                 "topic_bonus": (
                     SECTION_TOPIC_BONUS
@@ -690,6 +1025,7 @@ def _confidence(
         best_chunk.get("matched_keywords")
         or best_chunk.get("topic_bonus")
         or best_chunk.get("entity_bonus")
+        or best_chunk.get("ai_bonus")
     )
 
     if best_chunk["final_score"] < CONFIDENT_SCORE:
@@ -703,7 +1039,6 @@ def _confidence(
         return "high"
 
     return "low"
-
 
 # ---------------------------------------------------------------------------
 # Overview retrieval
@@ -879,10 +1214,82 @@ def _retrieve_all_section_entities(
 # Main retrieval function
 # ---------------------------------------------------------------------------
 
+def _retrieve_project_candidates(
+    query: str,
+    session_id: str | None,
+    top_k: int,
+) -> list[RetrievedChunk]:
+    """
+    Retrieve project-related evidence from both the permanent
+    resume collection and the temporary session collection.
+    """
+
+    query_embedding = embed_query(query)
+
+    collections = [
+        ("resume", get_resume_collection()),
+    ]
+
+    if session_id:
+        try:
+            collections.append(
+                (
+                    "session",
+                    get_session_collection(session_id),
+                )
+            )
+        except Exception:
+            logger.exception(
+                "Failed to access session collection "
+                "for project retrieval"
+            )
+
+    all_candidates: list[RetrievedChunk] = []
+
+    for source_name, collection in collections:
+
+        count = collection.count()
+
+        if count == 0:
+            continue
+
+        candidate_count = _optimal_candidate_count(
+            top_k=max(top_k, 8),
+            collection_count=count,
+            min_candidates=20,
+        )
+
+        candidates = _query_collection(
+            collection,
+            query_embedding,
+            candidate_count,
+        )
+
+        logger.info(
+            "Project retrieval: source=%s candidates=%d",
+            source_name,
+            len(candidates),
+        )
+
+        all_candidates.extend(candidates)
+
+    analysis = analyse_query(query)
+
+    scored = _score_candidates(
+        all_candidates,
+        analysis,
+    )
+
+    return scored[:top_k]
+
+
+
+
 def retrieve_full(
     query: str,
     top_k: int = DEFAULT_TOP_K,
     min_similarity: float = ABSOLUTE_FLOOR,
+    session_id: str | None = None,
 ) -> RetrievalResult:
     """Retrieve relevant resume/LinkedIn context with diagnostics."""
 
@@ -902,7 +1309,11 @@ def retrieve_full(
     # 1. Multi-entity query
     # ---------------------------------------------------------------
 
-    entities = extract_query_entities(query)
+    entities = []
+
+
+    if not session_id:
+        entities = extract_query_entities(query)
 
     if len(entities) > 1:
         all_chunks: list[RetrievedChunk] = []
@@ -960,7 +1371,7 @@ def retrieve_full(
     # 2. Profile overview
     # ---------------------------------------------------------------
 
-    if is_profile_overview_query(query):
+    if is_profile_overview_query(query) and not session_id:
         chunks = _retrieve_overview(
             query,
             top_k=top_k,
@@ -998,7 +1409,7 @@ def retrieve_full(
     # only on the normal similarity threshold.
     # ---------------------------------------------------------------
 
-    if is_evaluation_query(query):
+    if is_evaluation_query(query) and not session_id:
         chunks = _retrieve_evaluation(
             query,
             top_k=max(top_k, 6),
@@ -1029,12 +1440,17 @@ def retrieve_full(
     # ---------------------------------------------------------------
 
     if (
-        "projects" in analysis["topics"]
+        (
+            "projects" in analysis["topics"]
+            or is_project_selection_query(query)
+        )
         and not entities
     ):
         project_chunks = (
-            _retrieve_all_section_entities(
-                "projects"
+            _retrieve_project_candidates(
+                query=query,
+                session_id=session_id,
+                top_k=max(top_k,8),
             )
         )
 
@@ -1048,6 +1464,7 @@ def retrieve_full(
                         analysis["tokens"]
                     ),
                     "topics": analysis["topics"],
+                    "session_id":session_id,
                     "candidates_considered": len(
                         project_chunks
                     ),
@@ -1058,60 +1475,19 @@ def retrieve_full(
     # 5. Normal hybrid retrieval
     # ---------------------------------------------------------------
 
-    collection_count = get_collection().count()
-
-    if collection_count == 0:
-        return {
-            "chunks": [],
-            "confidence": "none",
-            "diagnostics": {
-                "query_type": "normal",
-                "query_tokens": sorted(
-                    analysis["tokens"]
-                ),
-                "topics": analysis["topics"],
-                "entities": entities,
-                "candidates_considered": 0,
-            },
-        }
-
-    candidate_count = _optimal_candidate_count(
-        top_k,
-        collection_count,
-    )
-
-    raw = query_vectors(
-        embed_query(query),
-        n_results=candidate_count,
-    )
-
-    candidates = _raw_to_candidates(raw)
-
-    scored = _score_candidates(
-        candidates,
-        analysis,
-    )
-
-    kept = _filter_relevant(
-        scored,
-        min_similarity,
-    )
-
-    confidence = _confidence(
-        kept[0]
-        if kept
-        else None
+    kept, confidence = _retrieve_combined(
+        query=query,
+        session_id=session_id,
+        top_k=top_k,
+        analysis=analysis,
+        min_similarity=min_similarity,
     )
 
     logger.info(
-        "Retrieval: %d/%d chunks kept, "
-        "confidence=%s, best_final=%.3f",
+        "Retrieval: %d chunks kept, confidence=%s, best_final=%.3f",
         len(kept),
-        len(candidates),
         confidence,
-        kept[0]["final_score"]
-        if kept
-        else 0.0,
+        kept[0]["final_score"] if kept else 0.0,
     )
 
     return {
@@ -1125,7 +1501,7 @@ def retrieve_full(
             "topics": analysis["topics"],
             "entities": entities,
             "candidates_considered": len(
-                candidates
+                kept
             ),
             "scores": {
                 "absolute_floor": min_similarity,
@@ -1143,15 +1519,15 @@ def retrieve(
     query: str,
     top_k: int = DEFAULT_TOP_K,
     min_similarity: float = ABSOLUTE_FLOOR,
+    session_id: str | None = None,
 ) -> list[RetrievedChunk]:
-    """Return only ranked chunks."""
 
     return retrieve_full(
         query,
         top_k=top_k,
         min_similarity=min_similarity,
+        session_id=session_id,
     )["chunks"]
-
 
 def retrieve_documents(
     query: str,
@@ -1177,7 +1553,8 @@ if __name__ == "__main__":
         "Ask something about the resume: "
     )
 
-    result = retrieve_full(question)
+    result = retrieve_full(
+    question)
 
     print(
         f"\nQuery type: "

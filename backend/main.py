@@ -1,7 +1,15 @@
 
 import logging
-import os
 
+import asyncio
+
+from backend.session_cleanup import (
+    cleanup_expired_sessions,
+)
+
+
+import os
+from backend.routes.session import router as session_router
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -20,6 +28,22 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
+async def session_cleanup_loop():
+
+    while True:
+
+        try:
+            cleanup_expired_sessions()
+
+        except Exception as exc:
+            print(
+                "Session cleanup failed:",
+                exc,
+            )
+
+        await asyncio.sleep(
+            60
+        )
 
 app = FastAPI(
     title="Resume RAG API",
@@ -45,6 +69,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "https://rohan-resume-three.vercel.app",
+        "http://localhost:5173"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -59,6 +84,9 @@ app.add_middleware(
 app.include_router(chat_router)
 app.include_router(voice_router)
 app.include_router(documents_router)
+app.include_router(
+    session_router
+)
 
 
 # ---------------------------------------------------------
@@ -89,3 +117,11 @@ def root() -> dict:
         "message": "Resume RAG API is running.",
         "docs": "/docs",
     }
+
+
+@app.on_event("startup")
+async def startup():
+
+    asyncio.create_task(
+        session_cleanup_loop()
+    )

@@ -27,10 +27,15 @@ logger = logging.getLogger(__name__)
 DEFAULT_MODEL = "openai/gpt-oss-120b"  # model configured for this project
 
 NOT_FOUND_ANSWER = (
-    "I don't have that information in the provided profile. "
-    "Please ask about the candidate's skills, experience, education, "
-    "projects or achievements."
+    "I don't have that information in the provided profile."
 )
+
+IDENTITY_QUESTIONS = {
+    "who are you",
+    "what are you",
+    "what do you do",
+    "what can you tell me",
+}
 
 
 class MissingAPIKeyError(RuntimeError):
@@ -44,6 +49,18 @@ def get_model_name() -> str:
 
 _groq_client: Groq | None = None
 
+
+def is_identity_question(question: str) -> bool:
+    """Return True when the user is asking about the assistant itself."""
+    normalized = " ".join(question.lower().strip().split())
+
+    return (
+        normalized in IDENTITY_QUESTIONS
+        or normalized.startswith("who are you")
+        or normalized.startswith("what are you")
+        or normalized.startswith("what do you do")
+        or normalized.startswith("what can you tell me")
+    )
 
 def _get_client() -> Groq:
     global _groq_client
@@ -112,25 +129,15 @@ def extract_sources(retrieved_chunks: list[dict]) -> list[dict]:
         sources.append(source)
     return sources
 
-
 def ask_resume(
     question: str,
     conversation_id: str | None = None,
     top_k: int = DEFAULT_TOP_K,
+    session_id: str | None = None,
 ) -> dict:
-    """Answer a profile question with grounded retrieval.
 
-    Returns:
-        {"answer": str,
-         "sources": [ {source, section, page, project?/company?} ],
-         "conversation_id": str}
-
-    Raises:
-        MissingAPIKeyError: when GROQ_API_KEY is unset.
-        groq.AuthenticationError / NotFoundError / APIError: surfaced so the
-            API layer can translate them into friendly HTTP responses.
-    """
     question = (question or "").strip()
+
     if not question:
         raise ValueError("Question must not be empty.")
 
@@ -138,27 +145,54 @@ def ask_resume(
         conversation_id = conversations.create_conversation()
 
     history = conversations.get_history(conversation_id)
-    retrieval = retrieve_full(question, top_k=top_k)
-    chunks = retrieval["chunks"]
 
-    # Guardrail: never send Groq a context we do not trust. If retrieval
-    # is not confident the question relates to the profile, refuse here -
-    # this is what stops "favourite football team" from hallucinating.
-    if not chunks or retrieval["confidence"] == "low":
-        logger.info("Low-confidence retrieval for %r - refusing without LLM call", question)
-        answer = NOT_FOUND_ANSWER
-    else:
-        context = build_context(chunks)
-        client = _get_client()
-        response = client.chat.completions.create(
-            model=get_model_name(),
-            messages=_build_messages(question, context, history),
-            temperature=0.2,
-            max_tokens=1024,
+    if is_identity_question(question):
+        answer = (
+            "I'm Rohan's Resume AI Assistant. "
+            "I help users learn about Rohan's resume and LinkedIn profile, "
+            "including his skills, experience, projects, education, "
+            "achievements, and other professional information."
         )
-        answer = (response.choices[0].message.content or "").strip()
-        del response
-        gc.collect()
+        chunks = []
+
+    else:
+        retrieval = retrieve_full(
+            question,
+            top_k=top_k,
+            session_id=session_id,
+        )
+
+        chunks = retrieval["chunks"]
+
+        if not chunks or retrieval["confidence"] == "low":
+            logger.info(
+                "Low-confidence retrieval for %r - refusing without LLM call",
+                question,
+            )
+            answer = NOT_FOUND_ANSWER
+
+        else:
+            context = build_context(chunks)
+
+            client = _get_client()
+
+            response = client.chat.completions.create(
+                model=get_model_name(),
+                messages=_build_messages(
+                    question,
+                    context,
+                    history,
+                ),
+                temperature=0.2,
+                max_tokens=1024,
+            )
+
+            answer = (
+                response.choices[0].message.content or ""
+            ).strip()
+
+            del response
+            gc.collect()
 
     conversations.append_messages(
         conversation_id,
@@ -168,7 +202,7 @@ def ask_resume(
 
     return {
         "answer": answer,
-        "sources": extract_sources(chunks) if answer is not NOT_FOUND_ANSWER else [],
+        "sources": extract_sources(chunks) if chunks else [],
         "conversation_id": conversation_id,
     }
 

@@ -1,3 +1,4 @@
+
 """ChromaDB vector storage for the Resume + LinkedIn RAG.
 
 The same ChromaDB collection stores both resume and LinkedIn
@@ -12,18 +13,23 @@ that semantic and lexical retrieval can use fields such as:
     technologies
     source
 
-The persistent client and collection are created lazily so importing
+Temporary uploaded documents are stored in isolated ChromaDB
+collections, one collection per RAG session.
+
+The persistent client and collections are created lazily so importing
 this module never touches disk.
 """
 
 import logging
 import os
+import re
 
 import chromadb
 
 from src.chunk import Chunk, chunk_id
 from src.embeddings import generate_embeddings
 from src.errors import RetrievalError
+
 
 logger = logging.getLogger(__name__)
 
@@ -32,11 +38,17 @@ logger = logging.getLogger(__name__)
 # Configuration
 # -------------------------------------------------------------------
 
-CHROMA_PATH = os.getenv("CHROMA_PATH", "./chroma_db")
+CHROMA_PATH = os.getenv(
+    "CHROMA_PATH",
+    "./chroma_db",
+)
+
 COLLECTION_NAME = os.getenv(
     "CHROMA_COLLECTION",
     "resume",
 )
+
+SESSION_COLLECTION_PREFIX = "session_"
 
 
 # -------------------------------------------------------------------
@@ -74,11 +86,195 @@ def get_collection():
         _collection = get_client().get_or_create_collection(
             name=COLLECTION_NAME,
             metadata={
-                "hnsw:space": "cosine"
+                "hnsw:space": "cosine",
             },
         )
 
     return _collection
+
+
+def get_resume_collection():
+    """
+    Return the permanent Resume + LinkedIn collection.
+
+    This is the original RAG collection and is never modified by
+    temporary session uploads.
+    """
+
+    return get_collection()
+
+
+# -------------------------------------------------------------------
+# Session collection helpers
+# -------------------------------------------------------------------
+
+def _validate_session_id(
+    session_id: str,
+) -> None:
+    """Validate that the session ID is a UUID-like value."""
+
+    if not session_id:
+        raise ValueError(
+            "session_id is required"
+        )
+
+    if not re.fullmatch(
+        r"[a-f0-9-]{36}",
+        session_id,
+        re.IGNORECASE,
+    ):
+        raise ValueError(
+            "Invalid session_id"
+        )
+
+
+def _get_session_collection_name(
+    session_id: str,
+) -> str:
+    """Build the isolated Chroma collection name for a session."""
+
+    _validate_session_id(
+        session_id
+    )
+
+    return (
+        f"{SESSION_COLLECTION_PREFIX}"
+        f"{session_id.replace('-', '')}"
+    )
+
+
+def get_session_collection(
+    session_id: str,
+):
+    """
+    Return the isolated ChromaDB collection for one session.
+
+    Each session receives its own collection:
+
+        session_<uuid-without-hyphens>
+
+    The collection uses cosine distance, matching the permanent
+    Resume collection.
+
+    Embeddings are supplied manually by the existing MiniLM
+    embedding pipeline, so no Chroma embedding function is required.
+    """
+
+    collection_name = (
+        _get_session_collection_name(
+            session_id
+        )
+    )
+
+    client = get_client()
+
+    return client.get_or_create_collection(
+        name=collection_name,
+        metadata={
+            "hnsw:space": "cosine",
+            "type": "temporary_session",
+            "session_id": session_id,
+        },
+    )
+
+
+def delete_session_collection(
+    session_id: str,
+) -> None:
+    """
+    Permanently delete all vector data belonging to a session.
+
+    The permanent Resume + LinkedIn collection is never touched.
+    """
+
+    if not session_id:
+        return
+
+    try:
+        collection_name = (
+            _get_session_collection_name(
+                session_id
+            )
+        )
+
+        client = get_client()
+
+        client.delete_collection(
+            name=collection_name
+        )
+
+        logger.info(
+            "Deleted temporary session collection '%s'",
+            collection_name,
+        )
+
+    except Exception as exc:
+        # The collection may already have been deleted or may never
+        # have been created.
+        logger.debug(
+            "Session collection deletion skipped for "
+            "%s: %s",
+            session_id,
+            exc,
+        )
+
+
+def add_session_documents(
+    session_id: str,
+    documents: list[str],
+    metadatas: list[dict],
+    ids: list[str],
+    embeddings: list[list[float]],
+) -> int:
+    """
+    Store temporary uploaded document chunks in the session's
+    isolated ChromaDB collection.
+
+    These documents are never inserted into the permanent Resume
+    collection.
+    """
+
+    if not documents:
+        return 0
+
+    if not (
+        len(documents)
+        == len(metadatas)
+        == len(ids)
+        == len(embeddings)
+    ):
+        raise RetrievalError(
+            "Session document data lengths do not match."
+        )
+
+    try:
+        collection = get_session_collection(
+            session_id
+        )
+
+        collection.upsert(
+            ids=ids,
+            documents=documents,
+            metadatas=metadatas,
+            embeddings=embeddings,
+        )
+
+        logger.info(
+            "Stored %d temporary chunks for session %s",
+            len(documents),
+            session_id,
+        )
+
+        return len(documents)
+
+    except RetrievalError:
+        raise
+
+    except Exception as exc:
+        raise RetrievalError(
+            "Failed to store temporary session "
+            f"documents in ChromaDB: {exc}"
+        ) from exc
 
 
 # -------------------------------------------------------------------
@@ -87,10 +283,9 @@ def get_collection():
 
 def reset_collection() -> None:
     """
-    Delete and recreate the collection.
+    Delete and recreate the permanent collection.
 
-    Useful when completely rebuilding the RAG index from the resume
-    and LinkedIn data.
+    Temporary session collections are not affected.
     """
 
     global _collection
@@ -98,7 +293,9 @@ def reset_collection() -> None:
     client = get_client()
 
     try:
-        client.delete_collection(COLLECTION_NAME)
+        client.delete_collection(
+            COLLECTION_NAME
+        )
 
         logger.info(
             "Deleted existing collection '%s'",
@@ -112,13 +309,13 @@ def reset_collection() -> None:
     _collection = client.get_or_create_collection(
         name=COLLECTION_NAME,
         metadata={
-            "hnsw:space": "cosine"
+            "hnsw:space": "cosine",
         },
     )
 
 
 def count_documents() -> int:
-    """Return the number of chunks stored in ChromaDB."""
+    """Return the number of chunks stored in the permanent collection."""
 
     return get_collection().count()
 
@@ -129,7 +326,7 @@ def count_documents() -> int:
 
 def query_all() -> dict:
     """
-    Return all documents and metadata from the collection.
+    Return all documents and metadata from the permanent collection.
 
     Mainly useful for debugging, entity extraction, and inspection.
     """
@@ -153,13 +350,16 @@ def query_vectors(
     n_results: int,
 ) -> dict:
     """
-    Perform raw vector similarity search.
+    Perform raw vector similarity search against the permanent
+    Resume + LinkedIn collection.
 
     Returns documents, metadata, and ChromaDB distances.
     """
 
     try:
-        collection_count = get_collection().count()
+        collection = get_collection()
+
+        collection_count = collection.count()
 
         if collection_count == 0:
             return {
@@ -174,8 +374,10 @@ def query_vectors(
             collection_count,
         )
 
-        return get_collection().query(
-            query_embeddings=[query_embedding],
+        return collection.query(
+            query_embeddings=[
+                query_embedding
+            ],
             n_results=n_results,
             include=[
                 "documents",
@@ -266,14 +468,14 @@ def embedding_input(
 
 
 # -------------------------------------------------------------------
-# Indexing
+# Permanent indexing
 # -------------------------------------------------------------------
 
 def add_chunks(
     chunks: list[Chunk],
 ) -> int:
     """
-    Embed and store chunks in ChromaDB.
+    Embed and store chunks in the permanent ChromaDB collection.
 
     Works for both resume and LinkedIn chunks.
 
@@ -295,7 +497,10 @@ def add_chunks(
         )
 
         ids = [
-            chunk_id(chunk, index)
+            chunk_id(
+                chunk,
+                index,
+            )
             for index, chunk in enumerate(chunks)
         ]
 
@@ -355,3 +560,4 @@ if __name__ == "__main__":
         f"Collection now has "
         f"{count_documents()} documents."
     )
+

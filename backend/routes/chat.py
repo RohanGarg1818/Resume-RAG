@@ -1,31 +1,36 @@
 import logging
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Cookie, HTTPException
 
 from backend.schemas.chat import ChatRequest, ChatResponse
 from backend.services.rag_service import chat
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(
-    prefix="/api/chat",
-    tags=["Chat"],
-)
+router = APIRouter(prefix="/api/chat", tags=["Chat"])
+
+SESSION_COOKIE = "rag_session_id"
 
 
-@router.post(
-    "",
-    response_model=ChatResponse,
-)
-def chat_endpoint(request: ChatRequest) -> ChatResponse:
+@router.post("", response_model=ChatResponse)
+def chat_endpoint(
+    request: ChatRequest,
+    rag_session_id: str | None = Cookie(
+        default=None,
+        alias=SESSION_COOKIE,
+    ),
+) -> ChatResponse:
     """
     Ask a question about the candidate's profile.
-    """
 
+    If a RAG session exists, temporary documents belonging to that
+    session are also included in retrieval.
+    """
     try:
         result = chat(
             message=request.message,
             conversation_id=request.conversation_id,
+            session_id=rag_session_id,
         )
 
         return ChatResponse(

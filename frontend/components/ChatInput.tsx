@@ -1,5 +1,6 @@
 "use client";
 
+
 import {
   FormEvent,
   useEffect,
@@ -169,6 +170,7 @@ export default function ChatInput({
       onSubmit={handleSubmit}
       className="flex items-center gap-2 rounded-2xl border border-zinc-800 bg-zinc-950 p-2"
     >
+      
       <input
         value={message}
         onChange={(event) => {

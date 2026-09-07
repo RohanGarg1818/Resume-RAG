@@ -1,3 +1,4 @@
+
 import hashlib
 from typing import BinaryIO
 
@@ -9,12 +10,16 @@ from src.vector_store import add_session_documents
 CHUNK_SIZE = 800
 CHUNK_OVERLAP = 120
 
+# Keep embedding batches small to reduce peak memory usage on Render.
+EMBED_BATCH_SIZE = 8
+
 
 def chunk_text(
     text: str,
     chunk_size: int = CHUNK_SIZE,
     overlap: int = CHUNK_OVERLAP,
 ) -> list[str]:
+    """Split text into overlapping chunks."""
 
     text = text.strip()
 
@@ -42,11 +47,44 @@ def chunk_text(
     return chunks
 
 
+def _generate_embeddings_in_batches(
+    texts: list[str],
+) -> list[list[float]]:
+    """
+    Generate embeddings in small batches.
+
+    Batching prevents a large uploaded document from creating a
+    large temporary memory spike on small Render instances.
+    """
+
+    embeddings: list[list[float]] = []
+
+    for start in range(
+        0,
+        len(texts),
+        EMBED_BATCH_SIZE,
+    ):
+        batch = texts[
+            start:start + EMBED_BATCH_SIZE
+        ]
+
+        batch_embeddings = embed_documents(
+            batch
+        )
+
+        embeddings.extend(
+            batch_embeddings
+        )
+
+    return embeddings
+
+
 def ingest_file(
     session_id: str,
     file: BinaryIO,
     filename: str,
 ) -> dict:
+    """Read, chunk, embed and store a temporary uploaded document."""
 
     pages = load_document(
         file,
@@ -104,9 +142,22 @@ def ingest_file(
             "The uploaded file contains no readable text."
         )
 
-    embeddings = embed_documents(
+    # ---------------------------------------------------------------
+    # Generate embeddings in small batches.
+    # ---------------------------------------------------------------
+
+    embeddings = _generate_embeddings_in_batches(
         all_chunks
     )
+
+    if len(embeddings) != len(all_chunks):
+        raise ValueError(
+            "Embedding count does not match chunk count."
+        )
+
+    # ---------------------------------------------------------------
+    # Generate deterministic IDs.
+    # ---------------------------------------------------------------
 
     ids = []
 
@@ -127,7 +178,11 @@ def ingest_file(
             ).hexdigest()
         )
 
-    add_session_documents(
+    # ---------------------------------------------------------------
+    # Store only in this session's temporary collection.
+    # ---------------------------------------------------------------
+
+    chunks_added = add_session_documents(
         session_id=session_id,
         documents=all_chunks,
         metadatas=all_metadatas,
@@ -137,5 +192,5 @@ def ingest_file(
 
     return {
         "filename": filename,
-        "chunks_added": len(all_chunks),
+        "chunks_added": chunks_added,
     }

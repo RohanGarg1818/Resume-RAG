@@ -5,8 +5,8 @@ The embedding model is loaded lazily and cached so it is initialized only
 once per process. CPU inference is used because the application runs
 on a small Render instance without GPU acceleration.
 
-Torch thread limits are set to 1 to reduce per-thread memory arenas,
-which is critical for staying within Render's 512 MB memory limit.
+Torch thread limits are set to 1 to reduce per-thread memory usage,
+which is critical for staying within Render's memory limit.
 """
 
 from typing import Any
@@ -27,6 +27,7 @@ def get_model() -> Any:
         try:
             import torch
 
+            # Keep CPU memory usage low on small Render instances.
             torch.set_num_threads(1)
             torch.set_num_interop_threads(1)
 
@@ -36,6 +37,9 @@ def get_model() -> Any:
                 MODEL_NAME,
                 device="cpu",
             )
+
+            # Prevent unnecessary gradient tracking during inference.
+            _model.eval()
 
         except Exception as exc:
             raise EmbeddingError(
@@ -64,6 +68,7 @@ def generate_embeddings(
             convert_to_numpy=True,
             normalize_embeddings=True,
             show_progress_bar=False,
+            batch_size=8,
         )
 
         return [
@@ -109,6 +114,7 @@ def embed_documents(
             convert_to_numpy=True,
             normalize_embeddings=True,
             show_progress_bar=False,
+            batch_size=8,
         )
 
         return [

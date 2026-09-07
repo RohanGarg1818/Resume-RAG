@@ -77,7 +77,8 @@ def get_collection():
     Return the shared ChromaDB collection.
 
     Resume and LinkedIn documents are stored in the same collection.
-    Cosine distance is used because the project uses MiniLM embeddings.
+    Cosine distance is used because the project uses normalized
+    MiniLM embeddings.
     """
 
     global _collection
@@ -97,8 +98,7 @@ def get_resume_collection():
     """
     Return the permanent Resume + LinkedIn collection.
 
-    This is the original RAG collection and is never modified by
-    temporary session uploads.
+    This collection is never modified by temporary session uploads.
     """
 
     return get_collection()
@@ -153,11 +153,11 @@ def get_session_collection(
 
         session_<uuid-without-hyphens>
 
-    The collection uses cosine distance, matching the permanent
-    Resume collection.
+    Temporary documents remain completely separate from the
+    permanent Resume + LinkedIn collection.
 
-    Embeddings are supplied manually by the existing MiniLM
-    embedding pipeline, so no Chroma embedding function is required.
+    Embeddings are supplied manually by the MiniLM embedding
+    pipeline, so no Chroma embedding function is required.
     """
 
     collection_name = (
@@ -209,8 +209,6 @@ def delete_session_collection(
         )
 
     except Exception as exc:
-        # The collection may already have been deleted or may never
-        # have been created.
         logger.debug(
             "Session collection deletion skipped for "
             "%s: %s",
@@ -218,6 +216,10 @@ def delete_session_collection(
             exc,
         )
 
+
+# -------------------------------------------------------------------
+# Session indexing
+# -------------------------------------------------------------------
 
 def add_session_documents(
     session_id: str,
@@ -303,7 +305,6 @@ def reset_collection() -> None:
         )
 
     except Exception:
-        # Collection may not exist yet.
         pass
 
     _collection = client.get_or_create_collection(
@@ -368,7 +369,6 @@ def query_vectors(
                 "distances": [[]],
             }
 
-        # Chroma cannot request more results than exist.
         n_results = min(
             n_results,
             collection_count,
@@ -403,26 +403,8 @@ def composite_text(
     """
     Build the text used for embeddings and lexical retrieval.
 
-    Metadata normally isn't part of the actual document body, so
-    explicitly including it here allows queries such as:
-
-        "What projects has he built?"
-        "What did he do at Hacknite?"
-        "What technologies does he know?"
-        "Tell me about CollabSphere"
-
-    to match metadata-backed information.
-
-    Supported metadata:
-
-        source
-        section
-        project
-        company
-        role
-        event
-        technologies
-        date
+    Metadata is explicitly included so queries can match information
+    such as projects, companies, roles, events and technologies.
     """
 
     context_bits: list[str] = []
@@ -457,9 +439,7 @@ def composite_text(
 def embedding_input(
     chunk: Chunk,
 ) -> str:
-    """
-    Return the exact text that will be embedded for a chunk.
-    """
+    """Return the exact text that will be embedded for a chunk."""
 
     return composite_text(
         chunk["text"],
@@ -560,4 +540,3 @@ if __name__ == "__main__":
         f"Collection now has "
         f"{count_documents()} documents."
     )
-

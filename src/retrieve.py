@@ -372,11 +372,33 @@ def _retrieve_combined(
     Retrieve from both the permanent resume collection and,
     when available, the temporary session collection.
 
-    Session retrieval errors are logged with a full traceback so
-    failures cannot silently look like normal resume-only retrieval.
+    Embedding and retrieval steps are logged separately so production
+    failures can be diagnosed from Render logs.
     """
 
-    query_embedding = embed_query(query)
+    # ---------------------------------------------------------------
+    # Query embedding
+    # ---------------------------------------------------------------
+
+    logger.info(
+        "Starting query embedding. query_length=%d session_id=%s",
+        len(query),
+        session_id,
+    )
+
+    try:
+        query_embedding = embed_query(query)
+
+        logger.info(
+            "Query embedding completed. dimension=%d",
+            len(query_embedding),
+        )
+
+    except Exception:
+        logger.exception(
+            "QUERY EMBEDDING FAILED"
+        )
+        raise
 
     candidate_count = max(
         top_k * CANDIDATE_MULTIPLIER,
@@ -387,25 +409,32 @@ def _retrieve_combined(
     # Permanent Resume + LinkedIn collection
     # ---------------------------------------------------------------
 
-    resume_collection = get_resume_collection()
+    try:
+        resume_collection = get_resume_collection()
 
-    resume_count = resume_collection.count()
+        resume_count = resume_collection.count()
 
-    logger.info(
-        "Resume collection: %d chunks",
-        resume_count,
-    )
+        logger.info(
+            "Resume collection: %d chunks",
+            resume_count,
+        )
 
-    resume_candidates = _query_collection(
-        resume_collection,
-        query_embedding,
-        candidate_count,
-    )
+        resume_candidates = _query_collection(
+            resume_collection,
+            query_embedding,
+            candidate_count,
+        )
 
-    logger.info(
-        "Resume retrieval: %d candidates",
-        len(resume_candidates),
-    )
+        logger.info(
+            "Resume retrieval: %d candidates",
+            len(resume_candidates),
+        )
+
+    except Exception:
+        logger.exception(
+            "PERMANENT RESUME RETRIEVAL FAILED"
+        )
+        raise
 
     # ---------------------------------------------------------------
     # Temporary session collection
@@ -440,10 +469,8 @@ def _retrieve_combined(
             )
 
         except Exception:
-            # IMPORTANT:
-            # logger.exception() prints the complete traceback.
             logger.exception(
-                "Session retrieval FAILED for session_id=%s",
+                "SESSION RETRIEVAL FAILED for session_id=%s",
                 session_id,
             )
 
@@ -472,13 +499,16 @@ def _retrieve_combined(
         analysis,
     )
 
-    # Log the top candidates before filtering.
-    for index, chunk in enumerate(scored[:10], start=1):
+    for index, chunk in enumerate(
+        scored[:10],
+        start=1,
+    ):
         metadata = chunk["metadata"]
 
         logger.info(
-            "Candidate #%d | source=%s | score=%.3f | semantic=%.3f | "
-            "keywords=%s | section=%s | project=%s",
+            "Candidate #%d | source=%s | score=%.3f | "
+            "semantic=%.3f | keywords=%s | section=%s | "
+            "project=%s | session=%s",
             index,
             metadata.get("source"),
             chunk.get("final_score", 0.0),
@@ -486,6 +516,7 @@ def _retrieve_combined(
             chunk.get("matched_keywords", []),
             metadata.get("section"),
             metadata.get("project"),
+            metadata.get("session_id"),
         )
 
     # ---------------------------------------------------------------
@@ -509,7 +540,6 @@ def _retrieve_combined(
     )
 
     return kept, confidence
-
 
 
 def is_evaluation_query(query: str) -> bool:
@@ -1214,6 +1244,7 @@ def _retrieve_all_section_entities(
 # Main retrieval function
 # ---------------------------------------------------------------------------
 
+
 def _retrieve_project_candidates(
     query: str,
     session_id: str | None,
@@ -1224,20 +1255,46 @@ def _retrieve_project_candidates(
     resume collection and the temporary session collection.
     """
 
-    query_embedding = embed_query(query)
+    logger.info(
+        "Starting project retrieval. session_id=%s",
+        session_id,
+    )
+
+    try:
+        query_embedding = embed_query(query)
+
+        logger.info(
+            "Project query embedding completed. dimension=%d",
+            len(query_embedding),
+        )
+
+    except Exception:
+        logger.exception(
+            "PROJECT QUERY EMBEDDING FAILED"
+        )
+        raise
 
     collections = [
-        ("resume", get_resume_collection()),
+        (
+            "resume",
+            get_resume_collection(),
+        ),
     ]
 
     if session_id:
         try:
+            session_collection = get_session_collection(
+                session_id
+            )
+
             collections.append(
                 (
                     "session",
-                    get_session_collection(session_id),
+                    session_collection,
                 )
+
             )
+
         except Exception:
             logger.exception(
                 "Failed to access session collection "
@@ -1248,30 +1305,59 @@ def _retrieve_project_candidates(
 
     for source_name, collection in collections:
 
-        count = collection.count()
+        try:
+            count = collection.count()
 
-        if count == 0:
-            continue
+            logger.info(
+                "Project retrieval collection=%s count=%d",
+                source_name,
+                count,
+            )
 
-        candidate_count = _optimal_candidate_count(
-            top_k=max(top_k, 8),
-            collection_count=count,
-            min_candidates=20,
-        )
+            if count == 0:
+                continue
 
-        candidates = _query_collection(
-            collection,
-            query_embedding,
-            candidate_count,
-        )
+            candidate_count = _optimal_candidate_count(
+                top_k=max(top_k, 8),
+                collection_count=count,
+                min_candidates=20,
+            )
 
-        logger.info(
-            "Project retrieval: source=%s candidates=%d",
-            source_name,
-            len(candidates),
-        )
+            candidates = _query_collection(
+                collection,
+                query_embedding,
+                candidate_count,
+            )
 
-        all_candidates.extend(candidates)
+            logger.info(
+                "Project retrieval source=%s candidates=%d",
+                source_name,
+                len(candidates),
+            )
+
+            # Preserve source information explicitly.
+            for candidate in candidates:
+                candidate["_retrieval_source"] = source_name
+
+            all_candidates.extend(
+                candidates
+            )
+
+        except Exception:
+            logger.exception(
+                "Project retrieval FAILED for source=%s",
+                source_name,
+            )
+
+            # A temporary session failure should not destroy
+            # the permanent RAG result.
+            if source_name == "session":
+                continue
+
+            raise
+
+    if not all_candidates:
+        return []
 
     analysis = analyse_query(query)
 
@@ -1280,8 +1366,30 @@ def _retrieve_project_candidates(
         analysis,
     )
 
-    return scored[:top_k]
+    # ---------------------------------------------------------------
+    # For project questions, don't allow temporary session chunks
+    # to disappear merely because they lack resume-style metadata.
+    #
+    # Semantic similarity is still the main signal. The session bonus
+    # already gives temporary chunks a small additional boost.
+    # ---------------------------------------------------------------
 
+    scored.sort(
+        key=lambda chunk: (
+            chunk.get("final_score", 0.0),
+            chunk.get("semantic_score", 0.0),
+        ),
+        reverse=True,
+    )
+
+    logger.info(
+        "Project retrieval complete. total_candidates=%d "
+        "returning=%d",
+        len(scored),
+        min(top_k, len(scored)),
+    )
+
+    return scored[:top_k]
 
 
 

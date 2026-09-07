@@ -52,7 +52,7 @@ startRagSession().catch((error) => {
 
 useEffect(() => {
 const handlePageExit = () => {
-fetch(`${process.env.NEXT_PUBLIC_API_URL}/session/end`, {
+fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/session/end`, {
 method: "POST",
 credentials: "include",
 keepalive: true,

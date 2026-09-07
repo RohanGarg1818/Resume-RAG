@@ -1,7 +1,7 @@
 export async function endRagSession() {
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/session/end`, 
+    `${process.env.NEXT_PUBLIC_API_URL}/api/session/end`, 
     {
       method: "POST",
       credentials: "include",

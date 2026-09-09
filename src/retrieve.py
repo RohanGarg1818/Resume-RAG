@@ -108,6 +108,61 @@ OVERVIEW_SECTIONS = (
 )
 
 
+_CONTACT_TERMS = {
+    "email",
+    "mail",
+    "gmail",
+    "emailid",
+    "emailaddress",
+    "phone",
+    "phonenumber",
+    "mobile",
+    "mobilenumber",
+    "contact",
+    "contactdetails",
+    "contactinformation",
+    "reach",
+    "reachme",
+    "connect",
+    "connection",
+    "touch",
+    "address",
+}
+
+
+def is_contact_query(query: str) -> bool:
+    normalized = _normalise(query)
+
+    tokens = set(_content_tokens(normalized))
+
+    # Direct keyword detection
+    if tokens & _CONTACT_TERMS:
+        return True
+
+    # Natural-language contact phrases
+    contact_phrases = (
+        "get in touch",
+        "in touch with",
+        "how can i contact",
+        "how do i contact",
+        "how can i reach",
+        "how do i reach",
+        "how can i get in touch",
+        "ways to contact",
+        "ways to reach",
+        "contact him",
+        "contact her",
+        "contact rohan",
+        "reach him",
+        "reach her",
+        "reach rohan",
+    )
+
+    return any(
+        phrase in normalized
+        for phrase in contact_phrases
+    )
+
 _PROFILE_OVERVIEW_TERMS = frozenset(
     {
         "overview",
@@ -335,6 +390,162 @@ def _query_collection(
             distances,
         )
     ]
+
+
+
+
+
+def _retrieve_contact(
+    query: str,
+    session_id: Optional[str] = None,
+) -> RetrievalResult:
+    """
+    Retrieve contact information directly from the permanent resume index.
+
+    Contact information is an exact-value lookup, so we do not rely only
+    on semantic similarity. Instead, scan the indexed resume chunks for
+    email/phone/contact indicators and return those chunks directly.
+    """
+
+    collection = get_resume_collection()
+
+    count = collection.count()
+
+    if count == 0:
+        logger.warning("Contact retrieval: resume collection is empty")
+        return RetrievalResult(
+            chunks=[],
+            confidence="low",
+            diagnostics={
+                "query_type": "contact",
+                "reason": "resume_collection_empty",
+            },
+        )
+
+    result = collection.get(
+        include=["documents", "metadatas"],
+    )
+
+    documents = result.get("documents") or []
+    metadatas = result.get("metadatas") or []
+
+    contact_chunks = []
+
+    email_pattern = re.compile(
+        r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b",
+        re.IGNORECASE,
+    )
+
+    phone_pattern = re.compile(
+        r"(?:\+?\d[\d\s().-]{8,}\d)",
+    )
+
+    contact_keywords = {
+        "email",
+        "gmail",
+        "mail",
+        "phone",
+        "mobile",
+        "contact",
+        "linkedin",
+        "github",
+    }
+
+    for index, document in enumerate(documents):
+        if not document:
+            continue
+
+        text = str(document)
+        text_lower = text.lower()
+
+        has_email = bool(email_pattern.search(text))
+        has_phone = bool(phone_pattern.search(text))
+        has_contact_keyword = any(
+            keyword in text_lower
+            for keyword in contact_keywords
+        )
+
+        if not (has_email or has_phone or has_contact_keyword):
+            continue
+
+        metadata = (
+            metadatas[index]
+            if index < len(metadatas) and metadatas[index]
+            else {}
+        )
+
+        contact_chunks.append(
+            {
+                "text": text,
+                "metadata": metadata,
+                "similarity": 1.0,
+                "semantic_score": 1.0,
+                "lexical_score": 1.0,
+                "final_score": 1.0,
+                "matched_keywords": list(contact_keywords),
+                "topic_bonus": 1.0,
+                "entity_bonus": 0.0,
+                "ai_bonus": 0.0,
+            }
+        )
+
+    logger.info(
+        "Contact retrieval: found %d contact chunks",
+        len(contact_chunks),
+    )
+
+    if not contact_chunks:
+        logger.warning(
+            "Contact retrieval: no email/phone/contact information "
+            "found in indexed resume chunks"
+        )
+
+        return RetrievalResult(
+            chunks=[],
+            confidence="low",
+            diagnostics={
+                "query_type": "contact",
+                "reason": "no_contact_information_found",
+                "resume_chunks": count,
+            },
+        )
+
+    # Prefer chunks containing actual email/phone values.
+    def contact_priority(chunk: dict) -> int:
+        text = chunk["text"]
+
+        priority = 0
+
+        if email_pattern.search(text):
+            priority += 10
+
+        if phone_pattern.search(text):
+            priority += 10
+
+        if "linkedin" in text.lower():
+            priority += 2
+
+        if "github" in text.lower():
+            priority += 2
+
+        return priority
+
+    contact_chunks.sort(
+        key=contact_priority,
+        reverse=True,
+    )
+
+    return RetrievalResult(
+        chunks=contact_chunks[:5],
+        confidence="high",
+        diagnostics={
+            "query_type": "contact",
+            "contact_chunks_found": len(contact_chunks),
+            "retrieval_method": "exact_contact_scan",
+        },
+    )
+
+
 def is_project_selection_query(query: str) -> bool:
     tokens = _content_tokens(query)
 
@@ -701,6 +912,10 @@ def analyse_query(query: str) -> dict[str, Any]:
         if token in _SECTION_SYNONYMS
     }
 
+    # Contact-specific intent.
+    if is_contact_query(query):
+        topics.add("contact")
+
     query_lower = query.lower()
 
     # Explicit hackathon terms should be treated as achievements,
@@ -714,15 +929,20 @@ def analyse_query(query: str) -> dict[str, Any]:
         "hackathons",
     }
 
-    if any(term in query_lower for term in hackathon_terms):
+    if any(
+        term in query_lower
+        for term in hackathon_terms
+    ):
         topics.discard("experience")
         topics.add("achievements")
 
     return {
         "tokens": tokens,
         "topics": sorted(topics),
-        "raw": query.strip(),       # <-- IMPORTANT
+        "raw": query.strip(),
     }
+
+
 
 def is_profile_overview_query(query: str) -> bool:
     """Detect broad profile-summary questions."""
@@ -1546,6 +1766,12 @@ def retrieve_full(
     # ---------------------------------------------------------------
     # 4. Project/entity list query
     # ---------------------------------------------------------------
+
+
+    if is_contact_query(query):
+     return _retrieve_contact(query, session_id=session_id)
+
+
 
     if (
         (

@@ -1,11 +1,12 @@
+
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 import type { ChatMessage as ChatMessageType } from "@/types/chat";
+
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-
-import SourceCard from "./SourceCard";
 
 interface ChatMessageProps {
   message: ChatMessageType;
@@ -13,26 +14,47 @@ interface ChatMessageProps {
 
 function cleanForSpeech(text: string): string {
   return text
-    // Headings
-    .replace(/#{1,6}\s?/g, "")
-    // Bold
+    // Remove fenced code blocks
+    .replace(/```[\s\S]*?```/g, "")
+
+    // Remove headings
+    .replace(/^#{1,6}\s+/gm, "")
+
+    // Remove bold
     .replace(/\*\*(.*?)\*\*/g, "$1")
-    // Italic
+    .replace(/__(.*?)__/g, "$1")
+
+    // Remove italic
     .replace(/\*(.*?)\*/g, "$1")
-    // Inline code
+    .replace(/_(.*?)_/g, "$1")
+
+    // Remove inline code
     .replace(/`([^`]+)`/g, "$1")
-    // Markdown links
+
+    // Convert markdown links to their visible text
     .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-    // List markers
+
+    // Remove unordered list markers
     .replace(/^\s*[-*+]\s+/gm, "")
-    // Table separators / pipes
+
+    // Remove numbered list markers
+    .replace(/^\s*\d+\.\s+/gm, "")
+
+    // Remove blockquote markers
+    .replace(/^\s*>\s?/gm, "")
+
+    // Replace table pipes with spaces
     .replace(/\|/g, " ")
-    // HTML line breaks
+
+    // Remove HTML line breaks
     .replace(/<br\s*\/?>/gi, " ")
-    // Multiple newlines
+
+    // Remove newlines
     .replace(/\n+/g, " ")
-    // Multiple spaces
+
+    // Remove extra spaces
     .replace(/\s+/g, " ")
+
     .trim();
 }
 
@@ -40,31 +62,41 @@ export default function ChatMessage({
   message,
 }: ChatMessageProps) {
   const isUser = message.role === "user";
+
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  useEffect(() => {
-    return () => {
-      window.speechSynthesis.cancel();
-    };
-  }, []);
-
   function toggleSpeech() {
-    if (!("speechSynthesis" in window)) {
+    if (typeof window === "undefined") {
       return;
     }
 
+    if (!("speechSynthesis" in window)) {
+      console.error(
+        "Speech synthesis is not supported in this browser."
+      );
+      return;
+    }
+
+    const speech = window.speechSynthesis;
+
+    // If this message is currently speaking,
+    // stop it.
     if (isSpeaking) {
-      window.speechSynthesis.cancel();
+      speech.cancel();
       setIsSpeaking(false);
       return;
     }
 
-    window.speechSynthesis.cancel();
-
     const speechText = cleanForSpeech(message.content);
 
     if (!speechText) {
+      console.warn("No text available for speech.");
       return;
+    }
+
+    // Stop speech from any other message.
+    if (speech.speaking || speech.pending) {
+      speech.cancel();
     }
 
     const utterance = new SpeechSynthesisUtterance(
@@ -74,6 +106,7 @@ export default function ChatMessage({
     utterance.lang = "en-IN";
     utterance.rate = 1;
     utterance.pitch = 1;
+    utterance.volume = 1;
 
     utterance.onstart = () => {
       setIsSpeaking(true);
@@ -83,11 +116,20 @@ export default function ChatMessage({
       setIsSpeaking(false);
     };
 
-    utterance.onerror = () => {
+    utterance.onerror = (event) => {
+      // "canceled" is expected when speech is
+      // manually stopped or another speech starts.
+      if (event.error !== "canceled") {
+        console.error(
+          "Speech synthesis error:",
+          event.error
+        );
+      }
+
       setIsSpeaking(false);
     };
 
-    window.speechSynthesis.speak(utterance);
+    speech.speak(utterance);
   }
 
   return (
@@ -104,6 +146,7 @@ export default function ChatMessage({
         }`}
       >
         {/* Message */}
+
         <div className="text-sm leading-6">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
@@ -217,6 +260,7 @@ export default function ChatMessage({
         </div>
 
         {/* Voice */}
+
         {!isUser && (
           <div className="mt-3 flex items-center gap-2">
             <button
@@ -228,27 +272,6 @@ export default function ChatMessage({
             </button>
           </div>
         )}
-
-        
-        {/* Sources 
-        {!isUser &&
-          message.sources &&
-          message.sources.length > 0 && (
-            <div className="mt-4 space-y-2">
-              <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-                Sources
-              </p>
-
-              {message.sources.map((source, index) => (
-                <SourceCard
-                  key={`${source.section}-${source.page}-${index}`}
-                  source={source}
-                />
-              ))}
-            </div>
-          )}
-
-        */}
       </div>
     </div>
   );

@@ -1,118 +1,188 @@
 # 🤖 Resume RAG — AI-Powered Profile Assistant
 
-> **Ask questions about Rohan's experience, projects, skills, achievements — or upload your own data and let the RAG system reason over it temporarily.**
+> **Ask questions about Rohan's experience, projects, skills, achievements, and more — or upload your own documents and temporarily extend the assistant's knowledge base.**
 
-Resume RAG is a full-stack **Retrieval-Augmented Generation (RAG)** application that turns a resume and LinkedIn profile into an interactive AI assistant.
+**Resume RAG** is a full-stack **Retrieval-Augmented Generation (RAG)** application that transforms a resume and LinkedIn profile into an interactive AI-powered profile assistant.
 
-Instead of sending the entire profile to an LLM, the system performs **query analysis → embedding-based retrieval → hybrid relevance scoring → context filtering → grounded generation** to provide answers based only on relevant information.
+Rather than sending an entire profile to an LLM for every question, the system performs **query analysis, vector retrieval, hybrid relevance scoring, context filtering, grounding, and controlled generation** to produce answers based on relevant source information.
 
-The application also supports **Dynamic RAG**, allowing users to upload PDF, DOCX, Markdown, or CSV files during a session. Uploaded documents are embedded into an isolated temporary ChromaDB collection and can be queried alongside the permanent profile knowledge base.
+The application also implements **Dynamic RAG**, allowing users to upload PDF, DOCX, Markdown, or CSV files during a session. Uploaded documents are processed, embedded, and stored in an isolated temporary ChromaDB collection without modifying the permanent profile knowledge base.
 
 ---
 
-## ✨ Key Features
+# ✨ Features
 
-### 🧠 RAG-Based Profile Assistant
+## 🧠 AI-Powered Profile Assistant
 
-* Ask natural-language questions about the candidate.
-* Retrieve relevant information from resume and LinkedIn data.
-* Semantic similarity search using MiniLM embeddings.
-* ChromaDB vector storage with cosine similarity.
-* Groq-powered LLM generation.
-* Context-aware multi-turn conversations.
+* Natural-language questions about the candidate
+* Resume and LinkedIn knowledge retrieval
+* Semantic search using MiniLM embeddings
+* ChromaDB vector storage
+* Groq-powered LLM generation
+* Multi-turn conversational context
+* Grounded responses based on retrieved evidence
+* Controlled responses when information is unavailable
 
-### 🔎 Hybrid Retrieval
+---
 
-The retrieval system does more than simple vector similarity.
+## 🔎 Hybrid Retrieval Engine
 
-Retrieved candidates are scored using multiple signals:
+The system goes beyond basic vector similarity.
 
-* Semantic similarity
-* Keyword/lexical matching
-* Query topic relevance
-* Section relevance
-* Entity matching
-* AI/technical relevance
-* Session-data relevance
+Each retrieved candidate can be evaluated using multiple relevance signals:
 
-This allows the system to prioritize chunks that are actually useful for the user's query.
+* **Semantic similarity**
+* **Lexical / keyword matching**
+* **Query topic relevance**
+* **Section relevance**
+* **Entity matching**
+* **AI / technical relevance**
+* **Session-data relevance**
 
-### 🎯 Query-Aware Retrieval
+This allows the system to prioritize information that is not only semantically similar, but also directly useful for the user's specific question.
 
-Queries are analyzed before retrieval to identify their intent.
+### Example
 
-The system can distinguish between queries such as:
+```text
+User Query
+    │
+    ▼
+"What project used Redis?"
+    │
+    ▼
+Semantic Retrieval
+    │
+    ▼
+Keyword Match → "Redis"
+    │
+    ▼
+Entity / Project Match
+    │
+    ▼
+Hybrid Score
+    │
+    ▼
+Relevant Project Chunk
+```
+
+---
+
+# 🎯 Query-Aware Retrieval
+
+Queries are analyzed before retrieval so that different types of questions can use different retrieval strategies.
+
+The system identifies query intent such as:
+
+* Project queries
+* Profile / overview queries
+* Entity-specific queries
+* Evaluation queries
+* General semantic queries
+* Contact-related queries
+
+For example:
 
 ```text
 "What projects has Rohan built?"
-        ↓
-Project selection query
-        ↓
-Retrieve project candidates
+        │
+        ▼
+Project Query
+        │
+        ▼
+Project-focused retrieval
 ```
 
-and:
+while:
 
 ```text
 "What are Rohan's technical skills?"
-        ↓
-Skills query
-        ↓
-Retrieve skills-related chunks
+        │
+        ▼
+Skills / Profile Query
+        │
+        ▼
+Relevant profile sections
 ```
 
-This allows different retrieval strategies to be used for different types of questions.
+This improves retrieval precision compared with treating every question as a generic semantic-search request.
 
-### 🛡️ Anti-Hallucination / Grounded Generation
+---
 
-The system is designed to avoid inventing information.
+# 🛡️ Grounded Generation & Hallucination Control
 
-If relevant evidence cannot be found, the assistant responds with a controlled answer such as:
+The system is designed to prevent the LLM from inventing profile information.
 
-```text
-I don't have that information in the provided profile.
-```
-
-The grounding pipeline works as:
+The retrieval pipeline applies relevance and confidence checks before context is passed to the LLM.
 
 ```text
 User Query
     ↓
 Query Analysis
     ↓
-Vector Retrieval
+Candidate Retrieval
     ↓
 Hybrid Scoring
     ↓
 Relevance Filtering
     ↓
-Grounding Check
+Confidence Check
+    ↓
+Context Construction
     ↓
 Groq LLM
     ↓
-Grounded Answer
+Grounded Response
 ```
 
-### 📚 Resume + LinkedIn Knowledge Base
+When sufficient evidence cannot be retrieved, the system can return a controlled response such as:
 
-The permanent knowledge base combines:
+```text
+I don't have that information in the provided profile.
+```
+
+The LLM is instructed to treat retrieved information as the source of truth.
+
+---
+
+# 📚 Permanent Knowledge Base
+
+The assistant's permanent knowledge base combines information from:
 
 * Resume PDF
 * LinkedIn exported data
-* Project information
-* Skills
+* Projects
+* Technical skills
 * Education
 * Achievements
 * Hackathons
-* Professional experiences
+* Professional experience
 
-Both sources are converted into RAG-ready chunks with metadata.
+Both resume and LinkedIn data are processed into structured, searchable chunks with metadata.
+
+```text
+Resume.pdf ──────────────┐
+                         │
+                         ▼
+                    Processing
+                         │
+                         ▼
+                    Chunking
+                         │
+                         ▼
+                 MiniLM Embeddings
+                         │
+                         ▼
+                      ChromaDB
+                         ▲
+                         │
+LinkedIn CSV ────────────┘
+```
 
 ---
 
 # 🚀 Dynamic RAG
 
-One of the major features of this project is **temporary session-based knowledge**.
+A major feature of the application is **session-based Dynamic RAG**.
 
 Users can click:
 
@@ -120,9 +190,9 @@ Users can click:
 + Add Data
 ```
 
-and upload additional information while using the assistant.
+and upload additional documents while interacting with the assistant.
 
-### Supported file formats
+### Supported formats
 
 ```text
 PDF
@@ -132,12 +202,12 @@ Markdown
 CSV
 ```
 
-The uploaded file is:
+Uploaded documents follow a separate ingestion pipeline:
 
 ```text
 Uploaded File
       ↓
-Document Parser
+Document Loader
       ↓
 Text Extraction
       ↓
@@ -146,17 +216,37 @@ Chunking
 MiniLM Embeddings
       ↓
 Temporary ChromaDB Collection
+      ↓
+Session Retrieval
 ```
 
-The temporary data can then be queried alongside the permanent resume data.
+The uploaded information can then be queried alongside the permanent resume knowledge base.
+
+### Example
+
+```text
+Upload: project_requirements.pdf
+
+        ↓
+
+"What technologies are mentioned in this document?"
+
+        ↓
+
+"What does this project require?"
+
+        ↓
+
+"How does this project compare with Rohan's projects?"
+```
 
 ---
 
-## 🔐 Isolated Session Storage
+# 🔐 Session Isolation
 
-Uploaded documents are **not added to the permanent resume collection**.
+Dynamic RAG does **not** modify the permanent profile database.
 
-Every user session receives a unique session ID:
+Every user session receives a unique session identifier.
 
 ```text
 UUID
@@ -178,35 +268,57 @@ The permanent collection remains:
 resume
 ```
 
-This keeps user-uploaded information isolated from the original profile.
+### Storage architecture
 
-### Session lifecycle
+```text
+                    ChromaDB
+                       │
+             ┌─────────┴─────────┐
+             │                   │
+             ▼                   ▼
+        Permanent            Temporary
+        Collection             Session
+             │                   │
+          resume          session_<uuid>
+             │                   │
+     Resume + LinkedIn       User uploads
+```
+
+This ensures that temporary user data does not contaminate the permanent candidate profile.
+
+---
+
+# 🔄 Session Lifecycle
 
 ```text
 Start Session
      ↓
 Generate Session ID
      ↓
-Create Temporary Collection
+Create / Access Temporary Collection
      ↓
-Upload Files
+Upload Documents
      ↓
-Embed + Store Documents
+Extract & Chunk Data
      ↓
-Query Resume + Session Data
+Generate Embeddings
+     ↓
+Store in Session Collection
+     ↓
+Query Permanent + Session Data
      ↓
 End Session
      ↓
 Delete Temporary Collection
 ```
 
-When the session ends, the temporary ChromaDB collection is deleted.
+When the session ends, its temporary ChromaDB collection is deleted.
 
-The permanent resume collection is never deleted.
+The permanent `resume` collection remains intact.
 
 ---
 
-## 🍪 Session Cookie Design
+# 🍪 Session Cookie Design
 
 The browser stores only the session identifier:
 
@@ -214,20 +326,20 @@ The browser stores only the session identifier:
 rag_session_id
 ```
 
-The cookie does **not** contain:
+The cookie does not contain:
 
 * Uploaded document contents
 * Embeddings
 * Resume information
 * ChromaDB data
 
-The session ID allows the backend to identify which temporary collection belongs to the current session.
+The session identifier allows the backend to associate requests with the correct temporary ChromaDB collection.
 
 ---
 
 # 🔍 Retrieval Architecture
 
-The core retrieval system follows a multi-stage pipeline.
+The core retrieval pipeline is designed as a multi-stage process.
 
 ```text
                          User Query
@@ -235,74 +347,74 @@ The core retrieval system follows a multi-stage pipeline.
                              ▼
                       Query Analysis
                              │
-              ┌──────────────┴──────────────┐
-              │                             │
-              ▼                             ▼
-        Query Classification          Entity Detection
-              │                             │
-              └──────────────┬──────────────┘
+                ┌────────────┴────────────┐
+                │                         │
+                ▼                         ▼
+        Query Classification        Entity Detection
+                │                         │
+                └────────────┬────────────┘
                              ▼
                      Query Embedding
                              │
                              ▼
-                  ┌─────────────────────┐
-                  │      ChromaDB       │
-                  │                     │
-                  │ Permanent Resume    │
-                  │        +            │
-                  │ Temporary Session   │
-                  └──────────┬──────────┘
+                    ┌─────────────────┐
+                    │    ChromaDB     │
+                    │                 │
+                    │ Permanent Data  │
+                    │       +         │
+                    │ Session Data   │
+                    └────────┬────────┘
                              ▼
-                      Candidate Chunks
+                     Candidate Chunks
                              │
                              ▼
-                     Hybrid Scoring
+                      Hybrid Scoring
                              │
                              ▼
                    Relevance Filtering
                              │
                              ▼
-                     Confidence Check
+                    Confidence Check
                              │
                              ▼
-                       Context Builder
+                    Context Builder
                              │
                              ▼
                          Groq LLM
                              │
                              ▼
-                       Final Answer
+                      Final Response
 ```
 
 ---
 
-# 🧩 Hybrid Retrieval Scoring
+# 🧩 Hybrid Relevance Scoring
 
-A candidate chunk is not selected purely because it has the highest vector similarity.
+Candidate chunks are not selected solely based on vector similarity.
 
-The retrieval layer considers several signals.
+The retrieval system combines several signals.
 
-### Semantic similarity
+## Semantic Similarity
 
-Measures how conceptually similar the query and chunk are.
+The user query is converted into an embedding and compared against document embeddings using cosine similarity.
 
 ```text
 Query
   ↓
 MiniLM
   ↓
-384-dimensional embedding
+384-dimensional vector
   ↓
-Cosine similarity
+Cosine Similarity
   ↓
-Semantic score
+Semantic Score
 ```
 
-### Lexical matching
+---
 
-Important query terms are compared against candidate text.
+## Lexical / Keyword Matching
 
-This helps when exact technical terms matter.
+Exact query terms are also considered.
 
 For example:
 
@@ -314,25 +426,42 @@ Candidate:
 "CollabSphere uses Redis for TTL-based cache eviction."
 ```
 
-The lexical match reinforces the semantic result.
+The exact presence of `Redis` strengthens the relevance of the candidate.
 
-### Section relevance
+This is particularly useful for:
 
-The system identifies relevant profile sections such as:
+* Technologies
+* Project names
+* Company names
+* Tools
+* Libraries
+* Frameworks
+
+---
+
+## Section Relevance
+
+The retrieval layer can use profile sections to improve ranking.
+
+Examples include:
 
 ```text
-skills
-projects
-education
-experience
-achievements
+Skills
+Projects
+Education
+Experience
+Achievements
 ```
 
-and can give additional weight to chunks from the appropriate section.
+A project-related question can therefore prioritize chunks from project sections.
 
-### Entity matching
+---
 
-Named entities such as:
+## Entity Matching
+
+Named entities are used as additional retrieval signals.
+
+Examples:
 
 ```text
 JugaadHub
@@ -340,26 +469,37 @@ CollabSphere
 Hacknite
 Redis
 Razorpay
+ACM ICPC
 ```
 
-can be used to improve retrieval precision.
-
-### Session relevance
-
-When temporary uploaded documents are present, session chunks receive additional relevance handling so they can participate in retrieval without contaminating the permanent profile.
+Entity matching helps distinguish between conceptually similar chunks that refer to different projects, technologies, or events.
 
 ---
 
-# 📄 Permanent Data Pipeline
+## Session Relevance
 
-The permanent knowledge base is created from the resume and LinkedIn data.
+Temporary session documents participate in retrieval without being merged into the permanent collection.
 
-## Resume
+This enables queries that combine:
+
+```text
+Permanent Profile Knowledge
+        +
+Temporary Uploaded Knowledge
+```
+
+while maintaining storage isolation.
+
+---
+
+# 📄 Document Processing
+
+## Resume Processing
 
 ```text
 Resume.pdf
     ↓
-PDF Extraction
+PDF Text Extraction
     ↓
 Section Detection
     ↓
@@ -370,16 +510,18 @@ MiniLM Embeddings
 ChromaDB
 ```
 
-## LinkedIn
+---
+
+## LinkedIn Processing
 
 ```text
 LinkedIn Export
     ↓
 CSV Parsing
     ↓
-Post Cleaning
+Data Cleaning
     ↓
-Project / Event / Technology Detection
+Content / Project / Event Detection
     ↓
 Metadata Extraction
     ↓
@@ -387,8 +529,6 @@ MiniLM Embeddings
     ↓
 ChromaDB
 ```
-
-The two sources are stored in the same permanent collection.
 
 Example metadata:
 
@@ -402,59 +542,57 @@ Example metadata:
 }
 ```
 
-This metadata is later used by the retrieval layer.
+Metadata can subsequently be used by the retrieval layer.
 
 ---
 
-# 📂 Dynamic Document Pipeline
+# 📂 Dynamic Document Processing
 
-Temporary documents follow a separate ingestion path:
+Temporary documents follow the same embedding space as the permanent knowledge base.
 
 ```text
 PDF / DOCX / MD / CSV
           ↓
-   Document Loader
+     Document Loader
           ↓
-      Text Extraction
+     Text Extraction
           ↓
         Chunking
           ↓
    MiniLM Embeddings
           ↓
- Temporary Chroma Collection
+Temporary Chroma Collection
 ```
 
-Documents are divided into manageable chunks before embedding.
-
-Current chunking configuration:
+### Current chunking configuration
 
 ```text
-Chunk size:    800 characters
-Overlap:       120 characters
+Chunk Size : 800 characters
+Overlap    : 120 characters
 ```
 
-Embeddings are generated in batches to reduce memory usage during document ingestion.
+Embedding generation is performed in batches to reduce memory consumption during ingestion.
 
 ---
 
 # 🗄️ ChromaDB Architecture
 
-The application uses ChromaDB as its vector database.
+ChromaDB is used as the application's vector database.
 
-There are two logical storage layers:
+The system maintains two logical storage layers:
 
 ```text
-                 ChromaDB
-                    │
-          ┌─────────┴─────────┐
-          │                   │
-          ▼                   ▼
-      Permanent            Temporary
-       Collection            Session
-          │                   │
-       resume          session_<uuid>
-          │                   │
-     Resume + LinkedIn    User uploads
+                       ChromaDB
+                          │
+              ┌───────────┴───────────┐
+              │                       │
+              ▼                       ▼
+         Permanent                 Temporary
+         Collection                Collections
+              │                       │
+           resume              session_<uuid>
+              │                       │
+      Resume + LinkedIn         Uploaded files
 ```
 
 ### Permanent collection
@@ -463,7 +601,7 @@ There are two logical storage layers:
 resume
 ```
 
-Contains the candidate's indexed profile.
+Contains the indexed candidate profile.
 
 ### Temporary collection
 
@@ -471,13 +609,13 @@ Contains the candidate's indexed profile.
 session_<uuid>
 ```
 
-Contains only documents uploaded during a particular session.
+Contains data uploaded during the current session.
 
 ---
 
-# 🤖 Embeddings
+# 🤖 Embedding Model
 
-The project uses a MiniLM-based Sentence Transformer model:
+The project uses:
 
 ```text
 sentence-transformers/paraphrase-MiniLM-L3-v2
@@ -489,16 +627,14 @@ Embedding dimension:
 384
 ```
 
-Embeddings are normalized before being stored and compared.
-
 The same embedding model is used for:
 
 * Resume documents
 * LinkedIn documents
-* Uploaded session documents
+* Dynamic session documents
 * User queries
 
-This keeps all vectors compatible within ChromaDB.
+This keeps all vectors compatible within the same retrieval system.
 
 ---
 
@@ -522,13 +658,13 @@ AI:
 CollabSphere used Redis for cache eviction...
 ```
 
-Conversation history helps resolve follow-up questions, while the retrieved profile/session context remains the source of truth.
+Conversation history helps interpret follow-up questions, while retrieved documents remain the source of truth for factual answers.
 
 ---
 
 # 🎤 Voice Interaction
 
-The frontend supports browser-native voice interaction.
+The frontend supports browser-native voice interaction using the **Web Speech API**.
 
 ## Voice Input
 
@@ -544,7 +680,13 @@ RAG API
 AI Response
 ```
 
-## Voice Output
+Users can speak questions instead of typing them.
+
+---
+
+## Text-to-Speech
+
+Assistant responses can also be played using browser-native speech synthesis.
 
 ```text
 AI Response
@@ -554,34 +696,49 @@ SpeechSynthesis
 Browser Audio
 ```
 
-No separate speech-processing server is required.
+No dedicated speech-processing backend is required for these browser-native voice features.
 
 ---
 
 # 🎨 Frontend Experience
 
-The application provides a conversational interface for interacting with the RAG system.
+The application provides a conversational interface designed around interacting with the RAG system.
 
-The interface includes:
+### Implemented UI features
 
-* Chat-based interaction
-* Markdown-rendered AI responses
+* Chat interface
+* Markdown-rendered responses
+* Code and structured Markdown rendering
 * Voice input
 * Text-to-speech
 * Dynamic file upload
-* Session-aware temporary data
-* Upload status handling
+* Session-aware data
+* Uploaded-file tracking
 * Uploaded-file dropdown
+* Loading states
+* Error handling
+* Suggested questions
+* Multi-turn conversation interface
 
-After files are uploaded, the UI keeps track of the current session's input files:
+### Dynamic data interface
+
+Users can add temporary knowledge using:
 
 ```text
-┌──────────────┐
-│ 3 files  ▼   │
-└──────────────┘
++ Add Data
 ```
 
-Opening the dropdown displays:
+The interface tracks uploaded files during the current session.
+
+Example:
+
+```text
+┌─────────────────┐
+│ 3 files      ▼  │
+└─────────────────┘
+```
+
+Opening the dropdown exposes the currently uploaded input data:
 
 ```text
 Input Data
@@ -591,75 +748,74 @@ project_data.csv
 experience.md
 ```
 
-This provides visibility into what additional data has been added to the current RAG session.
-
 ---
 
 # 🔌 Backend API
 
-The backend is implemented using FastAPI.
+The backend is implemented with **FastAPI** and exposes REST endpoints for chat and session management.
 
-Main endpoints include:
+| Endpoint              | Method | Purpose                                   |
+| --------------------- | ------ | ----------------------------------------- |
+| `/api/chat`           | POST   | Send a question to the RAG assistant      |
+| `/api/session/start`  | POST   | Start a temporary RAG session             |
+| `/api/session/status` | GET    | Check the current session                 |
+| `/api/session/upload` | POST   | Upload temporary RAG documents            |
+| `/api/session/end`    | POST   | End the session and delete temporary data |
 
-| Endpoint              | Method | Purpose                               |
-| --------------------- | ------ | ------------------------------------- |
-| `/api/chat`           | POST   | Send a question to the RAG assistant  |
-| `/api/session/start`  | POST   | Start a temporary RAG session         |
-| `/api/session/status` | GET    | Check session status                  |
-| `/api/session/upload` | POST   | Upload temporary RAG data             |
-| `/api/session/end`    | POST   | End session and remove temporary data |
-
-The frontend communicates with the FastAPI backend through REST APIs.
+The frontend communicates with the FastAPI service through REST APIs.
 
 ---
 
 # 🏗️ System Architecture
 
 ```text
-┌─────────────────────────────────────────────┐
-│                 Next.js UI                  │
-│                                             │
-│  Chat │ Voice │ File Upload │ TTS │ UI     │
-└──────────────────────┬──────────────────────┘
+┌──────────────────────────────────────────────┐
+│                  Next.js                     │
+│                                              │
+│ Chat │ Voice │ Upload │ TTS │ Markdown UI    │
+└──────────────────────┬───────────────────────┘
                        │
                        │ REST API
                        ▼
-┌─────────────────────────────────────────────┐
-│                 FastAPI                     │
-│                                             │
-│  Chat API │ Session API │ Upload API        │
-└──────────────┬──────────────────────────────┘
-               │
-               ▼
-┌─────────────────────────────────────────────┐
-│              RAG Service                    │
-│                                             │
-│ Query Analysis                              │
-│ Retrieval                                   │
-│ Context Construction                        │
-│ Grounding                                   │
-└──────────────┬──────────────────────────────┘
-               │
-       ┌───────┴────────┐
-       ▼                ▼
-┌─────────────┐   ┌───────────────┐
-│  ChromaDB   │   │ MiniLM        │
-│             │   │ Embeddings    │
-│ Resume      │   │               │
-│ + LinkedIn  │   │ 384 dimensions│
-│ + Sessions  │   └───────────────┘
-└──────┬──────┘
-       │
-       ▼
- Relevant Context
-       │
-       ▼
-┌──────────────────┐
-│     Groq LLM     │
-└────────┬─────────┘
-         │
-         ▼
-   Grounded Answer
+┌──────────────────────────────────────────────┐
+│                  FastAPI                     │
+│                                              │
+│ Chat API │ Session API │ Upload API          │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│                  RAG Layer                   │
+│                                              │
+│ Query Analysis                               │
+│ Classification                               │
+│ Entity Detection                             │
+│ Retrieval                                    │
+│ Hybrid Scoring                               │
+│ Relevance Filtering                          │
+│ Grounding                                    │
+│ Context Construction                         │
+└──────────────┬───────────────────┬───────────┘
+               │                   │
+               ▼                   ▼
+       ┌──────────────┐    ┌─────────────────┐
+       │   ChromaDB   │    │     MiniLM      │
+       │              │    │   Embeddings    │
+       │ Resume       │    │                 │
+       │ LinkedIn     │    │ 384 dimensions  │
+       │ Sessions     │    └─────────────────┘
+       └──────┬───────┘
+              │
+              ▼
+       Relevant Context
+              │
+              ▼
+       ┌──────────────┐
+       │    Groq LLM  │
+       └──────┬───────┘
+              │
+              ▼
+       Grounded Response
 ```
 
 ---
@@ -692,6 +848,7 @@ Resume-RAG/
 │   ├── app/
 │   ├── components/
 │   │   ├── ChatWindow.tsx
+│   │   ├── ChatMessage.tsx
 │   │   └── DynamicDataUpload.tsx
 │   ├── lib/
 │   │   └── session.ts
@@ -711,7 +868,7 @@ Resume-RAG/
 
 ---
 
-# 🛠️ Tech Stack
+# 🛠️ Technology Stack
 
 ## Frontend
 
@@ -720,6 +877,7 @@ Resume-RAG/
 * **TypeScript**
 * **Tailwind CSS**
 * **React Markdown**
+* **remark-gfm**
 * **Web Speech API**
 
 ## Backend
@@ -731,7 +889,7 @@ Resume-RAG/
 * **PyPDF**
 * **python-docx**
 * **Pandas**
-* **Python-dotenv**
+* **python-dotenv**
 
 ## AI / RAG
 
@@ -741,10 +899,12 @@ Resume-RAG/
 * **Metadata-aware retrieval**
 * **Query classification**
 * **Entity detection**
+* **Lexical matching**
+* **Section-aware retrieval**
 * **Relevance scoring**
-* **Context filtering**
-* **Groq LLM**
+* **Confidence filtering**
 * **Grounded generation**
+* **Groq LLM**
 
 ## Deployment
 
@@ -764,7 +924,7 @@ cd resume-rag
 
 ---
 
-## 2. Create a Python virtual environment
+## 2. Create a virtual environment
 
 ```bash
 python -m venv venv
@@ -799,23 +959,22 @@ Create a `.env` file:
 ```env
 GROQ_API_KEY=your_groq_api_key
 GROQ_MODEL=openai/gpt-oss-120b
-
 HF_TOKEN=your_huggingface_token
-
 CHROMA_PATH=./chroma_db
 CHROMA_COLLECTION=resume
 ```
 
-Never commit your `.env` file or API keys.
+> Never commit `.env` files or API keys to the repository.
 
 ---
 
 # 📥 Build the Permanent Knowledge Base
 
-Place your profile data in:
+Place the profile data inside:
 
 ```text
 data/
+
 ├── Resume.pdf
 └── linkedin/
     └── Rich_Media.csv
@@ -827,25 +986,41 @@ Then run:
 python -m src.ingest
 ```
 
-This extracts, chunks, embeds, and stores the permanent profile information in ChromaDB.
+The ingestion pipeline will:
+
+```text
+Extract
+  ↓
+Clean
+  ↓
+Parse
+  ↓
+Chunk
+  ↓
+Embed
+  ↓
+Store
+```
+
+The resulting profile knowledge is stored in the permanent ChromaDB collection.
 
 ---
 
 # ▶️ Run the Backend
 
-Start FastAPI using your application entry point:
+Start the FastAPI application using the project's configured application entry point:
 
 ```bash
 uvicorn <your_app_module>:app --reload
 ```
 
-The backend will be available at:
+Backend:
 
 ```text
 http://localhost:8000
 ```
 
-Swagger documentation:
+Swagger API documentation:
 
 ```text
 http://localhost:8000/docs
@@ -861,25 +1036,25 @@ npm install
 npm run dev
 ```
 
-The frontend will be available at:
+Frontend:
 
 ```text
 http://localhost:3000
 ```
 
-Configure the frontend API URL in `.env.local`:
+Configure `.env.local`:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 
-For production, this variable should point to the deployed FastAPI backend.
+For production, set this variable to the deployed FastAPI backend URL.
 
 ---
 
-# 🧪 Example Questions
+# 🧪 Example Queries
 
-### Profile
+## Profile
 
 ```text
 What are Rohan's main technical skills?
@@ -891,7 +1066,7 @@ What companies has Rohan worked with?
 What achievements does Rohan have?
 ```
 
-### Projects
+## Projects
 
 ```text
 What projects has Rohan built?
@@ -905,7 +1080,7 @@ Which project involved Razorpay?
 Compare Rohan's projects.
 ```
 
-### LinkedIn / Achievements
+## LinkedIn & Achievements
 
 ```text
 What did Rohan work on during Hacknite?
@@ -915,7 +1090,7 @@ Did Rohan participate in hackathons?
 What did Rohan contribute to ACM ICPC?
 ```
 
-### Evaluation
+## Evaluation
 
 ```text
 Should we hire Rohan for a backend engineering role?
@@ -923,9 +1098,19 @@ Should we hire Rohan for a backend engineering role?
 Would Rohan be suitable for an AI engineering role?
 ```
 
-### Dynamic RAG
+## Contact
 
-Upload a document and ask:
+```text
+How can I contact Rohan?
+
+What is Rohan's email?
+
+What is Rohan's phone number?
+```
+
+## Dynamic RAG
+
+After uploading a document:
 
 ```text
 What does this document contain?
@@ -934,10 +1119,10 @@ Summarize the uploaded project requirements.
 
 What technologies are mentioned in the uploaded file?
 
-How does this uploaded project compare with Rohan's projects?
+How does this project compare with Rohan's projects?
 ```
 
-### Unsupported Information
+## Unsupported Information
 
 ```text
 What is Rohan's favorite football team?
@@ -953,7 +1138,7 @@ I don't have that information in the provided profile.
 
 # 🔐 Security & Data Isolation
 
-Dynamic RAG is designed around temporary session isolation.
+The Dynamic RAG architecture separates permanent and temporary knowledge.
 
 ### Permanent data
 
@@ -961,21 +1146,21 @@ Dynamic RAG is designed around temporary session isolation.
 resume
 ```
 
-remains persistent.
+Persistent candidate information.
 
-### Session data
+### Temporary data
 
 ```text
 session_<uuid>
 ```
 
-is temporary.
+Session-specific uploaded information.
 
-The browser only receives/stores the session identifier needed to associate requests with the temporary collection.
+The browser stores only the session identifier required to associate requests with the temporary collection.
 
-Uploaded documents are not merged into the permanent profile knowledge base.
+Uploaded documents are **not merged into the permanent resume collection**.
 
-When the session ends:
+When a session ends:
 
 ```text
 Session
@@ -985,76 +1170,52 @@ Temporary Collection
 Delete
 ```
 
-This prevents temporary user data from becoming part of the permanent candidate profile.
+This prevents temporary information from becoming part of the permanent candidate knowledge base.
 
 ---
 
-# 🧠 Why RAG Instead of Sending the Entire Resume to the LLM?
+# 🧠 Why RAG?
 
-A naive implementation could simply send the complete resume and LinkedIn data to the LLM for every question.
+A basic implementation could send the entire resume and LinkedIn data to the LLM with every request.
 
-This project instead uses retrieval:
+Resume RAG instead retrieves only the information relevant to the current question.
 
 ```text
-Large Profile
-     ↓
-Vector Database
-     ↓
-Retrieve Relevant Information
-     ↓
+Complete Profile
+       ↓
+   Vector Store
+       ↓
+Relevant Retrieval
+       ↓
 Small Context
-     ↓
-LLM
+       ↓
+      LLM
+       ↓
+Grounded Answer
 ```
 
-Benefits include:
+This provides several advantages:
 
-* Reduced unnecessary context
+* More relevant context
 * Better grounding
-* More relevant answers
-* Lower token usage
-* Better control over hallucination
-* Easier source attribution
-* Ability to add temporary knowledge dynamically
+* Reduced unnecessary token usage
+* Better control over hallucinations
+* Query-specific retrieval
+* Metadata-aware search
+* Support for temporary knowledge
+* Separation between permanent and temporary data
 
 ---
 
-# 🛡️ Grounding Strategy
+# 📊 Retrieval Observability
 
-The application uses multiple layers of protection against hallucination.
-
-```text
-             User Query
-                  ↓
-           Query Analysis
-                  ↓
-          Candidate Retrieval
-                  ↓
-           Hybrid Scoring
-                  ↓
-        Relevance Threshold
-                  ↓
-        Confidence Evaluation
-                  ↓
-          Context Filtering
-                  ↓
-       LLM Grounding Prompt
-                  ↓
-            Final Answer
-```
-
-The LLM is instructed to treat retrieved context as the source of truth rather than inventing candidate information.
-
----
-
-# 📊 Retrieval Diagnostics
-
-The backend includes detailed retrieval logging to make the RAG pipeline observable.
+The backend includes retrieval diagnostics to make the RAG pipeline easier to inspect and debug.
 
 Example:
 
 ```text
 Candidate #9
+
 source=session
 score=0.611
 semantic=0.164
@@ -1067,7 +1228,7 @@ confidence=high
 best_score=1.004
 ```
 
-Project retrieval also reports:
+Project retrieval can also expose information such as:
 
 ```text
 Project query embedding completed
@@ -1082,72 +1243,77 @@ count=0
 Project retrieval complete
 ```
 
-This makes it easier to debug:
+These diagnostics help investigate:
 
 * Retrieval quality
-* Session isolation
-* Embedding failures
-* Collection state
 * Candidate ranking
+* Embedding dimensions
+* Session isolation
+* Collection state
 * Confidence decisions
+* Retrieval failures
 
 ---
 
-# 💡 Engineering Challenges Solved
+# 💡 Engineering Challenges Addressed
 
-This project goes beyond a basic "LLM + vector database" implementation.
+This project was designed to solve problems that appear in practical RAG systems rather than implementing only a basic vector-search chatbot.
 
-### 1. Hybrid retrieval
+### 1. Hybrid Retrieval
 
-Pure semantic search can return technically related but contextually incorrect chunks.
+Semantic similarity alone can retrieve conceptually related but contextually incorrect information.
 
-The project combines multiple relevance signals to improve precision.
+The system combines semantic, lexical, entity, section, and topic signals.
 
-### 2. Query-specific retrieval
+### 2. Query-Specific Retrieval
 
-Different query types require different retrieval strategies.
+Different questions require different retrieval strategies.
 
-Project-list questions, entity questions, overview questions, and normal semantic questions are handled differently.
+Project, entity, profile, evaluation, and general queries can be handled differently.
 
-### 3. Temporary RAG
+### 3. Dynamic Knowledge Injection
 
-Users can introduce new knowledge without modifying the permanent knowledge base.
+Users can introduce new documents without modifying the permanent knowledge base.
 
-### 4. Session isolation
+### 4. Session Isolation
 
-Each session receives its own ChromaDB collection.
+Each session receives its own temporary ChromaDB collection.
 
-### 5. Controlled generation
+### 5. Grounded Generation
 
-Low-confidence retrieval results are filtered before reaching the LLM.
+Low-confidence or insufficient retrieval results can be filtered before reaching the LLM.
 
-### 6. Memory-conscious embeddings
+### 6. Exact Information Retrieval
 
-Embedding models are loaded lazily and document embeddings can be generated in batches, reducing unnecessary memory usage.
+Queries involving exact profile information, such as contact details, can use targeted retrieval logic rather than relying exclusively on semantic similarity.
 
-### 7. Full-stack integration
+### 7. Memory-Conscious Embedding
 
-The project connects:
+Embedding models are loaded lazily and documents can be embedded in batches to reduce memory usage.
+
+### 8. Full-Stack AI Integration
+
+The application combines:
 
 ```text
 Next.js
-   +
+    +
 FastAPI
-   +
+    +
 ChromaDB
-   +
+    +
 MiniLM
-   +
+    +
 Groq
 ```
 
-into one application.
+into a complete web-based AI application.
 
 ---
 
 # 📈 What This Project Demonstrates
 
-This project demonstrates practical experience with:
+### AI / RAG
 
 * Retrieval-Augmented Generation
 * Vector databases
@@ -1156,47 +1322,75 @@ This project demonstrates practical experience with:
 * Hybrid retrieval
 * Query classification
 * Entity detection
-* Metadata filtering
+* Metadata-aware retrieval
+* Lexical matching
+* Section-aware retrieval
 * Relevance scoring
-* Confidence-based retrieval
+* Confidence filtering
+* Context construction
 * LLM grounding
-* Anti-hallucination techniques
-* Conversation memory
-* Dynamic document ingestion
-* Temporary knowledge bases
-* Session isolation
+* Hallucination mitigation
+
+### Document Intelligence
+
 * PDF processing
 * DOCX processing
+* Markdown processing
 * CSV processing
-* REST API development
+* Document chunking
+* Metadata extraction
+* Dynamic document ingestion
+
+### Backend Engineering
+
 * FastAPI
+* REST API design
+* Session management
+* Temporary data isolation
+* Error handling
+* Retrieval diagnostics
+* Environment configuration
+
+### Frontend Engineering
+
 * Next.js
+* React
 * TypeScript
-* Voice interfaces
-* Full-stack AI engineering
-* Production deployment
+* Tailwind CSS
+* Markdown rendering
+* Browser voice input
+* Browser text-to-speech
+* Dynamic file upload
+* Session-aware UI
+
+### Deployment
+
+* Vercel
+* Render
+* Frontend/backend separation
+* Environment-based configuration
+* CORS configuration
 
 ---
 
 # 🔮 Future Improvements
 
-Potential future improvements include:
+The following features are planned rather than currently implemented:
 
-* [ ] Retrieval evaluation using RAGAS or custom evaluation metrics
-* [ ] Automatic source citations in the UI
-* [ ] Streaming LLM responses
-* [ ] More document formats
-* [ ] Persistent user accounts
-* [ ] Better session file management
-* [ ] File removal from active sessions
-* [ ] Retrieval analytics dashboard
+* [ ] RAG evaluation using RAGAS or custom metrics
 * [ ] Automated evaluation dataset
-* [ ] Reranking model for improved retrieval precision
+* [ ] Retrieval analytics dashboard
+* [ ] Streaming LLM responses
+* [ ] Automatic source citations in the UI
+* [ ] Reranking model
 * [ ] Background document processing
-* [ ] Improved production memory optimization
+* [ ] File removal from active sessions
+* [ ] Persistent user accounts
 * [ ] Authentication and authorization
 * [ ] Rate limiting
 * [ ] Automated cleanup of abandoned sessions
+* [ ] Additional document formats
+* [ ] Further production memory optimization
 
 ---
 
@@ -1211,8 +1405,32 @@ Guru Gobind Singh Indraprastha University
 
 ---
 
-## ⭐ Project
+# ⭐ Project
 
-Resume RAG is built as a practical demonstration of how modern AI applications can combine **RAG, vector databases, LLMs, document processing, session-based knowledge, and full-stack web development** into a production-oriented system.
+**Resume RAG** demonstrates how modern AI engineering techniques can be combined into a complete production-oriented application.
 
-If you find the project interesting, consider giving the repository a ⭐.
+It brings together:
+
+```text
+RAG
++
+Hybrid Retrieval
++
+Vector Search
++
+LLM Grounding
++
+Dynamic Documents
++
+Session Isolation
++
+Conversation Memory
++
+Voice Interaction
++
+Full-Stack Development
+```
+
+The result is an interactive AI assistant capable of answering questions about a structured personal knowledge base while also allowing users to temporarily introduce and query their own information.
+
+If you find the project useful or interesting, consider giving the repository a ⭐.

@@ -1,10 +1,13 @@
 export interface ChatRequest {
   message: string;
   conversation_id?: string | null;
+  response_mode?: "standard" | "recruiter" | "comparison";
+  debug?: boolean;
 }
 
 export interface Source {
   source: string;
+  citation_id?: string | null;
   section?: string | null;
   page?: number | null;
   project?: string | null;

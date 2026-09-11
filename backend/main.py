@@ -1,6 +1,14 @@
 
 import logging
 
+
+from backend.evaluation.retrieval_eval import (
+    HISTORY_PATH,
+    LATEST_PATH,
+    run_retrieval_evaluation,
+)
+
+
 import asyncio
 
 from backend.session_cleanup import (
@@ -89,9 +97,48 @@ app.include_router(
 )
 
 
+
+
+
+
+
 # ---------------------------------------------------------
 # Health
 # ---------------------------------------------------------
+
+
+@app.get("/api/evaluation")
+def get_evaluation():
+    """Return the most recent deterministic retrieval run and its history."""
+    if not LATEST_PATH.exists():
+        return {
+            "message": "No retrieval-only evaluation has been run yet."
+        }
+
+    import json
+
+    with open(
+        LATEST_PATH,
+        "r",
+        encoding="utf-8"
+    ) as file:
+
+        latest = json.load(file)
+
+    if HISTORY_PATH.exists():
+        with open(HISTORY_PATH, "r", encoding="utf-8") as file:
+            latest["history"] = json.load(file)
+    else:
+        latest["history"] = []
+    return latest
+
+
+@app.post("/api/evaluation/retrieval")
+def run_retrieval_evaluation_endpoint():
+    """Run retrieval metrics locally; this endpoint never calls Groq."""
+    return run_retrieval_evaluation()
+
+
 
 @app.get(
     "/api/health",

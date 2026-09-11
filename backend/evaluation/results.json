@@ -1,0 +1,1361 @@
+{
+  "summary": {
+    "total_questions": 30,
+    "evaluated_questions": 30,
+    "supported_questions": 3,
+    "unsupported_questions": 2,
+    "retrieval_precision": 0.7,
+    "retrieval_recall": 1.0,
+    "retrieval_f1": 0.7571,
+    "answer_relevance": 0.6,
+    "grounding": 0.6467,
+    "refusal_accuracy": 1.0,
+    "grounding_failure_rate": 0.6667,
+    "avg_retrieval_latency_ms": 65.92,
+    "avg_llm_latency_ms": 281.41
+  },
+  "questions": [
+    {
+      "id": "q001",
+      "question": "Which project used Redis?",
+      "query_type": "project",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197668, Requested 3633. Please try again in 9m22.032s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q002",
+      "question": "Which database was used in CollabSphere?",
+      "query_type": "project",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197668, Requested 2508. Please try again in 1m16.032s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q003",
+      "question": "What ORM was used in CollabSphere?",
+      "query_type": "project",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197668, Requested 2505. Please try again in 1m14.736s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q004",
+      "question": "What technologies were used for real-time communication in CollabSphere?",
+      "query_type": "project",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197666, Requested 2519. Please try again in 1m19.92s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q005",
+      "question": "What technologies were used in JugaadHub?",
+      "query_type": "project",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197666, Requested 2966. Please try again in 4m33.024s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q006",
+      "question": "What payment system was used in JugaadHub?",
+      "query_type": "project",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197666, Requested 2992. Please try again in 4m44.256s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q007",
+      "question": "What verification workflows were implemented in JugaadHub?",
+      "query_type": "project",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197665, Requested 2999. Please try again in 4m46.848s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q008",
+      "question": "What backend framework was used in VideoTube?",
+      "query_type": "project",
+      "expected_answer": "Express.js",
+      "expected_keywords": [
+        "Express.js",
+        "VideoTube"
+      ],
+      "expected_sources": [
+        "VideoTube"
+      ],
+      "expected_sections": [
+        "Projects"
+      ],
+      "answer": "The backend framework used in VideoTube was **Express.js**【S1】【S2】.\n\nSources: [S1] VideoTube, [S2] VideoTube",
+      "retrieval_confidence": "high",
+      "retrieved_count": 2,
+      "retrieved_chunks": [
+        {
+          "text": "Excited to share VideoTube a full-stack video streaming platform that became one of my biggest learning experiences as a developer.\n\nWhen I started this project, my goal was simple: learn backend development by building something real. What followed was weeks of designing APIs, debugging countless errors, integrating services, and understanding how a production-level application comes together.\n\nThrough VideoTube, I learned:\n Authentication & Authorization with JWT\n REST API design and backend architecture\n MongoDB data modeling\n File uploads and media management with Cloudinary\n Frontend Backend integration\n Deployment and production setup\n\nFeatures:\n Video Upload & Streaming\n Comments, Likes & Subscriptions\n Playlists\n User Dashboard\n Secure Authentication\n Responsive UI\n\nTech Stack: React, Node.js, Express.js, MongoDB, Cloudinary, Tailwind CSS\n\nThere were many moments when a small change broke something else, and some bugs took hours to solve. But every error taught me something new and helped me become a better developer.\n\nGithub repo: https://lnkd.in/gEvcR6VP\nLive Demo: https://lnkd.in/gtjjdhAr\n\n#FullStackDevelopment #MERN #BackendDevelopment #ReactJS #NodeJS #MongoDB #WebDevelopment #SoftwareEngineering",
+          "metadata": {
+            "source": "linkedin",
+            "section": "projects",
+            "linkedin_post_id": "linkedin_2",
+            "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
+            "source_type": "linkedin",
+            "technologies": "Node.js, MongoDB, React",
+            "project": "VideoTube"
+          },
+          "distance": 0.0,
+          "similarity": 1.0,
+          "semantic_score": 1.0,
+          "final_score": 1.5,
+          "entity_bonus": 0.2,
+          "exact_phrase_bonus": 0.0,
+          "matched_keywords": [
+            "backend",
+            "videotube"
+          ],
+          "reasons": [
+            "keywords:backend,videotube",
+            "entity:VideoTube",
+            "metadata-match",
+            "reranked:cross-encoder"
+          ],
+          "lexical_score": 0.5,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "topic_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.15,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [
+            "VideoTube"
+          ],
+          "metadata_matches": [
+            "videotube"
+          ],
+          "reranker_score": 3.1349,
+          "hybrid_score": 1.5,
+          "reranker_reason": "cross-encoder",
+          "citation_id": "S1"
+        },
+        {
+          "text": "VideoTube | Full-Stack Video Engine | Node.js, Express.js, MongoDB, React, JWT, Cloudinary | Live | Code\n• Designed RESTful APIs for video uploading, media processing, subscriptions, and playlists using JWT authentication\nand session handling.\n• Optimized complex relational data retrieval and aggregation performance using MongoDB Aggregation Pipelines.",
+          "metadata": {
+            "section": "projects",
+            "page": 1,
+            "project": "VideoTube",
+            "source": "resume"
+          },
+          "distance": 0.0,
+          "similarity": 1.0,
+          "semantic_score": 1.0,
+          "final_score": 1.425,
+          "entity_bonus": 0.2,
+          "exact_phrase_bonus": 0.0,
+          "matched_keywords": [
+            "videotube"
+          ],
+          "reasons": [
+            "keywords:videotube",
+            "entity:VideoTube",
+            "metadata-match",
+            "reranked:cross-encoder"
+          ],
+          "lexical_score": 0.25,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "topic_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.15,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [
+            "VideoTube"
+          ],
+          "metadata_matches": [
+            "videotube"
+          ],
+          "reranker_score": 0.0648,
+          "hybrid_score": 1.425,
+          "reranker_reason": "cross-encoder",
+          "citation_id": "S2"
+        }
+      ],
+      "retrieval_precision": 1.0,
+      "retrieval_recall": 1.0,
+      "retrieval_f1": 1.0,
+      "answer_relevance": 1.0,
+      "grounding": 0.3333,
+      "refusal_accuracy": 1.0,
+      "retrieval_latency_ms": 51.34,
+      "llm_latency_ms": 1407.07,
+      "total_latency_ms": 1626.98
+    },
+    {
+      "id": "q009",
+      "question": "What database was used in VideoTube?",
+      "query_type": "project",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198326, Requested 2165. Please try again in 3m32.112s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q010",
+      "question": "How did VideoTube optimize complex data retrieval?",
+      "query_type": "project",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198326, Requested 2141. Please try again in 3m21.744s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q011",
+      "question": "What was Rohan's role at ACM ICPC?",
+      "query_type": "experience",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198325, Requested 2821. Please try again in 8m15.072s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q012",
+      "question": "How many students did Rohan mentor during the DSA Bootcamp?",
+      "query_type": "experience",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198325, Requested 3045. Please try again in 9m51.84s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q013",
+      "question": "How many sessions were in the DSA Bootcamp?",
+      "query_type": "experience",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198325, Requested 3326. Please try again in 11m53.232s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q014",
+      "question": "How many algorithmic problems were curated for the DSA Bootcamp?",
+      "query_type": "experience",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198324, Requested 3121. Please try again in 10m24.24s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q015",
+      "question": "What did Rohan work on at IEEE?",
+      "query_type": "experience",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198324, Requested 1900. Please try again in 1m36.767999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q016",
+      "question": "What programming languages does Rohan know?",
+      "query_type": "skills",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198324, Requested 2696. Please try again in 7m20.64s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q017",
+      "question": "Does Rohan have experience with Redis?",
+      "query_type": "skills",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198324, Requested 3108. Please try again in 10m18.624s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q018",
+      "question": "Does Rohan have experience with Docker?",
+      "query_type": "skills",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198323, Requested 3202. Please try again in 10m58.8s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q019",
+      "question": "What databases does Rohan have experience with?",
+      "query_type": "skills",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198323, Requested 3198. Please try again in 10m57.072s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q020",
+      "question": "Where is Rohan pursuing his BTech?",
+      "query_type": "education",
+      "expected_answer": "University School of Information, Communication and Technology",
+      "expected_keywords": [
+        "University School of Information",
+        "Communication",
+        "Technology"
+      ],
+      "expected_sources": [
+        "Education"
+      ],
+      "expected_sections": [
+        "Education"
+      ],
+      "answer": "I don't have that information in the provided profile.",
+      "retrieval_confidence": "low",
+      "retrieved_count": 6,
+      "retrieved_chunks": [
+        {
+          "text": "Rohan Garg\n+91 8383913039 | rg16rohangarg@gmail.com | LinkedIn | Codeforces | LeetCode | GitHub",
+          "metadata": {
+            "section": "other",
+            "source": "resume",
+            "page": 1
+          },
+          "distance": 0.6801189184188843,
+          "similarity": 0.3198810815811157,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.3199,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.3199,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -5.0555,
+          "hybrid_score": 0.3199,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "University School of Information, Communication and Technology, Delhi\nJuly 2025 - Jun 2029\nBachelor of Technology in Information Technology\nCGPA: 8.3\nDarbari Lal DAV Model School, New Delhi\n2023 - 2025\nClass X: 93% | Class XII: 89%",
+          "metadata": {
+            "page": 1,
+            "source": "resume",
+            "section": "education"
+          },
+          "distance": 0.7915222644805908,
+          "similarity": 0.20847773551940918,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.2085,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.2085,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.3226,
+          "hybrid_score": 0.2085,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "I went into Vihaan 9.0 thinking the biggest challenge would be writing code.\nAs the Team Lead and Tech Lead of my team, I quickly realized that the real challenge was making decisions under pressure, coordinating the team, solving unexpected issues, and keeping everyone moving toward a common goal.\nOver 24 hours, we enhanced JugaadHub with features like Razorpay integration, Trie-based product search, improved chat security, and a built-in negotiation system. There were bugs, last-minute fixes, and plenty of learning along the way.\nWhile we didn't make it to the final round, I came away with something more valuable experience. This hackathon taught me that building great products isn't just about technical skills; it's also about communication, adaptability, and teamwork.\nGrateful to my teammates Vaibhav Singla, Bhavya Bansal, Aryan Kumar Srivastava, mentors, judges, and the organizers of Vihaan 9.0 for an amazing experience.\n#Vihaan #Hackathon #Leadership #SoftwareDevelopment #Teamwork #Learning #WebDevelopment",
+          "metadata": {
+            "source_type": "linkedin",
+            "section": "projects",
+            "linkedin_post_id": "linkedin_3",
+            "source": "linkedin",
+            "project": "JugaadHub",
+            "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)"
+          },
+          "distance": 0.8338034749031067,
+          "similarity": 0.1661965250968933,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.1662,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.1662,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.3641,
+          "hybrid_score": 0.1662,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "JugaadHub | Campus Peer-to-Peer Rental Platform | Next.js, Supabase, PostgreSQL, Razorpay, Cloudinary | Live | Code\n• Architected secure transactional workflows including escrow deposits, wallet management, and Razorpay\npayments for peer-to-peer campus rentals.\n• Implemented real-time messaging, OTP handover verification, and KYC workflows utilizing Supabase RPC functions\nand PostgreSQL.",
+          "metadata": {
+            "project": "JugaadHub",
+            "source": "resume",
+            "section": "projects",
+            "page": 1
+          },
+          "distance": 0.8451717495918274,
+          "similarity": 0.1548282504081726,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.1548,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.1548,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.4441,
+          "hybrid_score": 0.1548,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "Languages: C, C++, JavaScript, TypeScript, Python, SQL, HTML5/CSS3\nBackend & Databases: Node.js, Express.js, Next.js (App Router), PostgreSQL, Prisma ORM, Redis, MongoDB, Supabase\nArchitecture & Protocols: RESTful APIs, WebSockets, WebRTC (LiveKit), Microservices, System Design, RBAC\nTools & Infrastructure: Git, Docker, Render, Postman, Vercel, Tailwind CSS, Linux/Bash, VS Code\nCore Coursework: Data Structures & Algorithms, Object-Oriented Programming, DBMS, Operating Systems, Computer\nNetworks",
+          "metadata": {
+            "page": 1,
+            "source": "resume",
+            "section": "skills"
+          },
+          "distance": 0.8565948605537415,
+          "similarity": 0.14340513944625854,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.1434,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.1434,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.4345,
+          "hybrid_score": 0.1434,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "IEEE\nOct 2025 - Jun 2026\nTech Team Member\nNew Delhi\n• Engineered high-throughput RESTful APIs, normalized database schemas, and backend microservices using Node.js\nand MongoDB for 3+ university applications.\n• Coordinated infrastructure execution for a regional hackathon with AIC GGSIPU, supporting 100+ teams end-to-end.",
+          "metadata": {
+            "section": "experience",
+            "source": "resume",
+            "page": 1,
+            "role": "Tech Team Member",
+            "company": "IEEE"
+          },
+          "distance": 0.8570709824562073,
+          "similarity": 0.14292901754379272,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.1429,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.1429,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.4412,
+          "hybrid_score": 0.1429,
+          "reranker_reason": "cross-encoder"
+        }
+      ],
+      "retrieval_precision": 0.3333,
+      "retrieval_recall": 1.0,
+      "retrieval_f1": 0.5,
+      "answer_relevance": 0.0,
+      "grounding": 0.6,
+      "refusal_accuracy": 1.0,
+      "retrieval_latency_ms": 80.16,
+      "llm_latency_ms": 0.0,
+      "total_latency_ms": 80.2
+    },
+    {
+      "id": "q021",
+      "question": "What degree is Rohan pursuing?",
+      "query_type": "education",
+      "expected_answer": "Bachelor of Technology in Information Technology",
+      "expected_keywords": [
+        "Bachelor of Technology",
+        "Information Technology"
+      ],
+      "expected_sources": [
+        "Education"
+      ],
+      "expected_sections": [
+        "Education"
+      ],
+      "answer": "I don't have that information in the provided profile.",
+      "retrieval_confidence": "low",
+      "retrieved_count": 6,
+      "retrieved_chunks": [
+        {
+          "text": "Rohan Garg\n+91 8383913039 | rg16rohangarg@gmail.com | LinkedIn | Codeforces | LeetCode | GitHub",
+          "metadata": {
+            "section": "other",
+            "source": "resume",
+            "page": 1
+          },
+          "distance": 0.7172641754150391,
+          "similarity": 0.28273582458496094,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.2827,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.2827,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -5.4934,
+          "hybrid_score": 0.2827,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "University School of Information, Communication and Technology, Delhi\nJuly 2025 - Jun 2029\nBachelor of Technology in Information Technology\nCGPA: 8.3\nDarbari Lal DAV Model School, New Delhi\n2023 - 2025\nClass X: 93% | Class XII: 89%",
+          "metadata": {
+            "page": 1,
+            "source": "resume",
+            "section": "education"
+          },
+          "distance": 0.6815416216850281,
+          "similarity": 0.3184583783149719,
+          "candidate_channels": [
+            "bm25",
+            "dense",
+            "section"
+          ],
+          "lexical_retrieval_score": 0.6,
+          "semantic_score": 0.3185,
+          "lexical_score": 0.0,
+          "bm25_score": 0.6,
+          "bm25_normalized": 1.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.25,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.8185,
+          "reasons": [
+            "bm25:0.60",
+            "section:education",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -10.6943,
+          "hybrid_score": 0.8185,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "• Solved 450+ data structures and algorithmic problems on LeetCode, demonstrating strong core problem-solving\nproficiency.\n• Cleared two rounds of the Google Big Code Challenge 2026, demonstrating strong analytical skills.\n• Achieved Top 100 International Rank in the International Mathematics Olympiad (IMO) with multiple 1st-place\nregional finishes.\n• Selected for Round 2 at Smart India Hackathon, placed Top 10 at HackXtract, finalist at HackNite at and secured Top\n7 at Orbix Hackathon, IIIT Delhi.",
+          "metadata": {
+            "section": "achievements",
+            "page": 1,
+            "source": "resume"
+          },
+          "distance": 0.8273451924324036,
+          "similarity": 0.17265480756759644,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.1727,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.1727,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.2324,
+          "hybrid_score": 0.1727,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "Languages: C, C++, JavaScript, TypeScript, Python, SQL, HTML5/CSS3\nBackend & Databases: Node.js, Express.js, Next.js (App Router), PostgreSQL, Prisma ORM, Redis, MongoDB, Supabase\nArchitecture & Protocols: RESTful APIs, WebSockets, WebRTC (LiveKit), Microservices, System Design, RBAC\nTools & Infrastructure: Git, Docker, Render, Postman, Vercel, Tailwind CSS, Linux/Bash, VS Code\nCore Coursework: Data Structures & Algorithms, Object-Oriented Programming, DBMS, Operating Systems, Computer\nNetworks",
+          "metadata": {
+            "page": 1,
+            "source": "resume",
+            "section": "skills"
+          },
+          "distance": 0.8145160675048828,
+          "similarity": 0.1854839324951172,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.1855,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.1855,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.3546,
+          "hybrid_score": 0.1855,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "JugaadHub | Campus Peer-to-Peer Rental Platform | Next.js, Supabase, PostgreSQL, Razorpay, Cloudinary | Live | Code\n• Architected secure transactional workflows including escrow deposits, wallet management, and Razorpay\npayments for peer-to-peer campus rentals.\n• Implemented real-time messaging, OTP handover verification, and KYC workflows utilizing Supabase RPC functions\nand PostgreSQL.",
+          "metadata": {
+            "source": "resume",
+            "page": 1,
+            "section": "projects",
+            "project": "JugaadHub"
+          },
+          "distance": 0.8492944240570068,
+          "similarity": 0.15070557594299316,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.1507,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.1507,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.3853,
+          "hybrid_score": 0.1507,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "IEEE\nOct 2025 - Jun 2026\nTech Team Member\nNew Delhi\n• Engineered high-throughput RESTful APIs, normalized database schemas, and backend microservices using Node.js\nand MongoDB for 3+ university applications.\n• Coordinated infrastructure execution for a regional hackathon with AIC GGSIPU, supporting 100+ teams end-to-end.",
+          "metadata": {
+            "source": "resume",
+            "company": "IEEE",
+            "role": "Tech Team Member",
+            "section": "experience",
+            "page": 1
+          },
+          "distance": 0.8042995929718018,
+          "similarity": 0.19570040702819824,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.1957,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.1957,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.4104,
+          "hybrid_score": 0.1957,
+          "reranker_reason": "cross-encoder"
+        }
+      ],
+      "retrieval_precision": 0.1667,
+      "retrieval_recall": 1.0,
+      "retrieval_f1": 0.2857,
+      "answer_relevance": 0.0,
+      "grounding": 0.3,
+      "refusal_accuracy": 1.0,
+      "retrieval_latency_ms": 39.07,
+      "llm_latency_ms": 0.0,
+      "total_latency_ms": 39.11
+    },
+    {
+      "id": "q022",
+      "question": "What is Rohan's CGPA?",
+      "query_type": "education",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198322, Requested 3010. Please try again in 9m35.424s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q023",
+      "question": "How many problems has Rohan solved on LeetCode?",
+      "query_type": "achievement",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198322, Requested 2835. Please try again in 8m19.824s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q024",
+      "question": "Did Rohan clear the Google Big Code Challenge?",
+      "query_type": "achievement",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198322, Requested 3616. Please try again in 13m57.216s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q025",
+      "question": "What was Rohan's rank in the International Mathematics Olympiad?",
+      "query_type": "achievement",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198322, Requested 2193. Please try again in 3m42.48s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q026",
+      "question": "What was Rohan's result at HackXtract?",
+      "query_type": "achievement",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198321, Requested 2025. Please try again in 2m29.472s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q027",
+      "question": "What is Rohan's email address?",
+      "query_type": "contact",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198321, Requested 3079. Please try again in 10m4.8s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q028",
+      "question": "What is Rohan's phone number?",
+      "query_type": "contact",
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m0ysz2m6ebg9ra9dr30m3yb9` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198321, Requested 3111. Please try again in 10m18.624s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+      "score": 0.0
+    },
+    {
+      "id": "q029",
+      "question": "What is Rohan's favorite football team?",
+      "query_type": "unsupported",
+      "expected_answer": null,
+      "expected_keywords": [],
+      "expected_sources": [],
+      "expected_sections": [],
+      "answer": "I don't have that information in the provided profile.",
+      "retrieval_confidence": "low",
+      "retrieved_count": 6,
+      "retrieved_chunks": [
+        {
+          "text": "Rohan Garg\n+91 8383913039 | rg16rohangarg@gmail.com | LinkedIn | Codeforces | LeetCode | GitHub",
+          "metadata": {
+            "page": 1,
+            "source": "resume",
+            "section": "other"
+          },
+          "distance": 0.7020714282989502,
+          "similarity": 0.2979285717010498,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.2979,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.2979,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -4.2101,
+          "hybrid_score": 0.2979,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "IEEE\nOct 2025 - Jun 2026\nTech Team Member\nNew Delhi\n• Engineered high-throughput RESTful APIs, normalized database schemas, and backend microservices using Node.js\nand MongoDB for 3+ university applications.\n• Coordinated infrastructure execution for a regional hackathon with AIC GGSIPU, supporting 100+ teams end-to-end.",
+          "metadata": {
+            "company": "IEEE",
+            "section": "experience",
+            "role": "Tech Team Member",
+            "page": 1,
+            "source": "resume"
+          },
+          "distance": 0.8846481442451477,
+          "similarity": 0.1153518557548523,
+          "candidate_channels": [
+            "bm25",
+            "dense"
+          ],
+          "lexical_retrieval_score": 1.1554,
+          "semantic_score": 0.1154,
+          "lexical_score": 0.3333,
+          "bm25_score": 1.1554,
+          "bm25_normalized": 1.0,
+          "matched_keywords": [
+            "team"
+          ],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.15,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [
+            "team"
+          ],
+          "final_score": 0.6154,
+          "reasons": [
+            "keywords:team",
+            "bm25:1.16",
+            "metadata-match",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.2841,
+          "hybrid_score": 0.6154,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "I went into Vihaan 9.0 thinking the biggest challenge would be writing code.\nAs the Team Lead and Tech Lead of my team, I quickly realized that the real challenge was making decisions under pressure, coordinating the team, solving unexpected issues, and keeping everyone moving toward a common goal.\nOver 24 hours, we enhanced JugaadHub with features like Razorpay integration, Trie-based product search, improved chat security, and a built-in negotiation system. There were bugs, last-minute fixes, and plenty of learning along the way.\nWhile we didn't make it to the final round, I came away with something more valuable experience. This hackathon taught me that building great products isn't just about technical skills; it's also about communication, adaptability, and teamwork.\nGrateful to my teammates Vaibhav Singla, Bhavya Bansal, Aryan Kumar Srivastava, mentors, judges, and the organizers of Vihaan 9.0 for an amazing experience.\n#Vihaan #Hackathon #Leadership #SoftwareDevelopment #Teamwork #Learning #WebDevelopment",
+          "metadata": {
+            "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
+            "source": "linkedin",
+            "source_type": "linkedin",
+            "linkedin_post_id": "linkedin_3",
+            "project": "JugaadHub",
+            "section": "projects"
+          },
+          "distance": 0.8427688479423523,
+          "similarity": 0.1572311520576477,
+          "candidate_channels": [
+            "bm25",
+            "dense"
+          ],
+          "lexical_retrieval_score": 0.7737,
+          "semantic_score": 0.1572,
+          "lexical_score": 0.3333,
+          "bm25_score": 0.7737,
+          "bm25_normalized": 0.6696,
+          "matched_keywords": [
+            "team"
+          ],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.4246,
+          "reasons": [
+            "keywords:team",
+            "bm25:0.77",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.0951,
+          "hybrid_score": 0.4246,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "Had a great experience participating in AM HACKS 2.0 hosted by Indira Gandhi Delhi Technical University for Women with my team CodeCrunchers.\n\nThis hackathon strengthened my problem-solving mindset, teamwork under tight deadlines, and ability to design user-centric solutions with real-world impact. It reinforced an important lesson for me: meaningful tech starts with understanding people s needs.\n\nWe presented an upgraded version of our Smart India Hackathon project PrepConnect, a disaster management platform focused on making emergency response faster, smarter, and more inclusive. Key additions included an AI assistant, personalized My Needs profiles, and a localized SOS system for real-time community support.\n\nProud of what we built and grateful for the learning journey.\n\nTeam CodeCrunchers:\nVaibhav Singla | Rohan Garg | Monit Sharma | Aryan Kumar Srivastava | Bhavya Bansal\n\n GitHub: https://lnkd.in/gSgwNM3G\n\n#Hackathon #AMHacks #IGDTUW #DisasterManagement #AI #Innovation #StudentDevelopers #PrepConnect",
+          "metadata": {
+            "source": "linkedin",
+            "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
+            "section": "achievements",
+            "event": "Smart India Hackathon",
+            "source_type": "linkedin",
+            "linkedin_post_id": "linkedin_7"
+          },
+          "distance": 0.8974239826202393,
+          "similarity": 0.10257601737976074,
+          "candidate_channels": [
+            "bm25",
+            "dense"
+          ],
+          "lexical_retrieval_score": 0.7664,
+          "semantic_score": 0.1026,
+          "lexical_score": 0.3333,
+          "bm25_score": 0.7664,
+          "bm25_normalized": 0.6633,
+          "matched_keywords": [
+            "team"
+          ],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.3684,
+          "reasons": [
+            "keywords:team",
+            "bm25:0.77",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -10.784,
+          "hybrid_score": 0.3684,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "Thrilled to announce that our team, Stack OverFlowers, has successfully cleared Round 1 of the Internal Smart India Hackathon 2025! \nThe journey so far has been an incredible learning experience filled with innovation, teamwork, and the drive to create something meaningful.\nOur problem statement challenged us to design a\n Disaster preparedness and response education system for schools and colleges. \nTo address this, we built PrepConnect, a web platform aimed at transforming disaster management education into an interactive and engaging experience for students.\n Highlights of PrepConnect:\n Gamified Learning: Multi-level quiz modules that make learning fun while tracking progress.\n Virtual Mock Drills: Simulated emergency scenarios offering a safe and realistic learning experience.\n Emergency Directory: Verified contact details from every Indian state for easy access in critical situations.\nWhat began as a hackathon challenge quickly evolved into a mission to explore how technology can empower students to be better prepared and resilient during crises.\nI m immensely proud of what we ve accomplished together as a team: Vaibhav Singla, Aryan Kumar Shrivastav and Bhavya Bansal .\n Take a look at our project here: https://lnkd.in/dvgSBB2V\n#SmartIndiaHackathon #Innovation #DisasterPreparedness #EdTech #Teamwork #DigitalEmpowerment",
+          "metadata": {
+            "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
+            "source": "linkedin",
+            "source_type": "linkedin",
+            "linkedin_post_id": "linkedin_9",
+            "section": "achievements",
+            "event": "Smart India Hackathon"
+          },
+          "distance": 0.858871579170227,
+          "similarity": 0.14112842082977295,
+          "candidate_channels": [
+            "bm25",
+            "dense"
+          ],
+          "lexical_retrieval_score": 0.691,
+          "semantic_score": 0.1411,
+          "lexical_score": 0.3333,
+          "bm25_score": 0.691,
+          "bm25_normalized": 0.5981,
+          "matched_keywords": [
+            "team"
+          ],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.3906,
+          "reasons": [
+            "keywords:team",
+            "bm25:0.69",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.1637,
+          "hybrid_score": 0.3906,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "Excited to share that our team CodeCrunchers secured a spot in the Top 10 at the HackXtract Hackathon, hosted by TechXtract at MAIT.\nFor me, this experience was about owning the end-to-end technical development of our product under tight timelines.\nProject: JugaadHub\n A peer-to-peer campus rental platform for sharing everyday resources.\nMy Role (Full Stack):\n Built the app using React + TypeScript\n Implemented JWT auth + OTP verification\n Integrated Supabase (DB) and Cloudinary (media)\n Managed complete frontend-backend integration\nKey Takeaways:\n Turning an idea into a working product, fast\n Handling scalability + clean architecture under pressure\n Balancing development with real-world usability\nBeing the only first-year team in the finals made this even more special a strong reminder that execution > experience.\nGrateful to my team: Vaibhav Singla, Aryan Kumar Srivastava, Bhavya Bansal\nGitHub Repository : https://lnkd.in/ggph97xz\n\n#Hackathon #FullStack #React #Supabase #WebDevelopment",
+          "metadata": {
+            "technologies": "TypeScript, React",
+            "source_type": "linkedin",
+            "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
+            "event": "HackXtract",
+            "section": "achievements",
+            "linkedin_post_id": "linkedin_5",
+            "source": "linkedin",
+            "project": "JugaadHub"
+          },
+          "distance": 0.8958534002304077,
+          "similarity": 0.10414659976959229,
+          "candidate_channels": [
+            "bm25",
+            "dense"
+          ],
+          "lexical_retrieval_score": 0.7701,
+          "semantic_score": 0.1041,
+          "lexical_score": 0.3333,
+          "bm25_score": 0.7701,
+          "bm25_normalized": 0.6665,
+          "matched_keywords": [
+            "team"
+          ],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.3708,
+          "reasons": [
+            "keywords:team",
+            "bm25:0.77",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.1467,
+          "hybrid_score": 0.3708,
+          "reranker_reason": "cross-encoder"
+        }
+      ],
+      "retrieval_precision": 1.0,
+      "retrieval_recall": 1.0,
+      "retrieval_f1": 1.0,
+      "answer_relevance": 1.0,
+      "grounding": 1.0,
+      "refusal_accuracy": 1.0,
+      "retrieval_latency_ms": 93.76,
+      "llm_latency_ms": 0.0,
+      "total_latency_ms": 93.81
+    },
+    {
+      "id": "q030",
+      "question": "What is Rohan's favorite programming language?",
+      "query_type": "unsupported",
+      "expected_answer": null,
+      "expected_keywords": [],
+      "expected_sources": [],
+      "expected_sections": [],
+      "answer": "I don't have that information in the provided profile.",
+      "retrieval_confidence": "low",
+      "retrieved_count": 6,
+      "retrieved_chunks": [
+        {
+          "text": "Rohan Garg\n+91 8383913039 | rg16rohangarg@gmail.com | LinkedIn | Codeforces | LeetCode | GitHub",
+          "metadata": {
+            "section": "other",
+            "source": "resume",
+            "page": 1
+          },
+          "distance": 0.7051022052764893,
+          "similarity": 0.29489779472351074,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.2949,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.2949,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -2.7682,
+          "hybrid_score": 0.2949,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "Languages: C, C++, JavaScript, TypeScript, Python, SQL, HTML5/CSS3\nBackend & Databases: Node.js, Express.js, Next.js (App Router), PostgreSQL, Prisma ORM, Redis, MongoDB, Supabase\nArchitecture & Protocols: RESTful APIs, WebSockets, WebRTC (LiveKit), Microservices, System Design, RBAC\nTools & Infrastructure: Git, Docker, Render, Postman, Vercel, Tailwind CSS, Linux/Bash, VS Code\nCore Coursework: Data Structures & Algorithms, Object-Oriented Programming, DBMS, Operating Systems, Computer\nNetworks",
+          "metadata": {
+            "source": "resume",
+            "section": "skills",
+            "page": 1
+          },
+          "distance": 0.6979943513870239,
+          "similarity": 0.3020056486129761,
+          "candidate_channels": [
+            "bm25",
+            "dense"
+          ],
+          "lexical_retrieval_score": 5.0874,
+          "semantic_score": 0.302,
+          "lexical_score": 0.6667,
+          "bm25_score": 5.0874,
+          "bm25_normalized": 1.0,
+          "matched_keywords": [
+            "language",
+            "programming"
+          ],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.752,
+          "reasons": [
+            "keywords:language,programming",
+            "bm25:5.09",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -8.2403,
+          "hybrid_score": 0.752,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "Had a great experience participating in AM HACKS 2.0 hosted by Indira Gandhi Delhi Technical University for Women with my team CodeCrunchers.\n\nThis hackathon strengthened my problem-solving mindset, teamwork under tight deadlines, and ability to design user-centric solutions with real-world impact. It reinforced an important lesson for me: meaningful tech starts with understanding people s needs.\n\nWe presented an upgraded version of our Smart India Hackathon project PrepConnect, a disaster management platform focused on making emergency response faster, smarter, and more inclusive. Key additions included an AI assistant, personalized My Needs profiles, and a localized SOS system for real-time community support.\n\nProud of what we built and grateful for the learning journey.\n\nTeam CodeCrunchers:\nVaibhav Singla | Rohan Garg | Monit Sharma | Aryan Kumar Srivastava | Bhavya Bansal\n\n GitHub: https://lnkd.in/gSgwNM3G\n\n#Hackathon #AMHacks #IGDTUW #DisasterManagement #AI #Innovation #StudentDevelopers #PrepConnect",
+          "metadata": {
+            "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
+            "event": "Smart India Hackathon",
+            "linkedin_post_id": "linkedin_7",
+            "source_type": "linkedin",
+            "section": "achievements",
+            "source": "linkedin"
+          },
+          "distance": 0.7998791933059692,
+          "similarity": 0.20012080669403076,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.2001,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.2001,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -10.5288,
+          "hybrid_score": 0.2001,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "Association for Computing Machinery - ICPC\nOct 2025 - Jun 2026\nClub Coordinator\nNew Delhi\n• Conducted an 8-session DSA Bootcamp, mentoring 100+ students through 75+ curated algorithmic problems.\n• Maintained ACM chapter backend services and engineered automated event and programming challenge management\nscripts.",
+          "metadata": {
+            "page": 1,
+            "company": "Association for Computing Machinery - ICPC",
+            "section": "experience",
+            "source": "resume",
+            "role": "Club Coordinator"
+          },
+          "distance": 0.9858164191246033,
+          "similarity": 0.014183580875396729,
+          "candidate_channels": [
+            "bm25",
+            "dense"
+          ],
+          "lexical_retrieval_score": 2.3368,
+          "semantic_score": 0.0142,
+          "lexical_score": 0.3333,
+          "bm25_score": 2.3368,
+          "bm25_normalized": 0.4593,
+          "matched_keywords": [
+            "programming"
+          ],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.229,
+          "reasons": [
+            "keywords:programming",
+            "bm25:2.34",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.328,
+          "hybrid_score": 0.229,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "• Solved 450+ data structures and algorithmic problems on LeetCode, demonstrating strong core problem-solving\nproficiency.\n• Cleared two rounds of the Google Big Code Challenge 2026, demonstrating strong analytical skills.\n• Achieved Top 100 International Rank in the International Mathematics Olympiad (IMO) with multiple 1st-place\nregional finishes.\n• Selected for Round 2 at Smart India Hackathon, placed Top 10 at HackXtract, finalist at HackNite at and secured Top\n7 at Orbix Hackathon, IIIT Delhi.",
+          "metadata": {
+            "source": "resume",
+            "page": 1,
+            "section": "achievements"
+          },
+          "distance": 0.8030526638031006,
+          "similarity": 0.19694733619689941,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.1969,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.1969,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.3066,
+          "hybrid_score": 0.1969,
+          "reranker_reason": "cross-encoder"
+        },
+        {
+          "text": "I went into Vihaan 9.0 thinking the biggest challenge would be writing code.\nAs the Team Lead and Tech Lead of my team, I quickly realized that the real challenge was making decisions under pressure, coordinating the team, solving unexpected issues, and keeping everyone moving toward a common goal.\nOver 24 hours, we enhanced JugaadHub with features like Razorpay integration, Trie-based product search, improved chat security, and a built-in negotiation system. There were bugs, last-minute fixes, and plenty of learning along the way.\nWhile we didn't make it to the final round, I came away with something more valuable experience. This hackathon taught me that building great products isn't just about technical skills; it's also about communication, adaptability, and teamwork.\nGrateful to my teammates Vaibhav Singla, Bhavya Bansal, Aryan Kumar Srivastava, mentors, judges, and the organizers of Vihaan 9.0 for an amazing experience.\n#Vihaan #Hackathon #Leadership #SoftwareDevelopment #Teamwork #Learning #WebDevelopment",
+          "metadata": {
+            "linkedin_post_id": "linkedin_3",
+            "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
+            "source": "linkedin",
+            "section": "projects",
+            "source_type": "linkedin",
+            "project": "JugaadHub"
+          },
+          "distance": 0.8016107082366943,
+          "similarity": 0.19838929176330566,
+          "candidate_channels": [
+            "dense"
+          ],
+          "semantic_score": 0.1984,
+          "lexical_score": 0.0,
+          "bm25_score": 0.0,
+          "bm25_normalized": 0.0,
+          "matched_keywords": [],
+          "topic_bonus": 0.0,
+          "entity_bonus": 0.0,
+          "exact_phrase_bonus": 0.0,
+          "numeric_bonus": 0.0,
+          "metadata_bonus": 0.0,
+          "ai_bonus": 0.0,
+          "session_bonus": 0.0,
+          "matched_numbers": [],
+          "entity_hits": [],
+          "metadata_matches": [],
+          "final_score": 0.1984,
+          "reasons": [
+            "semantic-only",
+            "reranked:cross-encoder"
+          ],
+          "reranker_score": -11.1272,
+          "hybrid_score": 0.1984,
+          "reranker_reason": "cross-encoder"
+        }
+      ],
+      "retrieval_precision": 1.0,
+      "retrieval_recall": 1.0,
+      "retrieval_f1": 1.0,
+      "answer_relevance": 1.0,
+      "grounding": 1.0,
+      "refusal_accuracy": 1.0,
+      "retrieval_latency_ms": 65.25,
+      "llm_latency_ms": 0.0,
+      "total_latency_ms": 65.3
+    }
+  ]
+}

@@ -1,0 +1,280 @@
+
+[
+  {
+    "id": "q001",
+    "question": "Which project used Redis?",
+    "expected_answer": "CollabSphere",
+    "expected_keywords": ["CollabSphere", "Redis"],
+    "expected_sources": ["CollabSphere"],
+    "expected_sections": ["Projects"],
+    "query_type": "project"
+  },
+  {
+    "id": "q002",
+    "question": "Which database was used in CollabSphere?",
+    "expected_answer": "PostgreSQL",
+    "expected_keywords": ["PostgreSQL", "CollabSphere"],
+    "expected_sources": ["CollabSphere"],
+    "expected_sections": ["Projects"],
+    "query_type": "project"
+  },
+  {
+    "id": "q003",
+    "question": "What ORM was used in CollabSphere?",
+    "expected_answer": "Prisma ORM",
+    "expected_keywords": ["Prisma", "CollabSphere"],
+    "expected_sources": ["CollabSphere"],
+    "expected_sections": ["Projects"],
+    "query_type": "project"
+  },
+  {
+    "id": "q004",
+    "question": "What technologies were used for real-time communication in CollabSphere?",
+    "expected_answer": "WebSockets and WebRTC with LiveKit",
+    "expected_keywords": ["WebSockets", "WebRTC", "LiveKit"],
+    "expected_sources": ["CollabSphere"],
+    "expected_sections": ["Projects"],
+    "query_type": "project"
+  },
+  {
+    "id": "q005",
+    "question": "What technologies were used in JugaadHub?",
+    "expected_answer": "Next.js, Supabase, PostgreSQL, Razorpay and Cloudinary",
+    "expected_keywords": ["Next.js", "Supabase", "PostgreSQL", "Razorpay", "Cloudinary"],
+    "expected_sources": ["JugaadHub"],
+    "expected_sections": ["Projects"],
+    "query_type": "project"
+  },
+  {
+    "id": "q006",
+    "question": "What payment system was used in JugaadHub?",
+    "expected_answer": "Razorpay",
+    "expected_keywords": ["Razorpay"],
+    "expected_sources": ["JugaadHub"],
+    "expected_sections": ["Projects"],
+    "query_type": "project"
+  },
+  {
+    "id": "q007",
+    "question": "What verification workflows were implemented in JugaadHub?",
+    "expected_answer": "OTP handover verification and KYC workflows",
+    "expected_keywords": ["OTP", "KYC"],
+    "expected_sources": ["JugaadHub"],
+    "expected_sections": ["Projects"],
+    "query_type": "project"
+  },
+  {
+    "id": "q008",
+    "question": "What backend framework was used in VideoTube?",
+    "expected_answer": "Express.js",
+    "expected_keywords": ["Express.js", "VideoTube"],
+    "expected_sources": ["VideoTube"],
+    "expected_sections": ["Projects"],
+    "query_type": "project"
+  },
+  {
+    "id": "q009",
+    "question": "What database was used in VideoTube?",
+    "expected_answer": "MongoDB",
+    "expected_keywords": ["MongoDB", "VideoTube"],
+    "expected_sources": ["VideoTube"],
+    "expected_sections": ["Projects"],
+    "query_type": "project"
+  },
+  {
+    "id": "q010",
+    "question": "How did VideoTube optimize complex data retrieval?",
+    "expected_answer": "Using MongoDB Aggregation Pipelines",
+    "expected_keywords": ["MongoDB", "Aggregation Pipelines"],
+    "expected_sources": ["VideoTube"],
+    "expected_sections": ["Projects"],
+    "query_type": "project"
+  },
+
+  {
+    "id": "q011",
+    "question": "What was Rohan's role at ACM ICPC?",
+    "expected_answer": "Club Coordinator",
+    "expected_keywords": ["Club Coordinator", "ACM", "ICPC"],
+    "expected_sources": ["Association for Computing Machinery - ICPC"],
+    "expected_sections": ["Work Experience"],
+    "query_type": "experience"
+  },
+  {
+    "id": "q012",
+    "question": "How many students did Rohan mentor during the DSA Bootcamp?",
+    "expected_answer": "100+ students",
+    "expected_keywords": ["100+", "students"],
+    "expected_sources": ["Association for Computing Machinery - ICPC"],
+    "expected_sections": ["Work Experience"],
+    "query_type": "experience"
+  },
+  {
+    "id": "q013",
+    "question": "How many sessions were in the DSA Bootcamp?",
+    "expected_answer": "8 sessions",
+    "expected_keywords": ["8", "sessions"],
+    "expected_sources": ["Association for Computing Machinery - ICPC"],
+    "expected_sections": ["Work Experience"],
+    "query_type": "experience"
+  },
+  {
+    "id": "q014",
+    "question": "How many algorithmic problems were curated for the DSA Bootcamp?",
+    "expected_answer": "75+ problems",
+    "expected_keywords": ["75+", "problems"],
+    "expected_sources": ["Association for Computing Machinery - ICPC"],
+    "expected_sections": ["Work Experience"],
+    "query_type": "experience"
+  },
+  {
+    "id": "q015",
+    "question": "What did Rohan work on at IEEE?",
+    "expected_answer": "RESTful APIs, database schemas and backend microservices using Node.js and MongoDB",
+    "expected_keywords": ["RESTful APIs", "Node.js", "MongoDB", "microservices"],
+    "expected_sources": ["IEEE"],
+    "expected_sections": ["Work Experience"],
+    "query_type": "experience"
+  },
+
+  {
+    "id": "q016",
+    "question": "What programming languages does Rohan know?",
+    "expected_answer": "C, C++, JavaScript, TypeScript, Python and SQL",
+    "expected_keywords": ["C", "C++", "JavaScript", "TypeScript", "Python", "SQL"],
+    "expected_sources": ["Technical Skills"],
+    "expected_sections": ["Technical Skills"],
+    "query_type": "skills"
+  },
+  {
+    "id": "q017",
+    "question": "Does Rohan have experience with Redis?",
+    "expected_answer": "Yes",
+    "expected_keywords": ["Redis"],
+    "expected_sources": ["Technical Skills", "CollabSphere"],
+    "expected_sections": ["Technical Skills", "Projects"],
+    "query_type": "skills"
+  },
+  {
+    "id": "q018",
+    "question": "Does Rohan have experience with Docker?",
+    "expected_answer": "Yes",
+    "expected_keywords": ["Docker"],
+    "expected_sources": ["Technical Skills"],
+    "expected_sections": ["Technical Skills"],
+    "query_type": "skills"
+  },
+  {
+    "id": "q019",
+    "question": "What databases does Rohan have experience with?",
+    "expected_answer": "PostgreSQL, MongoDB and Redis",
+    "expected_keywords": ["PostgreSQL", "MongoDB", "Redis"],
+    "expected_sources": ["Technical Skills"],
+    "expected_sections": ["Technical Skills"],
+    "query_type": "skills"
+  },
+
+  {
+    "id": "q020",
+    "question": "Where is Rohan pursuing his BTech?",
+    "expected_answer": "University School of Information, Communication and Technology",
+    "expected_keywords": ["University School of Information", "Communication", "Technology"],
+    "expected_sources": ["Education"],
+    "expected_sections": ["Education"],
+    "query_type": "education"
+  },
+  {
+    "id": "q021",
+    "question": "What degree is Rohan pursuing?",
+    "expected_answer": "Bachelor of Technology in Information Technology",
+    "expected_keywords": ["Bachelor of Technology", "Information Technology"],
+    "expected_sources": ["Education"],
+    "expected_sections": ["Education"],
+    "query_type": "education"
+  },
+  {
+    "id": "q022",
+    "question": "What is Rohan's CGPA?",
+    "expected_answer": "8.3",
+    "expected_keywords": ["8.3"],
+    "expected_sources": ["Education"],
+    "expected_sections": ["Education"],
+    "query_type": "education"
+  },
+
+  {
+    "id": "q023",
+    "question": "How many problems has Rohan solved on LeetCode?",
+    "expected_answer": "450+",
+    "expected_keywords": ["450+", "LeetCode"],
+    "expected_sources": ["Achievements & Competitive Programming"],
+    "expected_sections": ["Achievements & Competitive Programming"],
+    "query_type": "achievement"
+  },
+  {
+    "id": "q024",
+    "question": "Did Rohan clear the Google Big Code Challenge?",
+    "expected_answer": "Yes, he cleared two rounds",
+    "expected_keywords": ["Google Big Code Challenge", "two rounds"],
+    "expected_sources": ["Achievements & Competitive Programming"],
+    "expected_sections": ["Achievements & Competitive Programming"],
+    "query_type": "achievement"
+  },
+  {
+    "id": "q025",
+    "question": "What was Rohan's rank in the International Mathematics Olympiad?",
+    "expected_answer": "Top 100 International Rank",
+    "expected_keywords": ["Top 100", "International Rank", "IMO"],
+    "expected_sources": ["Achievements & Competitive Programming"],
+    "expected_sections": ["Achievements & Competitive Programming"],
+    "query_type": "achievement"
+  },
+  {
+    "id": "q026",
+    "question": "What was Rohan's result at HackXtract?",
+    "expected_answer": "Top 10",
+    "expected_keywords": ["Top 10", "HackXtract"],
+    "expected_sources": ["Achievements & Competitive Programming"],
+    "expected_sections": ["Achievements & Competitive Programming"],
+    "query_type": "achievement"
+  },
+
+  {
+    "id": "q027",
+    "question": "What is Rohan's email address?",
+    "expected_answer": "rg16rohangarg@gmail.com",
+    "expected_keywords": ["rg16rohangarg@gmail.com"],
+    "expected_sources": ["Contact Information"],
+    "expected_sections": ["Header"],
+    "query_type": "contact"
+  },
+  {
+    "id": "q028",
+    "question": "What is Rohan's phone number?",
+    "expected_answer": "+91 8383913039",
+    "expected_keywords": ["8383913039"],
+    "expected_sources": ["Contact Information"],
+    "expected_sections": ["Header"],
+    "query_type": "contact"
+  },
+
+  {
+    "id": "q029",
+    "question": "What is Rohan's favorite football team?",
+    "expected_answer": null,
+    "expected_keywords": [],
+    "expected_sources": [],
+    "expected_sections": [],
+    "query_type": "unsupported"
+  },
+  {
+    "id": "q030",
+    "question": "What is Rohan's favorite programming language?",
+    "expected_answer": null,
+    "expected_keywords": [],
+    "expected_sources": [],
+    "expected_sections": [],
+    "query_type": "unsupported"
+  }
+]
+

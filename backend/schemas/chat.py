@@ -16,11 +16,23 @@ class ChatRequest(BaseModel):
         description="Existing conversation ID for follow-up questions.",
     )
 
+    debug: bool = Field(
+        default=False,
+        description="Return compact retrieval diagnostics for this request.",
+    )
+
+    response_mode: str = Field(
+        default="standard",
+        pattern="^(standard|recruiter|comparison)$",
+        description="Answer presentation mode; all modes remain grounded.",
+    )
+
 
 class Source(BaseModel):
     """A source used to answer the question."""
 
     source: str
+    citation_id: str | None = None
     section: str | None = None
     page: int | None = None
     project: str | None = None
@@ -34,3 +46,4 @@ class ChatResponse(BaseModel):
     answer: str
     sources: list[Source] = Field(default_factory=list)
     conversation_id: str
+    debug: dict | None = None

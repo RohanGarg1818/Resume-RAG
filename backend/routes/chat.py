@@ -31,12 +31,15 @@ def chat_endpoint(
             message=request.message,
             conversation_id=request.conversation_id,
             session_id=rag_session_id,
+            debug=request.debug,
+            response_mode=request.response_mode,
         )
 
         return ChatResponse(
             answer=result["answer"],
             sources=result.get("sources", []),
             conversation_id=result["conversation_id"],
+            debug=result.get("debug"),
         )
 
     except ValueError as exc:

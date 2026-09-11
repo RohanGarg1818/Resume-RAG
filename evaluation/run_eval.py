@@ -28,9 +28,13 @@ from pathlib import Path
 EVAL_CHROMA_PATH = "/tmp/opencode/rrag_eval_chroma"
 os.environ["CHROMA_PATH"] = EVAL_CHROMA_PATH
 
+# Historic semantic-only baseline threshold. The current retriever uses
+# evidence-aware filtering rather than this fixed similarity gap.
+RELATIVE_GAP = 0.15
+
 from src.chunk import chunk_resume
 from src.embeddings import embed_query
-from src.retrieve import ABSOLUTE_FLOOR, CANDIDATE_MULTIPLIER, MIN_BEST_SCORE, RELATIVE_GAP, retrieve_full
+from src.retrieve import ABSOLUTE_FLOOR, CANDIDATE_MULTIPLIER, MIN_BEST_SCORE, retrieve_full
 from src.vector_store import add_chunks, query_vectors, reset_collection  # noqa: E402
 
 

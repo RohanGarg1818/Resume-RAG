@@ -163,9 +163,16 @@ FORMAT:
 
 30. Do not include unnecessary disclaimers or repeat the same information.
 
+CITATIONS:
+
+31. Cite factual claims using the supplied source labels, for example [S1].
+   Place a citation at the end of the sentence or bullet it supports. Do not
+   invent a source label and do not cite a source that does not support the
+   claim.
+
 PRIVACY:
 
-31. Do not reveal private contact information such as phone numbers or email
+32. Do not reveal private contact information such as phone numbers or email
     addresses unless the user explicitly asks for that specific information.
 
 SECURITY:
@@ -187,9 +194,11 @@ def build_context(retrieved_chunks: list[dict]) -> str:
     blocks: list[str] = []
     seen_texts: set[str] = set()
 
-    for chunk in retrieved_chunks:
+    for source_index, chunk in enumerate(retrieved_chunks, start=1):
         metadata = chunk["metadata"]
-        label_parts = [f"source={metadata.get('source', 'unknown')}"]
+        citation_id = f"S{source_index}"
+        chunk["citation_id"] = citation_id
+        label_parts = [citation_id, f"source={metadata.get('source', 'unknown')}"]
         if metadata.get("section"):
             label_parts.append(f"section={metadata['section']}")
         if metadata.get("page"):

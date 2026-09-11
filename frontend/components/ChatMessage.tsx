@@ -4,6 +4,7 @@
 import { useState } from "react";
 
 import type { ChatMessage as ChatMessageType } from "@/types/chat";
+import SourceCard from "@/components/SourceCard";
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -258,6 +259,22 @@ export default function ChatMessage({
             {message.content}
           </ReactMarkdown>
         </div>
+
+        {!isUser && message.sources && message.sources.length > 0 && (
+          <div className="mt-3">
+            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-zinc-500">
+              Evidence
+            </p>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {message.sources.map((source, index) => (
+                <SourceCard
+                  key={`${source.citation_id ?? source.source}-${index}`}
+                  source={source}
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Voice */}
 

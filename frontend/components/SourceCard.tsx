@@ -22,7 +22,7 @@ export default function SourceCard({
   return (
     <div className="rounded-lg border border-zinc-800 bg-zinc-900/60 px-3 py-2">
       <div className="text-sm font-medium text-zinc-200">
-        {title}
+        {source.citation_id ? `${source.citation_id} · ` : ""}{title}
       </div>
 
       {details.length > 0 && (

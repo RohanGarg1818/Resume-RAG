@@ -217,6 +217,16 @@ def delete_session_collection(
         )
 
 
+def delete_session_file(session_id: str, filename: str) -> int:
+    """Delete one uploaded file's chunks while preserving the active session."""
+    collection = get_session_collection(session_id)
+    result = collection.get(where={"filename": filename}, include=[])
+    ids = result.get("ids", []) or []
+    if ids:
+        collection.delete(ids=ids)
+    return len(ids)
+
+
 # -------------------------------------------------------------------
 # Session indexing
 # -------------------------------------------------------------------

@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   onUploaded?: () => void;
@@ -14,8 +14,22 @@ export default function DynamicDataUpload({
 
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
-  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<
+    { filename: string; chunks_added?: number }[]
+  >([]);
   const [showFiles, setShowFiles] = useState(false);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+  useEffect(() => {
+    fetch(`${apiUrl}/api/session/status`, { credentials: "include" })
+      .then((response) => response.ok ? response.json() : null)
+      .then((data) => {
+        if (Array.isArray(data?.files)) {
+          setUploadedFiles(data.files);
+        }
+      })
+      .catch(() => undefined);
+  }, [apiUrl]);
 
   const uploadFile = async (file: File) => {
     const formData = new FormData();
@@ -26,7 +40,7 @@ export default function DynamicDataUpload({
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/session/upload`,
+        `${apiUrl}/api/session/upload`,
         {
           method: "POST",
           body: formData,
@@ -42,11 +56,8 @@ export default function DynamicDataUpload({
 
       // Add uploaded filename to the dropdown
       setUploadedFiles((prev) => {
-        if (prev.includes(data.filename)) {
-          return prev;
-        }
-
-        return [...prev, data.filename];
+        const next = prev.filter((item) => item.filename !== data.filename);
+        return [...next, { filename: data.filename, chunks_added: data.chunks_added }];
       });
 
       // No success message
@@ -61,6 +72,23 @@ export default function DynamicDataUpload({
       );
     } finally {
       setUploading(false);
+    }
+  };
+
+  const removeFile = async (filename: string) => {
+    try {
+      const response = await fetch(
+        `${apiUrl}/api/session/files/${encodeURIComponent(filename)}`,
+        { method: "DELETE", credentials: "include" }
+      );
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.detail || "Could not remove file");
+      }
+      setUploadedFiles((files) => files.filter((file) => file.filename !== filename));
+      onUploaded?.();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not remove file");
     }
   };
 
@@ -110,13 +138,23 @@ export default function DynamicDataUpload({
               </p>
 
               <div className="max-h-48 overflow-y-auto">
-                {uploadedFiles.map((filename) => (
+                {uploadedFiles.map((file) => (
                   <div
-                    key={filename}
-                    className="truncate rounded-lg px-2 py-2 text-sm text-zinc-300 hover:bg-zinc-900"
-                    title={filename}
+                    key={file.filename}
+                    className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-zinc-300 hover:bg-zinc-900"
                   >
-                    {filename}
+                    <span className="min-w-0 flex-1 truncate" title={file.filename}>
+                      {file.filename}
+                      {file.chunks_added ? ` · ${file.chunks_added} chunks` : ""}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => removeFile(file.filename)}
+                      className="shrink-0 text-xs text-zinc-500 hover:text-red-300"
+                      aria-label={`Remove ${file.filename}`}
+                    >
+                      Remove
+                    </button>
                   </div>
                 ))}
               </div>

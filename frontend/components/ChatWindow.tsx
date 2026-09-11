@@ -24,6 +24,7 @@ const [messages, setMessages] = useState<ChatMessage[]>([]);
 const [conversationId, setConversationId] = useState<string | null>(null);
 const [loading, setLoading] = useState(false);
 const [error, setError] = useState<string | null>(null);
+const [recruiterMode, setRecruiterMode] = useState(false);
 
 // Prevent duplicate session creation in development/Strict Mode.
 const sessionStarted = useRef(false);
@@ -93,6 +94,7 @@ setVoiceMode(fromVoice);
     const response = await sendMessage({
       message,
       conversation_id: conversationId,
+      response_mode: recruiterMode ? "recruiter" : "standard",
     });
 
     setConversationId(response.conversation_id);
@@ -116,7 +118,7 @@ setVoiceMode(fromVoice);
     setLoading(false);
   }
 },
-[conversationId]
+[conversationId, recruiterMode]
 
 );
 
@@ -167,7 +169,21 @@ Resume RAG
           </p>
         </div>
 
-        <DynamicDataUpload />
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setRecruiterMode((enabled) => !enabled)}
+            className={`rounded-xl border px-3 py-2 text-xs font-medium transition ${
+              recruiterMode
+                ? "border-emerald-700 bg-emerald-950/40 text-emerald-200"
+                : "border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-zinc-200"
+            }`}
+            title="Focus answers on verified role fit and gaps"
+          >
+            {recruiterMode ? "Recruiter mode on" : "Recruiter mode"}
+          </button>
+          <DynamicDataUpload />
+        </div>
       </div>
     </div>
   </header>

@@ -50,6 +50,48 @@ COLLECTION_NAME = os.getenv(
 
 SESSION_COLLECTION_PREFIX = "session_"
 
+# Bumped on every write performed through this module so cached corpus
+# snapshots (used by lexical retrieval) can never serve stale documents.
+_WRITE_VERSION = 0
+_SNAPSHOT_CACHE: dict[tuple, dict] = {}
+_SNAPSHOT_CACHE_LIMIT = 16
+
+
+def _mark_collection_changed() -> None:
+    """Invalidate cached corpus snapshots after a write."""
+    global _WRITE_VERSION
+    _WRITE_VERSION += 1
+    _SNAPSHOT_CACHE.clear()
+
+
+def collection_snapshot(collection) -> dict:
+    """Return ``{"ids", "documents", "metadatas", "key"}`` for a collection.
+
+    Lexical retrieval, entity detection and contact scanning all need the
+    full (small) corpus.  Previously each of them called ``collection.get()``
+    independently on every query; this caches one snapshot per collection,
+    keyed by name, size and an in-process write counter.
+    """
+    count = collection.count()
+    key = (getattr(collection, "name", id(collection)), count, _WRITE_VERSION)
+    cached = _SNAPSHOT_CACHE.get(key)
+    if cached is not None:
+        return cached
+    if count:
+        raw = collection.get(include=["documents", "metadatas"])
+    else:
+        raw = {"ids": [], "documents": [], "metadatas": []}
+    snapshot = {
+        "key": key,
+        "ids": list(raw.get("ids") or []),
+        "documents": [str(doc or "") for doc in (raw.get("documents") or [])],
+        "metadatas": [dict(meta or {}) for meta in (raw.get("metadatas") or [])],
+    }
+    if len(_SNAPSHOT_CACHE) >= _SNAPSHOT_CACHE_LIMIT:
+        _SNAPSHOT_CACHE.pop(next(iter(_SNAPSHOT_CACHE)))
+    _SNAPSHOT_CACHE[key] = snapshot
+    return snapshot
+
 
 # -------------------------------------------------------------------
 # Lazy ChromaDB state
@@ -202,6 +244,7 @@ def delete_session_collection(
         client.delete_collection(
             name=collection_name
         )
+        _mark_collection_changed()
 
         logger.info(
             "Deleted temporary session collection '%s'",
@@ -224,6 +267,7 @@ def delete_session_file(session_id: str, filename: str) -> int:
     ids = result.get("ids", []) or []
     if ids:
         collection.delete(ids=ids)
+        _mark_collection_changed()
     return len(ids)
 
 
@@ -270,6 +314,7 @@ def add_session_documents(
             metadatas=metadatas,
             embeddings=embeddings,
         )
+        _mark_collection_changed()
 
         logger.info(
             "Stored %d temporary chunks for session %s",
@@ -323,6 +368,7 @@ def reset_collection() -> None:
             "hnsw:space": "cosine",
         },
     )
+    _mark_collection_changed()
 
 
 def count_documents() -> int:
@@ -426,6 +472,7 @@ def composite_text(
         "company",
         "role",
         "event",
+        "skill_category",
         "technologies",
         "date",
     )
@@ -510,6 +557,7 @@ def add_chunks(
             embeddings=embeddings,
             metadatas=metadatas,
         )
+        _mark_collection_changed()
 
         logger.info(
             "Stored %d chunks in ChromaDB",

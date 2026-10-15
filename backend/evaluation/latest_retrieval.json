@@ -1,6 +1,6 @@
 {
-  "run_id": "20260911T111713Z",
-  "created_at": "2026-09-11T11:17:13.062606+00:00",
+  "run_id": "20260926T054602Z",
+  "created_at": "2026-09-26T05:46:02.418419+00:00",
   "summary": {
     "evaluation_type": "retrieval_only",
     "llm_calls": 0,
@@ -27,7 +27,7 @@
     "source_accuracy": 0.6429,
     "section_accuracy": 0.8214,
     "refusal_accuracy": 1.0,
-    "avg_retrieval_latency_ms": 654.35
+    "avg_retrieval_latency_ms": 1063.12
   },
   "questions": [
     {
@@ -35,7 +35,7 @@
       "question": "Which project used Redis?",
       "query_type": "project",
       "confidence": "high",
-      "retrieval_latency_ms": 18307.32,
+      "retrieval_latency_ms": 30220.58,
       "precision_at_k": {
         "1": 1.0,
         "3": 0.6667,
@@ -67,7 +67,7 @@
       "question": "Which database was used in CollabSphere?",
       "query_type": "project",
       "confidence": "high",
-      "retrieval_latency_ms": 26.66,
+      "retrieval_latency_ms": 24.61,
       "precision_at_k": {
         "1": 1.0,
         "3": 1.0,
@@ -98,13 +98,13 @@
           {
             "rank": 1,
             "metadata": {
-              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
-              "linkedin_post_id": "linkedin_1",
               "section": "projects",
+              "source_type": "linkedin",
               "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "linkedin_post_id": "linkedin_1",
               "project": "CollabSphere",
-              "source": "linkedin",
-              "source_type": "linkedin"
+              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
+              "source": "linkedin"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -122,10 +122,10 @@
           {
             "rank": 2,
             "metadata": {
-              "project": "CollabSphere",
               "source": "resume",
-              "section": "projects",
-              "page": 1
+              "project": "CollabSphere",
+              "page": 1,
+              "section": "projects"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -148,7 +148,86 @@
       "question": "What ORM was used in CollabSphere?",
       "query_type": "project",
       "confidence": "high",
-      "retrieval_latency_ms": 17.69,
+      "retrieval_latency_ms": 17.65,
+      "precision_at_k": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "6": 1.0
+      },
+      "recall_at_k": {
+        "1": 1.0,
+        "3": 1.0,
+        "5": 1.0,
+        "6": 1.0
+      },
+      "first_relevant_rank": 1,
+      "refused": null,
+      "retrieved_sections": [
+        "projects",
+        "projects"
+      ],
+      "debug": {
+        "intent": "exact_entity",
+        "entities": [
+          "CollabSphere"
+        ],
+        "routed_sections": [],
+        "final_context": [
+          {
+            "rank": 1,
+            "metadata": {
+              "source": "resume",
+              "section": "projects",
+              "project": "CollabSphere",
+              "page": 1
+            },
+            "channels": [],
+            "semantic_score": 1.0,
+            "bm25_score": 0.0,
+            "hybrid_score": 1.55,
+            "reranker_score": 2.3231,
+            "reasons": [
+              "keywords:collabsphere,orm",
+              "entity:CollabSphere",
+              "metadata-match",
+              "reranked:cross-encoder"
+            ],
+            "text_preview": "CollabSphere | Real-Time Messaging Platform | Next.js, Redis, PostgreSQL, Prisma, WebSockets, LiveKit | Live | Code • Engineered a real-time messaging engine using WebSockets and WebRTC audio/video streaming powered by LiveKit. • Built an automated background cleanup worker and disappearing message system using Redis TTL eviction, drastically reducing Postgr"
+          },
+          {
+            "rank": 2,
+            "metadata": {
+              "source_type": "linkedin",
+              "project": "CollabSphere",
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
+              "linkedin_post_id": "linkedin_1",
+              "source": "linkedin",
+              "section": "projects"
+            },
+            "channels": [],
+            "semantic_score": 1.0,
+            "bm25_score": 0.0,
+            "hybrid_score": 1.55,
+            "reranker_score": 2.013,
+            "reasons": [
+              "keywords:collabsphere,orm",
+              "entity:CollabSphere",
+              "metadata-match",
+              "reranked:cross-encoder"
+            ],
+            "text_preview": "Excited to share my latest full-stack project: CollabSphere!  CollabSphere is a resilient, real-time collaboration platform engineered to address modern distributed backend challenges, asynchronous state synchronization, and high-concurrency real-time communication.  Rather than assembling basic UI abstractions, my primary objective was engineering a product"
+          }
+        ]
+      }
+    },
+    {
+      "id": "q004",
+      "question": "What technologies were used for real-time communication in CollabSphere?",
+      "query_type": "project",
+      "confidence": "high",
+      "retrieval_latency_ms": 17.14,
       "precision_at_k": {
         "1": 1.0,
         "3": 1.0,
@@ -179,87 +258,8 @@
             "metadata": {
               "source": "resume",
               "page": 1,
-              "project": "CollabSphere",
-              "section": "projects"
-            },
-            "channels": [],
-            "semantic_score": 1.0,
-            "bm25_score": 0.0,
-            "hybrid_score": 1.55,
-            "reranker_score": 2.3231,
-            "reasons": [
-              "keywords:collabsphere,orm",
-              "entity:CollabSphere",
-              "metadata-match",
-              "reranked:cross-encoder"
-            ],
-            "text_preview": "CollabSphere | Real-Time Messaging Platform | Next.js, Redis, PostgreSQL, Prisma, WebSockets, LiveKit | Live | Code • Engineered a real-time messaging engine using WebSockets and WebRTC audio/video streaming powered by LiveKit. • Built an automated background cleanup worker and disappearing message system using Redis TTL eviction, drastically reducing Postgr"
-          },
-          {
-            "rank": 2,
-            "metadata": {
               "section": "projects",
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
-              "linkedin_post_id": "linkedin_1",
-              "source": "linkedin",
-              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
-              "source_type": "linkedin",
               "project": "CollabSphere"
-            },
-            "channels": [],
-            "semantic_score": 1.0,
-            "bm25_score": 0.0,
-            "hybrid_score": 1.55,
-            "reranker_score": 2.013,
-            "reasons": [
-              "keywords:collabsphere,orm",
-              "entity:CollabSphere",
-              "metadata-match",
-              "reranked:cross-encoder"
-            ],
-            "text_preview": "Excited to share my latest full-stack project: CollabSphere!  CollabSphere is a resilient, real-time collaboration platform engineered to address modern distributed backend challenges, asynchronous state synchronization, and high-concurrency real-time communication.  Rather than assembling basic UI abstractions, my primary objective was engineering a product"
-          }
-        ]
-      }
-    },
-    {
-      "id": "q004",
-      "question": "What technologies were used for real-time communication in CollabSphere?",
-      "query_type": "project",
-      "confidence": "high",
-      "retrieval_latency_ms": 17.53,
-      "precision_at_k": {
-        "1": 1.0,
-        "3": 1.0,
-        "5": 1.0,
-        "6": 1.0
-      },
-      "recall_at_k": {
-        "1": 1.0,
-        "3": 1.0,
-        "5": 1.0,
-        "6": 1.0
-      },
-      "first_relevant_rank": 1,
-      "refused": null,
-      "retrieved_sections": [
-        "projects",
-        "projects"
-      ],
-      "debug": {
-        "intent": "exact_entity",
-        "entities": [
-          "CollabSphere"
-        ],
-        "routed_sections": [],
-        "final_context": [
-          {
-            "rank": 1,
-            "metadata": {
-              "project": "CollabSphere",
-              "page": 1,
-              "section": "projects",
-              "source": "resume"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -278,13 +278,13 @@
           {
             "rank": 2,
             "metadata": {
-              "source_type": "linkedin",
-              "section": "projects",
-              "project": "CollabSphere",
+              "source": "linkedin",
               "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
-              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
               "linkedin_post_id": "linkedin_1",
-              "source": "linkedin"
+              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
+              "section": "projects",
+              "source_type": "linkedin",
+              "project": "CollabSphere"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -309,7 +309,7 @@
       "question": "What technologies were used in JugaadHub?",
       "query_type": "project",
       "confidence": "high",
-      "retrieval_latency_ms": 34.07,
+      "retrieval_latency_ms": 32.46,
       "precision_at_k": {
         "1": 1.0,
         "3": 1.0,
@@ -341,14 +341,14 @@
           {
             "rank": 1,
             "metadata": {
-              "linkedin_post_id": "linkedin_5",
+              "event": "HackXtract",
+              "technologies": "TypeScript, React",
+              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
               "section": "achievements",
               "source": "linkedin",
-              "project": "JugaadHub",
               "source_type": "linkedin",
-              "event": "HackXtract",
-              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
-              "technologies": "TypeScript, React"
+              "linkedin_post_id": "linkedin_5",
+              "project": "JugaadHub"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -367,12 +367,12 @@
           {
             "rank": 2,
             "metadata": {
+              "linkedin_post_id": "linkedin_3",
+              "source": "linkedin",
               "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
               "project": "JugaadHub",
-              "source": "linkedin",
-              "linkedin_post_id": "linkedin_3",
-              "source_type": "linkedin",
-              "section": "projects"
+              "section": "projects",
+              "source_type": "linkedin"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -391,10 +391,10 @@
           {
             "rank": 3,
             "metadata": {
-              "source": "resume",
-              "page": 1,
               "section": "projects",
-              "project": "JugaadHub"
+              "project": "JugaadHub",
+              "source": "resume",
+              "page": 1
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -413,14 +413,14 @@
           {
             "rank": 4,
             "metadata": {
-              "technologies": "Gemini",
-              "source": "linkedin",
-              "linkedin_post_id": "linkedin_0",
-              "source_type": "linkedin",
               "project": "JugaadHub",
-              "event": "Hacknite",
               "section": "achievements",
-              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)"
+              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "technologies": "Gemini",
+              "event": "Hacknite",
+              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_0",
+              "source": "linkedin"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -439,14 +439,14 @@
           {
             "rank": 5,
             "metadata": {
-              "source_type": "linkedin",
-              "event": "Orbix Hackathon",
-              "technologies": "React",
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "linkedin_post_id": "linkedin_4",
-              "section": "achievements",
               "project": "JugaadHub",
-              "source": "linkedin"
+              "source": "linkedin",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
+              "source_type": "linkedin",
+              "technologies": "React",
+              "linkedin_post_id": "linkedin_4",
+              "event": "Orbix Hackathon"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -470,7 +470,7 @@
       "question": "What payment system was used in JugaadHub?",
       "query_type": "project",
       "confidence": "high",
-      "retrieval_latency_ms": 31.23,
+      "retrieval_latency_ms": 35.42,
       "precision_at_k": {
         "1": 1.0,
         "3": 1.0,
@@ -503,8 +503,8 @@
             "rank": 1,
             "metadata": {
               "page": 1,
-              "section": "projects",
               "project": "JugaadHub",
+              "section": "projects",
               "source": "resume"
             },
             "channels": [],
@@ -523,14 +523,14 @@
           {
             "rank": 2,
             "metadata": {
-              "project": "JugaadHub",
-              "event": "HackXtract",
-              "technologies": "TypeScript, React",
+              "source": "linkedin",
               "linkedin_post_id": "linkedin_5",
               "section": "achievements",
-              "source": "linkedin",
+              "source_type": "linkedin",
               "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
-              "source_type": "linkedin"
+              "event": "HackXtract",
+              "technologies": "TypeScript, React",
+              "project": "JugaadHub"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -548,12 +548,12 @@
           {
             "rank": 3,
             "metadata": {
-              "linkedin_post_id": "linkedin_3",
-              "project": "JugaadHub",
-              "section": "projects",
               "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
+              "section": "projects",
+              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_3",
               "source": "linkedin",
-              "source_type": "linkedin"
+              "project": "JugaadHub"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -572,13 +572,13 @@
             "rank": 4,
             "metadata": {
               "technologies": "React",
-              "event": "Orbix Hackathon",
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "linkedin_post_id": "linkedin_4",
-              "section": "achievements",
               "source": "linkedin",
+              "section": "achievements",
               "project": "JugaadHub",
-              "source_type": "linkedin"
+              "source_type": "linkedin",
+              "event": "Orbix Hackathon",
+              "linkedin_post_id": "linkedin_4",
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -596,14 +596,14 @@
           {
             "rank": 5,
             "metadata": {
-              "linkedin_post_id": "linkedin_0",
-              "event": "Hacknite",
-              "section": "achievements",
-              "source_type": "linkedin",
-              "project": "JugaadHub",
-              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
               "technologies": "Gemini",
-              "source": "linkedin"
+              "source_type": "linkedin",
+              "source": "linkedin",
+              "section": "achievements",
+              "event": "Hacknite",
+              "linkedin_post_id": "linkedin_0",
+              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "project": "JugaadHub"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -626,7 +626,7 @@
       "question": "What verification workflows were implemented in JugaadHub?",
       "query_type": "project",
       "confidence": "high",
-      "retrieval_latency_ms": 33.94,
+      "retrieval_latency_ms": 33.69,
       "precision_at_k": {
         "1": 1.0,
         "3": 1.0,
@@ -658,10 +658,10 @@
           {
             "rank": 1,
             "metadata": {
-              "source": "resume",
-              "project": "JugaadHub",
               "section": "projects",
-              "page": 1
+              "project": "JugaadHub",
+              "page": 1,
+              "source": "resume"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -679,13 +679,13 @@
           {
             "rank": 2,
             "metadata": {
-              "project": "JugaadHub",
-              "linkedin_post_id": "linkedin_5",
-              "section": "achievements",
-              "source_type": "linkedin",
-              "source": "linkedin",
               "technologies": "TypeScript, React",
               "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
+              "section": "achievements",
+              "project": "JugaadHub",
+              "source": "linkedin",
+              "linkedin_post_id": "linkedin_5",
+              "source_type": "linkedin",
               "event": "HackXtract"
             },
             "channels": [],
@@ -704,14 +704,14 @@
           {
             "rank": 3,
             "metadata": {
-              "event": "Orbix Hackathon",
-              "source_type": "linkedin",
-              "project": "JugaadHub",
               "technologies": "React",
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "section": "achievements",
+              "source_type": "linkedin",
               "source": "linkedin",
-              "linkedin_post_id": "linkedin_4"
+              "event": "Orbix Hackathon",
+              "project": "JugaadHub",
+              "linkedin_post_id": "linkedin_4",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -730,13 +730,13 @@
             "rank": 4,
             "metadata": {
               "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "project": "JugaadHub",
               "source": "linkedin",
               "linkedin_post_id": "linkedin_0",
-              "project": "JugaadHub",
-              "source_type": "linkedin",
-              "event": "Hacknite",
               "technologies": "Gemini",
-              "section": "achievements"
+              "event": "Hacknite",
+              "section": "achievements",
+              "source_type": "linkedin"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -754,12 +754,12 @@
           {
             "rank": 5,
             "metadata": {
+              "source_type": "linkedin",
+              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
+              "linkedin_post_id": "linkedin_3",
               "project": "JugaadHub",
               "section": "projects",
-              "source": "linkedin",
-              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_3"
+              "source": "linkedin"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -782,7 +782,7 @@
       "question": "What backend framework was used in VideoTube?",
       "query_type": "project",
       "confidence": "high",
-      "retrieval_latency_ms": 18.57,
+      "retrieval_latency_ms": 19.51,
       "precision_at_k": {
         "1": 1.0,
         "3": 1.0,
@@ -813,13 +813,13 @@
           {
             "rank": 1,
             "metadata": {
-              "project": "VideoTube",
-              "section": "projects",
-              "source_type": "linkedin",
               "linkedin_post_id": "linkedin_2",
               "technologies": "Node.js, MongoDB, React",
+              "project": "VideoTube",
               "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
-              "source": "linkedin"
+              "source": "linkedin",
+              "source_type": "linkedin",
+              "section": "projects"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -837,10 +837,10 @@
           {
             "rank": 2,
             "metadata": {
-              "page": 1,
+              "project": "VideoTube",
               "source": "resume",
               "section": "projects",
-              "project": "VideoTube"
+              "page": 1
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -863,7 +863,7 @@
       "question": "What database was used in VideoTube?",
       "query_type": "project",
       "confidence": "high",
-      "retrieval_latency_ms": 17.37,
+      "retrieval_latency_ms": 19.83,
       "precision_at_k": {
         "1": 1.0,
         "3": 1.0,
@@ -915,13 +915,13 @@
           {
             "rank": 2,
             "metadata": {
+              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
               "project": "VideoTube",
-              "linkedin_post_id": "linkedin_2",
-              "technologies": "Node.js, MongoDB, React",
               "source_type": "linkedin",
-              "section": "projects",
               "source": "linkedin",
-              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)"
+              "section": "projects",
+              "linkedin_post_id": "linkedin_2",
+              "technologies": "Node.js, MongoDB, React"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -944,7 +944,7 @@
       "question": "How did VideoTube optimize complex data retrieval?",
       "query_type": "project",
       "confidence": "high",
-      "retrieval_latency_ms": 16.82,
+      "retrieval_latency_ms": 19.11,
       "precision_at_k": {
         "1": 1.0,
         "3": 1.0,
@@ -973,9 +973,9 @@
           {
             "rank": 1,
             "metadata": {
-              "section": "projects",
-              "project": "VideoTube",
               "page": 1,
+              "project": "VideoTube",
+              "section": "projects",
               "source": "resume"
             },
             "channels": [],
@@ -996,13 +996,13 @@
           {
             "rank": 2,
             "metadata": {
-              "source_type": "linkedin",
-              "section": "projects",
-              "project": "VideoTube",
               "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
+              "technologies": "Node.js, MongoDB, React",
               "linkedin_post_id": "linkedin_2",
+              "section": "projects",
+              "source_type": "linkedin",
               "source": "linkedin",
-              "technologies": "Node.js, MongoDB, React"
+              "project": "VideoTube"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -1026,7 +1026,7 @@
       "question": "What was Rohan's role at ACM ICPC?",
       "query_type": "experience",
       "confidence": "high",
-      "retrieval_latency_ms": 80.13,
+      "retrieval_latency_ms": 83.7,
       "precision_at_k": {
         "1": 0.0,
         "3": 0.3333,
@@ -1060,10 +1060,10 @@
           {
             "rank": 1,
             "metadata": {
+              "role": "Club Coordinator",
               "section": "experience",
               "company": "Association for Computing Machinery - ICPC",
               "page": 1,
-              "role": "Club Coordinator",
               "source": "resume"
             },
             "channels": [
@@ -1086,11 +1086,11 @@
           {
             "rank": 2,
             "metadata": {
-              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
-              "section": "other",
-              "source_type": "linkedin",
               "linkedin_post_id": "linkedin_8",
-              "source": "linkedin"
+              "source_type": "linkedin",
+              "source": "linkedin",
+              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
+              "section": "other"
             },
             "channels": [
               "bm25",
@@ -1111,11 +1111,11 @@
           {
             "rank": 3,
             "metadata": {
-              "source": "resume",
-              "role": "Tech Team Member",
-              "page": 1,
               "section": "experience",
-              "company": "IEEE"
+              "source": "resume",
+              "company": "IEEE",
+              "role": "Tech Team Member",
+              "page": 1
             },
             "channels": [
               "bm25",
@@ -1136,14 +1136,14 @@
           {
             "rank": 4,
             "metadata": {
+              "source_type": "linkedin",
+              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
+              "project": "JugaadHub",
+              "section": "achievements",
+              "technologies": "TypeScript, React",
               "source": "linkedin",
               "event": "HackXtract",
-              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
-              "linkedin_post_id": "linkedin_5",
-              "source_type": "linkedin",
-              "technologies": "TypeScript, React",
-              "project": "JugaadHub",
-              "section": "achievements"
+              "linkedin_post_id": "linkedin_5"
             },
             "channels": [
               "bm25",
@@ -1162,12 +1162,12 @@
           {
             "rank": 5,
             "metadata": {
-              "linkedin_post_id": "linkedin_7",
-              "section": "achievements",
-              "source_type": "linkedin",
               "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
-              "source": "linkedin",
-              "event": "Smart India Hackathon"
+              "source_type": "linkedin",
+              "section": "achievements",
+              "event": "Smart India Hackathon",
+              "linkedin_post_id": "linkedin_7",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -1184,11 +1184,11 @@
           {
             "rank": 6,
             "metadata": {
-              "section": "achievements",
               "source": "linkedin",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
               "linkedin_post_id": "linkedin_9",
               "source_type": "linkedin",
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
               "event": "Smart India Hackathon"
             },
             "channels": [
@@ -1206,12 +1206,12 @@
           {
             "rank": 7,
             "metadata": {
+              "source_type": "linkedin",
               "linkedin_post_id": "linkedin_6",
-              "event": "Smart India Hackathon",
+              "source": "linkedin",
               "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
               "section": "achievements",
-              "source": "linkedin",
-              "source_type": "linkedin"
+              "event": "Smart India Hackathon"
             },
             "channels": [
               "dense"
@@ -1228,9 +1228,9 @@
           {
             "rank": 8,
             "metadata": {
-              "source": "resume",
+              "section": "other",
               "page": 1,
-              "section": "other"
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -1247,14 +1247,14 @@
           {
             "rank": 9,
             "metadata": {
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "source_type": "linkedin",
-              "technologies": "React",
-              "section": "achievements",
-              "source": "linkedin",
-              "linkedin_post_id": "linkedin_4",
               "project": "JugaadHub",
-              "event": "Orbix Hackathon"
+              "technologies": "React",
+              "source_type": "linkedin",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
+              "event": "Orbix Hackathon",
+              "source": "linkedin",
+              "linkedin_post_id": "linkedin_4"
             },
             "channels": [
               "dense"
@@ -1272,8 +1272,8 @@
             "rank": 10,
             "metadata": {
               "page": 1,
-              "source": "resume",
-              "section": "achievements"
+              "section": "achievements",
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -1290,14 +1290,14 @@
           {
             "rank": 11,
             "metadata": {
-              "technologies": "Gemini",
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
-              "project": "JugaadHub",
-              "linkedin_post_id": "linkedin_0",
-              "section": "achievements",
               "source": "linkedin",
-              "event": "Hacknite"
+              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "event": "Hacknite",
+              "source_type": "linkedin",
+              "project": "JugaadHub",
+              "technologies": "Gemini",
+              "linkedin_post_id": "linkedin_0",
+              "section": "achievements"
             },
             "channels": [
               "dense"
@@ -1314,12 +1314,12 @@
           {
             "rank": 12,
             "metadata": {
-              "linkedin_post_id": "linkedin_3",
-              "source_type": "linkedin",
-              "source": "linkedin",
               "project": "JugaadHub",
               "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
-              "section": "projects"
+              "source_type": "linkedin",
+              "source": "linkedin",
+              "section": "projects",
+              "linkedin_post_id": "linkedin_3"
             },
             "channels": [
               "dense"
@@ -1336,9 +1336,9 @@
           {
             "rank": 13,
             "metadata": {
-              "source": "resume",
               "page": 1,
-              "section": "education"
+              "section": "education",
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -1355,13 +1355,13 @@
           {
             "rank": 14,
             "metadata": {
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_2",
               "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
+              "source_type": "linkedin",
               "technologies": "Node.js, MongoDB, React",
-              "source": "linkedin",
               "section": "projects",
-              "project": "VideoTube"
+              "source": "linkedin",
+              "project": "VideoTube",
+              "linkedin_post_id": "linkedin_2"
             },
             "channels": [
               "dense"
@@ -1378,10 +1378,10 @@
           {
             "rank": 15,
             "metadata": {
-              "source": "resume",
-              "page": 1,
+              "section": "projects",
               "project": "JugaadHub",
-              "section": "projects"
+              "source": "resume",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -1398,13 +1398,13 @@
           {
             "rank": 16,
             "metadata": {
-              "source_type": "linkedin",
-              "project": "CollabSphere",
-              "source": "linkedin",
-              "section": "projects",
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
               "linkedin_post_id": "linkedin_1",
-              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React"
+              "source": "linkedin",
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "project": "CollabSphere",
+              "section": "projects",
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -1421,8 +1421,8 @@
           {
             "rank": 17,
             "metadata": {
-              "source": "resume",
               "page": 1,
+              "source": "resume",
               "section": "skills"
             },
             "channels": [
@@ -1441,9 +1441,9 @@
             "rank": 18,
             "metadata": {
               "source": "resume",
-              "page": 1,
+              "section": "projects",
               "project": "VideoTube",
-              "section": "projects"
+              "page": 1
             },
             "channels": [
               "dense"
@@ -1460,10 +1460,10 @@
           {
             "rank": 19,
             "metadata": {
-              "project": "CollabSphere",
               "section": "projects",
               "page": 1,
-              "source": "resume"
+              "source": "resume",
+              "project": "CollabSphere"
             },
             "channels": [
               "dense"
@@ -1482,11 +1482,11 @@
           {
             "rank": 1,
             "metadata": {
-              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
-              "section": "other",
-              "source_type": "linkedin",
               "linkedin_post_id": "linkedin_8",
-              "source": "linkedin"
+              "source_type": "linkedin",
+              "source": "linkedin",
+              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
+              "section": "other"
             },
             "channels": [
               "bm25",
@@ -1508,10 +1508,10 @@
           {
             "rank": 2,
             "metadata": {
+              "role": "Club Coordinator",
               "section": "experience",
               "company": "Association for Computing Machinery - ICPC",
               "page": 1,
-              "role": "Club Coordinator",
               "source": "resume"
             },
             "channels": [
@@ -1535,9 +1535,9 @@
           {
             "rank": 3,
             "metadata": {
-              "source": "resume",
+              "section": "other",
               "page": 1,
-              "section": "other"
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -1555,12 +1555,12 @@
           {
             "rank": 4,
             "metadata": {
-              "linkedin_post_id": "linkedin_7",
-              "section": "achievements",
-              "source_type": "linkedin",
               "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
-              "source": "linkedin",
-              "event": "Smart India Hackathon"
+              "source_type": "linkedin",
+              "section": "achievements",
+              "event": "Smart India Hackathon",
+              "linkedin_post_id": "linkedin_7",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -1578,11 +1578,11 @@
           {
             "rank": 5,
             "metadata": {
-              "source": "resume",
-              "role": "Tech Team Member",
-              "page": 1,
               "section": "experience",
-              "company": "IEEE"
+              "source": "resume",
+              "company": "IEEE",
+              "role": "Tech Team Member",
+              "page": 1
             },
             "channels": [
               "bm25",
@@ -1604,14 +1604,14 @@
           {
             "rank": 6,
             "metadata": {
+              "source_type": "linkedin",
+              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
+              "project": "JugaadHub",
+              "section": "achievements",
+              "technologies": "TypeScript, React",
               "source": "linkedin",
               "event": "HackXtract",
-              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
-              "linkedin_post_id": "linkedin_5",
-              "source_type": "linkedin",
-              "technologies": "TypeScript, React",
-              "project": "JugaadHub",
-              "section": "achievements"
+              "linkedin_post_id": "linkedin_5"
             },
             "channels": [
               "bm25",
@@ -1636,7 +1636,7 @@
       "question": "How many students did Rohan mentor during the DSA Bootcamp?",
       "query_type": "experience",
       "confidence": "high",
-      "retrieval_latency_ms": 74.87,
+      "retrieval_latency_ms": 78.59,
       "precision_at_k": {
         "1": 1.0,
         "3": 0.3333,
@@ -1670,11 +1670,11 @@
           {
             "rank": 1,
             "metadata": {
-              "role": "Club Coordinator",
-              "page": 1,
               "source": "resume",
               "company": "Association for Computing Machinery - ICPC",
-              "section": "experience"
+              "section": "experience",
+              "role": "Club Coordinator",
+              "page": 1
             },
             "channels": [
               "bm25",
@@ -1695,11 +1695,11 @@
           {
             "rank": 2,
             "metadata": {
-              "source_type": "linkedin",
               "source": "linkedin",
-              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
+              "linkedin_post_id": "linkedin_8",
               "section": "other",
-              "linkedin_post_id": "linkedin_8"
+              "source_type": "linkedin",
+              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)"
             },
             "channels": [
               "bm25",
@@ -1718,12 +1718,12 @@
           {
             "rank": 3,
             "metadata": {
-              "source": "linkedin",
               "section": "achievements",
-              "event": "Smart India Hackathon",
-              "linkedin_post_id": "linkedin_9",
               "source_type": "linkedin",
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)"
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
+              "source": "linkedin",
+              "event": "Smart India Hackathon",
+              "linkedin_post_id": "linkedin_9"
             },
             "channels": [
               "bm25",
@@ -1742,14 +1742,14 @@
           {
             "rank": 4,
             "metadata": {
-              "event": "Hacknite",
+              "source_type": "linkedin",
+              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "linkedin_post_id": "linkedin_0",
               "project": "JugaadHub",
               "technologies": "Gemini",
-              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
-              "source_type": "linkedin",
+              "section": "achievements",
               "source": "linkedin",
-              "linkedin_post_id": "linkedin_0",
-              "section": "achievements"
+              "event": "Hacknite"
             },
             "channels": [
               "bm25",
@@ -1768,13 +1768,13 @@
           {
             "rank": 5,
             "metadata": {
+              "section": "projects",
+              "project": "VideoTube",
               "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
               "technologies": "Node.js, MongoDB, React",
-              "project": "VideoTube",
-              "linkedin_post_id": "linkedin_2",
-              "section": "projects",
+              "source": "linkedin",
               "source_type": "linkedin",
-              "source": "linkedin"
+              "linkedin_post_id": "linkedin_2"
             },
             "channels": [
               "bm25",
@@ -1793,12 +1793,12 @@
           {
             "rank": 6,
             "metadata": {
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
               "section": "projects",
               "project": "JugaadHub",
               "source": "linkedin",
-              "linkedin_post_id": "linkedin_3"
+              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_3",
+              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)"
             },
             "channels": [
               "bm25",
@@ -1817,8 +1817,8 @@
           {
             "rank": 7,
             "metadata": {
-              "source": "resume",
               "section": "education",
+              "source": "resume",
               "page": 1
             },
             "channels": [
@@ -1837,11 +1837,11 @@
             "rank": 8,
             "metadata": {
               "section": "achievements",
-              "source_type": "linkedin",
-              "event": "Smart India Hackathon",
-              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
               "source": "linkedin",
-              "linkedin_post_id": "linkedin_7"
+              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
+              "linkedin_post_id": "linkedin_7",
+              "source_type": "linkedin",
+              "event": "Smart India Hackathon"
             },
             "channels": [
               "dense"
@@ -1858,11 +1858,11 @@
           {
             "rank": 9,
             "metadata": {
-              "event": "Smart India Hackathon",
-              "source": "linkedin",
-              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
               "source_type": "linkedin",
+              "event": "Smart India Hackathon",
               "linkedin_post_id": "linkedin_6",
+              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
+              "source": "linkedin",
               "section": "achievements"
             },
             "channels": [
@@ -1880,14 +1880,14 @@
           {
             "rank": 10,
             "metadata": {
-              "source_type": "linkedin",
               "source": "linkedin",
-              "linkedin_post_id": "linkedin_5",
-              "project": "JugaadHub",
               "technologies": "TypeScript, React",
-              "event": "HackXtract",
+              "section": "achievements",
               "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
-              "section": "achievements"
+              "project": "JugaadHub",
+              "event": "HackXtract",
+              "linkedin_post_id": "linkedin_5",
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -1904,9 +1904,9 @@
           {
             "rank": 11,
             "metadata": {
-              "page": 1,
+              "source": "resume",
               "section": "achievements",
-              "source": "resume"
+              "page": 1
             },
             "channels": [
               "dense"
@@ -1923,11 +1923,11 @@
           {
             "rank": 12,
             "metadata": {
-              "page": 1,
-              "role": "Tech Team Member",
-              "company": "IEEE",
               "section": "experience",
-              "source": "resume"
+              "company": "IEEE",
+              "source": "resume",
+              "page": 1,
+              "role": "Tech Team Member"
             },
             "channels": [
               "dense"
@@ -1944,14 +1944,14 @@
           {
             "rank": 13,
             "metadata": {
-              "source_type": "linkedin",
-              "technologies": "React",
               "source": "linkedin",
-              "project": "JugaadHub",
+              "section": "achievements",
+              "source_type": "linkedin",
               "linkedin_post_id": "linkedin_4",
               "event": "Orbix Hackathon",
-              "section": "achievements",
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)"
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
+              "project": "JugaadHub",
+              "technologies": "React"
             },
             "channels": [
               "dense"
@@ -1969,8 +1969,8 @@
             "rank": 14,
             "metadata": {
               "section": "other",
-              "page": 1,
-              "source": "resume"
+              "source": "resume",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -1987,9 +1987,9 @@
           {
             "rank": 15,
             "metadata": {
-              "project": "JugaadHub",
-              "page": 1,
               "section": "projects",
+              "page": 1,
+              "project": "JugaadHub",
               "source": "resume"
             },
             "channels": [
@@ -2046,10 +2046,10 @@
           {
             "rank": 18,
             "metadata": {
+              "project": "CollabSphere",
               "page": 1,
-              "section": "projects",
               "source": "resume",
-              "project": "CollabSphere"
+              "section": "projects"
             },
             "channels": [
               "dense"
@@ -2067,12 +2067,12 @@
             "rank": 19,
             "metadata": {
               "source_type": "linkedin",
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "source": "linkedin",
               "section": "projects",
               "project": "CollabSphere",
-              "linkedin_post_id": "linkedin_1",
               "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
-              "source": "linkedin"
+              "linkedin_post_id": "linkedin_1"
             },
             "channels": [
               "dense"
@@ -2091,11 +2091,11 @@
           {
             "rank": 1,
             "metadata": {
-              "role": "Club Coordinator",
-              "page": 1,
               "source": "resume",
               "company": "Association for Computing Machinery - ICPC",
-              "section": "experience"
+              "section": "experience",
+              "role": "Club Coordinator",
+              "page": 1
             },
             "channels": [
               "bm25",
@@ -2117,11 +2117,11 @@
           {
             "rank": 2,
             "metadata": {
-              "source_type": "linkedin",
               "source": "linkedin",
-              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
+              "linkedin_post_id": "linkedin_8",
               "section": "other",
-              "linkedin_post_id": "linkedin_8"
+              "source_type": "linkedin",
+              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)"
             },
             "channels": [
               "bm25",
@@ -2141,12 +2141,12 @@
           {
             "rank": 3,
             "metadata": {
-              "source": "linkedin",
               "section": "achievements",
-              "event": "Smart India Hackathon",
-              "linkedin_post_id": "linkedin_9",
               "source_type": "linkedin",
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)"
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
+              "source": "linkedin",
+              "event": "Smart India Hackathon",
+              "linkedin_post_id": "linkedin_9"
             },
             "channels": [
               "bm25",
@@ -2166,14 +2166,14 @@
           {
             "rank": 4,
             "metadata": {
-              "event": "Hacknite",
+              "source_type": "linkedin",
+              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "linkedin_post_id": "linkedin_0",
               "project": "JugaadHub",
               "technologies": "Gemini",
-              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
-              "source_type": "linkedin",
+              "section": "achievements",
               "source": "linkedin",
-              "linkedin_post_id": "linkedin_0",
-              "section": "achievements"
+              "event": "Hacknite"
             },
             "channels": [
               "bm25",
@@ -2193,12 +2193,12 @@
           {
             "rank": 5,
             "metadata": {
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
               "section": "projects",
               "project": "JugaadHub",
               "source": "linkedin",
-              "linkedin_post_id": "linkedin_3"
+              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_3",
+              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)"
             },
             "channels": [
               "bm25",
@@ -2218,8 +2218,8 @@
           {
             "rank": 6,
             "metadata": {
-              "source": "resume",
               "section": "education",
+              "source": "resume",
               "page": 1
             },
             "channels": [
@@ -2243,7 +2243,7 @@
       "question": "How many sessions were in the DSA Bootcamp?",
       "query_type": "experience",
       "confidence": "high",
-      "retrieval_latency_ms": 81.07,
+      "retrieval_latency_ms": 101.11,
       "precision_at_k": {
         "1": 1.0,
         "3": 0.3333,
@@ -2277,9 +2277,9 @@
           {
             "rank": 1,
             "metadata": {
-              "section": "experience",
               "role": "Club Coordinator",
               "company": "Association for Computing Machinery - ICPC",
+              "section": "experience",
               "page": 1,
               "source": "resume"
             },
@@ -2302,11 +2302,11 @@
           {
             "rank": 2,
             "metadata": {
-              "source": "linkedin",
-              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_8",
               "section": "other",
               "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
-              "linkedin_post_id": "linkedin_8"
+              "source": "linkedin",
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -2325,13 +2325,13 @@
           {
             "rank": 3,
             "metadata": {
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
               "source": "linkedin",
-              "project": "VideoTube",
-              "linkedin_post_id": "linkedin_2",
               "technologies": "Node.js, MongoDB, React",
-              "section": "projects"
+              "linkedin_post_id": "linkedin_2",
+              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
+              "project": "VideoTube",
+              "section": "projects",
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -2350,9 +2350,9 @@
           {
             "rank": 4,
             "metadata": {
-              "page": 1,
               "project": "VideoTube",
               "source": "resume",
+              "page": 1,
               "section": "projects"
             },
             "channels": [
@@ -2372,14 +2372,14 @@
           {
             "rank": 5,
             "metadata": {
-              "linkedin_post_id": "linkedin_0",
-              "event": "Hacknite",
-              "section": "achievements",
-              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
-              "project": "JugaadHub",
-              "technologies": "Gemini",
               "source_type": "linkedin",
-              "source": "linkedin"
+              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "section": "achievements",
+              "event": "Hacknite",
+              "linkedin_post_id": "linkedin_0",
+              "technologies": "Gemini",
+              "source": "linkedin",
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -2396,13 +2396,13 @@
           {
             "rank": 6,
             "metadata": {
-              "linkedin_post_id": "linkedin_1",
-              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
               "source": "linkedin",
-              "section": "projects",
-              "source_type": "linkedin",
               "project": "CollabSphere",
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)"
+              "section": "projects",
+              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "linkedin_post_id": "linkedin_1",
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -2421,14 +2421,14 @@
           {
             "rank": 7,
             "metadata": {
+              "technologies": "React",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
               "event": "Orbix Hackathon",
               "source": "linkedin",
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "project": "JugaadHub",
-              "source_type": "linkedin",
-              "technologies": "React",
               "linkedin_post_id": "linkedin_4",
-              "section": "achievements"
+              "project": "JugaadHub",
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -2445,14 +2445,14 @@
           {
             "rank": 8,
             "metadata": {
-              "source": "linkedin",
               "technologies": "TypeScript, React",
+              "event": "HackXtract",
+              "linkedin_post_id": "linkedin_5",
+              "project": "JugaadHub",
               "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
               "source_type": "linkedin",
               "section": "achievements",
-              "linkedin_post_id": "linkedin_5",
-              "event": "HackXtract",
-              "project": "JugaadHub"
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -2469,11 +2469,11 @@
           {
             "rank": 9,
             "metadata": {
-              "company": "IEEE",
-              "page": 1,
               "role": "Tech Team Member",
-              "section": "experience",
-              "source": "resume"
+              "company": "IEEE",
+              "source": "resume",
+              "page": 1,
+              "section": "experience"
             },
             "channels": [
               "dense"
@@ -2490,12 +2490,12 @@
           {
             "rank": 10,
             "metadata": {
-              "source": "linkedin",
               "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
-              "event": "Smart India Hackathon",
               "source_type": "linkedin",
               "section": "achievements",
-              "linkedin_post_id": "linkedin_7"
+              "linkedin_post_id": "linkedin_7",
+              "event": "Smart India Hackathon",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -2512,12 +2512,12 @@
           {
             "rank": 11,
             "metadata": {
-              "linkedin_post_id": "linkedin_6",
-              "source_type": "linkedin",
               "event": "Smart India Hackathon",
-              "section": "achievements",
+              "source_type": "linkedin",
+              "source": "linkedin",
               "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
-              "source": "linkedin"
+              "section": "achievements",
+              "linkedin_post_id": "linkedin_6"
             },
             "channels": [
               "dense"
@@ -2534,9 +2534,9 @@
           {
             "rank": 12,
             "metadata": {
-              "section": "achievements",
+              "source": "resume",
               "page": 1,
-              "source": "resume"
+              "section": "achievements"
             },
             "channels": [
               "dense"
@@ -2553,12 +2553,12 @@
           {
             "rank": 13,
             "metadata": {
-              "section": "achievements",
-              "event": "Smart India Hackathon",
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
               "linkedin_post_id": "linkedin_9",
-              "source": "linkedin"
+              "source": "linkedin",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
+              "event": "Smart India Hackathon",
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -2575,9 +2575,9 @@
           {
             "rank": 14,
             "metadata": {
-              "section": "education",
               "page": 1,
-              "source": "resume"
+              "source": "resume",
+              "section": "education"
             },
             "channels": [
               "dense"
@@ -2634,12 +2634,12 @@
           {
             "rank": 17,
             "metadata": {
-              "source": "linkedin",
-              "project": "JugaadHub",
+              "section": "projects",
               "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_3",
+              "source": "linkedin",
               "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
-              "section": "projects"
+              "project": "JugaadHub",
+              "linkedin_post_id": "linkedin_3"
             },
             "channels": [
               "dense"
@@ -2657,8 +2657,8 @@
             "rank": 18,
             "metadata": {
               "section": "skills",
-              "source": "resume",
-              "page": 1
+              "page": 1,
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -2675,9 +2675,9 @@
           {
             "rank": 19,
             "metadata": {
-              "page": 1,
               "section": "other",
-              "source": "resume"
+              "source": "resume",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -2696,9 +2696,9 @@
           {
             "rank": 1,
             "metadata": {
-              "section": "experience",
               "role": "Club Coordinator",
               "company": "Association for Computing Machinery - ICPC",
+              "section": "experience",
               "page": 1,
               "source": "resume"
             },
@@ -2722,11 +2722,11 @@
           {
             "rank": 2,
             "metadata": {
-              "source": "linkedin",
-              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_8",
               "section": "other",
               "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
-              "linkedin_post_id": "linkedin_8"
+              "source": "linkedin",
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -2746,13 +2746,13 @@
           {
             "rank": 3,
             "metadata": {
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
               "source": "linkedin",
-              "project": "VideoTube",
-              "linkedin_post_id": "linkedin_2",
               "technologies": "Node.js, MongoDB, React",
-              "section": "projects"
+              "linkedin_post_id": "linkedin_2",
+              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
+              "project": "VideoTube",
+              "section": "projects",
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -2772,14 +2772,14 @@
           {
             "rank": 4,
             "metadata": {
-              "linkedin_post_id": "linkedin_0",
-              "event": "Hacknite",
-              "section": "achievements",
-              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
-              "project": "JugaadHub",
-              "technologies": "Gemini",
               "source_type": "linkedin",
-              "source": "linkedin"
+              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "section": "achievements",
+              "event": "Hacknite",
+              "linkedin_post_id": "linkedin_0",
+              "technologies": "Gemini",
+              "source": "linkedin",
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -2797,9 +2797,9 @@
           {
             "rank": 5,
             "metadata": {
-              "page": 1,
               "project": "VideoTube",
               "source": "resume",
+              "page": 1,
               "section": "projects"
             },
             "channels": [
@@ -2820,13 +2820,13 @@
           {
             "rank": 6,
             "metadata": {
-              "linkedin_post_id": "linkedin_1",
-              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
               "source": "linkedin",
-              "section": "projects",
-              "source_type": "linkedin",
               "project": "CollabSphere",
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)"
+              "section": "projects",
+              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "linkedin_post_id": "linkedin_1",
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -2851,7 +2851,7 @@
       "question": "How many algorithmic problems were curated for the DSA Bootcamp?",
       "query_type": "experience",
       "confidence": "high",
-      "retrieval_latency_ms": 79.91,
+      "retrieval_latency_ms": 96.73,
       "precision_at_k": {
         "1": 1.0,
         "3": 0.3333,
@@ -2885,11 +2885,11 @@
           {
             "rank": 1,
             "metadata": {
-              "role": "Club Coordinator",
-              "page": 1,
               "section": "experience",
               "company": "Association for Computing Machinery - ICPC",
-              "source": "resume"
+              "page": 1,
+              "source": "resume",
+              "role": "Club Coordinator"
             },
             "channels": [
               "bm25",
@@ -2910,11 +2910,11 @@
           {
             "rank": 2,
             "metadata": {
-              "linkedin_post_id": "linkedin_8",
-              "section": "other",
               "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
               "source_type": "linkedin",
-              "source": "linkedin"
+              "source": "linkedin",
+              "section": "other",
+              "linkedin_post_id": "linkedin_8"
             },
             "channels": [
               "bm25",
@@ -2933,9 +2933,9 @@
           {
             "rank": 3,
             "metadata": {
-              "source": "resume",
+              "page": 1,
               "section": "achievements",
-              "page": 1
+              "source": "resume"
             },
             "channels": [
               "bm25",
@@ -2956,11 +2956,11 @@
           {
             "rank": 4,
             "metadata": {
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
               "linkedin_post_id": "linkedin_9",
-              "section": "achievements",
               "event": "Smart India Hackathon",
               "source_type": "linkedin",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
               "source": "linkedin"
             },
             "channels": [
@@ -2980,12 +2980,12 @@
           {
             "rank": 5,
             "metadata": {
-              "source_type": "linkedin",
+              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
+              "event": "Smart India Hackathon",
               "section": "achievements",
               "source": "linkedin",
-              "event": "Smart India Hackathon",
-              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
-              "linkedin_post_id": "linkedin_6"
+              "linkedin_post_id": "linkedin_6",
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -3004,12 +3004,12 @@
           {
             "rank": 6,
             "metadata": {
-              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
-              "source": "linkedin",
-              "project": "VideoTube",
-              "linkedin_post_id": "linkedin_2",
               "section": "projects",
               "technologies": "Node.js, MongoDB, React",
+              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
+              "project": "VideoTube",
+              "source": "linkedin",
+              "linkedin_post_id": "linkedin_2",
               "source_type": "linkedin"
             },
             "channels": [
@@ -3029,14 +3029,14 @@
           {
             "rank": 7,
             "metadata": {
-              "project": "JugaadHub",
-              "section": "achievements",
-              "technologies": "TypeScript, React",
-              "source": "linkedin",
-              "event": "HackXtract",
-              "linkedin_post_id": "linkedin_5",
               "source_type": "linkedin",
-              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)"
+              "project": "JugaadHub",
+              "source": "linkedin",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
+              "linkedin_post_id": "linkedin_5",
+              "event": "HackXtract",
+              "technologies": "TypeScript, React"
             },
             "channels": [
               "dense"
@@ -3053,14 +3053,14 @@
           {
             "rank": 8,
             "metadata": {
-              "project": "JugaadHub",
-              "event": "Hacknite",
-              "linkedin_post_id": "linkedin_0",
               "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
               "section": "achievements",
+              "source": "linkedin",
+              "linkedin_post_id": "linkedin_0",
+              "event": "Hacknite",
               "technologies": "Gemini",
               "source_type": "linkedin",
-              "source": "linkedin"
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -3077,12 +3077,12 @@
           {
             "rank": 9,
             "metadata": {
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
-              "linkedin_post_id": "linkedin_7",
               "event": "Smart India Hackathon",
-              "source": "linkedin",
-              "section": "achievements"
+              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_7",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -3099,14 +3099,14 @@
           {
             "rank": 10,
             "metadata": {
-              "linkedin_post_id": "linkedin_4",
+              "source": "linkedin",
               "project": "JugaadHub",
-              "section": "achievements",
-              "technologies": "React",
-              "source_type": "linkedin",
               "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
+              "linkedin_post_id": "linkedin_4",
+              "section": "achievements",
               "event": "Orbix Hackathon",
-              "source": "linkedin"
+              "technologies": "React",
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -3123,12 +3123,12 @@
           {
             "rank": 11,
             "metadata": {
-              "section": "projects",
               "source": "linkedin",
-              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
-              "project": "JugaadHub",
+              "source_type": "linkedin",
               "linkedin_post_id": "linkedin_3",
-              "source_type": "linkedin"
+              "section": "projects",
+              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -3145,11 +3145,11 @@
           {
             "rank": 12,
             "metadata": {
-              "role": "Tech Team Member",
+              "page": 1,
               "company": "IEEE",
-              "source": "resume",
               "section": "experience",
-              "page": 1
+              "source": "resume",
+              "role": "Tech Team Member"
             },
             "channels": [
               "dense"
@@ -3166,13 +3166,13 @@
           {
             "rank": 13,
             "metadata": {
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_1",
-              "source": "linkedin",
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
-              "project": "CollabSphere",
               "section": "projects",
-              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React"
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "linkedin_post_id": "linkedin_1",
+              "source_type": "linkedin",
+              "project": "CollabSphere",
+              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -3189,10 +3189,10 @@
           {
             "rank": 14,
             "metadata": {
-              "project": "CollabSphere",
-              "source": "resume",
               "page": 1,
-              "section": "projects"
+              "source": "resume",
+              "section": "projects",
+              "project": "CollabSphere"
             },
             "channels": [
               "dense"
@@ -3209,10 +3209,10 @@
           {
             "rank": 15,
             "metadata": {
-              "section": "projects",
               "source": "resume",
-              "project": "JugaadHub",
-              "page": 1
+              "section": "projects",
+              "page": 1,
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -3229,8 +3229,8 @@
           {
             "rank": 16,
             "metadata": {
-              "page": 1,
               "section": "education",
+              "page": 1,
               "source": "resume"
             },
             "channels": [
@@ -3248,9 +3248,9 @@
           {
             "rank": 17,
             "metadata": {
+              "source": "resume",
               "project": "VideoTube",
               "page": 1,
-              "source": "resume",
               "section": "projects"
             },
             "channels": [
@@ -3268,9 +3268,9 @@
           {
             "rank": 18,
             "metadata": {
-              "page": 1,
+              "source": "resume",
               "section": "skills",
-              "source": "resume"
+              "page": 1
             },
             "channels": [
               "dense"
@@ -3287,9 +3287,9 @@
           {
             "rank": 19,
             "metadata": {
-              "page": 1,
+              "section": "other",
               "source": "resume",
-              "section": "other"
+              "page": 1
             },
             "channels": [
               "dense"
@@ -3308,11 +3308,11 @@
           {
             "rank": 1,
             "metadata": {
-              "role": "Club Coordinator",
-              "page": 1,
               "section": "experience",
               "company": "Association for Computing Machinery - ICPC",
-              "source": "resume"
+              "page": 1,
+              "source": "resume",
+              "role": "Club Coordinator"
             },
             "channels": [
               "bm25",
@@ -3334,11 +3334,11 @@
           {
             "rank": 2,
             "metadata": {
-              "linkedin_post_id": "linkedin_8",
-              "section": "other",
               "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
               "source_type": "linkedin",
-              "source": "linkedin"
+              "source": "linkedin",
+              "section": "other",
+              "linkedin_post_id": "linkedin_8"
             },
             "channels": [
               "bm25",
@@ -3358,9 +3358,9 @@
           {
             "rank": 3,
             "metadata": {
-              "source": "resume",
+              "page": 1,
               "section": "achievements",
-              "page": 1
+              "source": "resume"
             },
             "channels": [
               "bm25",
@@ -3382,11 +3382,11 @@
           {
             "rank": 4,
             "metadata": {
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
               "linkedin_post_id": "linkedin_9",
-              "section": "achievements",
               "event": "Smart India Hackathon",
               "source_type": "linkedin",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
               "source": "linkedin"
             },
             "channels": [
@@ -3407,12 +3407,12 @@
           {
             "rank": 5,
             "metadata": {
-              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
-              "source": "linkedin",
-              "project": "VideoTube",
-              "linkedin_post_id": "linkedin_2",
               "section": "projects",
               "technologies": "Node.js, MongoDB, React",
+              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
+              "project": "VideoTube",
+              "source": "linkedin",
+              "linkedin_post_id": "linkedin_2",
               "source_type": "linkedin"
             },
             "channels": [
@@ -3433,14 +3433,14 @@
           {
             "rank": 6,
             "metadata": {
-              "project": "JugaadHub",
-              "section": "achievements",
-              "technologies": "TypeScript, React",
-              "source": "linkedin",
-              "event": "HackXtract",
-              "linkedin_post_id": "linkedin_5",
               "source_type": "linkedin",
-              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)"
+              "project": "JugaadHub",
+              "source": "linkedin",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
+              "linkedin_post_id": "linkedin_5",
+              "event": "HackXtract",
+              "technologies": "TypeScript, React"
             },
             "channels": [
               "dense"
@@ -3463,7 +3463,7 @@
       "question": "What did Rohan work on at IEEE?",
       "query_type": "experience",
       "confidence": "high",
-      "retrieval_latency_ms": 11.73,
+      "retrieval_latency_ms": 12.57,
       "precision_at_k": {
         "1": 1.0,
         "3": 1.0,
@@ -3493,11 +3493,11 @@
           {
             "rank": 1,
             "metadata": {
-              "source": "resume",
               "company": "IEEE",
               "section": "experience",
-              "page": 1,
-              "role": "Tech Team Member"
+              "role": "Tech Team Member",
+              "source": "resume",
+              "page": 1
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -3521,7 +3521,7 @@
       "question": "What programming languages does Rohan know?",
       "query_type": "skills",
       "confidence": "high",
-      "retrieval_latency_ms": 70.76,
+      "retrieval_latency_ms": 75.4,
       "precision_at_k": {
         "1": 1.0,
         "3": 0.3333,
@@ -3556,8 +3556,8 @@
             "rank": 1,
             "metadata": {
               "source": "resume",
-              "section": "skills",
-              "page": 1
+              "page": 1,
+              "section": "skills"
             },
             "channels": [
               "bm25",
@@ -3576,9 +3576,9 @@
           {
             "rank": 2,
             "metadata": {
-              "page": 1,
               "source": "resume",
-              "section": "other"
+              "section": "other",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -3595,12 +3595,12 @@
           {
             "rank": 3,
             "metadata": {
-              "source_type": "linkedin",
-              "project": "JugaadHub",
+              "source": "linkedin",
               "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
               "section": "projects",
-              "source": "linkedin",
-              "linkedin_post_id": "linkedin_3"
+              "project": "JugaadHub",
+              "linkedin_post_id": "linkedin_3",
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -3617,12 +3617,12 @@
           {
             "rank": 4,
             "metadata": {
-              "source": "linkedin",
-              "source_type": "linkedin",
               "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
-              "event": "Smart India Hackathon",
               "section": "achievements",
-              "linkedin_post_id": "linkedin_7"
+              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_7",
+              "event": "Smart India Hackathon",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -3639,10 +3639,10 @@
           {
             "rank": 5,
             "metadata": {
+              "source": "resume",
               "page": 1,
               "section": "experience",
               "role": "Club Coordinator",
-              "source": "resume",
               "company": "Association for Computing Machinery - ICPC"
             },
             "channels": [
@@ -3663,8 +3663,8 @@
             "rank": 6,
             "metadata": {
               "source": "resume",
-              "page": 1,
-              "section": "achievements"
+              "section": "achievements",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -3681,11 +3681,11 @@
           {
             "rank": 7,
             "metadata": {
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
-              "section": "achievements",
+              "linkedin_post_id": "linkedin_9",
               "event": "Smart India Hackathon",
               "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_9",
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
+              "section": "achievements",
               "source": "linkedin"
             },
             "channels": [
@@ -3703,12 +3703,12 @@
           {
             "rank": 8,
             "metadata": {
+              "source": "linkedin",
               "source_type": "linkedin",
               "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
+              "linkedin_post_id": "linkedin_6",
               "section": "achievements",
-              "event": "Smart India Hackathon",
-              "source": "linkedin",
-              "linkedin_post_id": "linkedin_6"
+              "event": "Smart India Hackathon"
             },
             "channels": [
               "dense"
@@ -3726,8 +3726,8 @@
             "rank": 9,
             "metadata": {
               "source": "linkedin",
-              "linkedin_post_id": "linkedin_8",
               "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_8",
               "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
               "section": "other"
             },
@@ -3748,8 +3748,8 @@
           {
             "rank": 10,
             "metadata": {
-              "page": 1,
               "source": "resume",
+              "page": 1,
               "section": "education"
             },
             "channels": [
@@ -3767,10 +3767,10 @@
           {
             "rank": 11,
             "metadata": {
-              "source": "resume",
-              "section": "projects",
               "page": 1,
-              "project": "CollabSphere"
+              "project": "CollabSphere",
+              "section": "projects",
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -3787,11 +3787,11 @@
           {
             "rank": 12,
             "metadata": {
-              "source": "resume",
-              "company": "IEEE",
               "section": "experience",
-              "page": 1,
-              "role": "Tech Team Member"
+              "source": "resume",
+              "role": "Tech Team Member",
+              "company": "IEEE",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -3808,14 +3808,14 @@
           {
             "rank": 13,
             "metadata": {
-              "technologies": "TypeScript, React",
-              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
+              "source": "linkedin",
               "project": "JugaadHub",
+              "technologies": "TypeScript, React",
+              "linkedin_post_id": "linkedin_5",
               "event": "HackXtract",
               "section": "achievements",
-              "source": "linkedin",
-              "linkedin_post_id": "linkedin_5",
-              "source_type": "linkedin"
+              "source_type": "linkedin",
+              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)"
             },
             "channels": [
               "dense"
@@ -3832,14 +3832,14 @@
           {
             "rank": 14,
             "metadata": {
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
+              "event": "Orbix Hackathon",
               "section": "achievements",
-              "technologies": "React",
               "linkedin_post_id": "linkedin_4",
+              "source_type": "linkedin",
               "source": "linkedin",
               "project": "JugaadHub",
-              "event": "Orbix Hackathon"
+              "technologies": "React",
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)"
             },
             "channels": [
               "dense"
@@ -3876,12 +3876,12 @@
           {
             "rank": 16,
             "metadata": {
-              "project": "VideoTube",
-              "linkedin_post_id": "linkedin_2",
               "section": "projects",
-              "source": "linkedin",
-              "source_type": "linkedin",
               "technologies": "Node.js, MongoDB, React",
+              "source": "linkedin",
+              "project": "VideoTube",
+              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_2",
               "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)"
             },
             "channels": [
@@ -3899,10 +3899,10 @@
           {
             "rank": 17,
             "metadata": {
-              "project": "VideoTube",
-              "source": "resume",
               "section": "projects",
-              "page": 1
+              "page": 1,
+              "project": "VideoTube",
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -3919,13 +3919,13 @@
           {
             "rank": 18,
             "metadata": {
-              "linkedin_post_id": "linkedin_1",
-              "section": "projects",
-              "source": "linkedin",
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
-              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
               "project": "CollabSphere",
-              "source_type": "linkedin"
+              "section": "projects",
+              "source_type": "linkedin",
+              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "linkedin_post_id": "linkedin_1",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -3942,14 +3942,14 @@
           {
             "rank": 19,
             "metadata": {
-              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
-              "source": "linkedin",
+              "linkedin_post_id": "linkedin_0",
               "technologies": "Gemini",
-              "event": "Hacknite",
               "project": "JugaadHub",
-              "source_type": "linkedin",
               "section": "achievements",
-              "linkedin_post_id": "linkedin_0"
+              "source": "linkedin",
+              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "event": "Hacknite",
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -3969,8 +3969,8 @@
             "rank": 1,
             "metadata": {
               "source": "resume",
-              "section": "skills",
-              "page": 1
+              "page": 1,
+              "section": "skills"
             },
             "channels": [
               "bm25",
@@ -3990,9 +3990,9 @@
           {
             "rank": 2,
             "metadata": {
-              "page": 1,
               "source": "resume",
-              "section": "other"
+              "section": "other",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -4010,12 +4010,12 @@
           {
             "rank": 3,
             "metadata": {
-              "source": "linkedin",
-              "source_type": "linkedin",
               "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
-              "event": "Smart India Hackathon",
               "section": "achievements",
-              "linkedin_post_id": "linkedin_7"
+              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_7",
+              "event": "Smart India Hackathon",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -4033,10 +4033,10 @@
           {
             "rank": 4,
             "metadata": {
+              "source": "resume",
               "page": 1,
               "section": "experience",
               "role": "Club Coordinator",
-              "source": "resume",
               "company": "Association for Computing Machinery - ICPC"
             },
             "channels": [
@@ -4058,8 +4058,8 @@
             "rank": 5,
             "metadata": {
               "source": "resume",
-              "page": 1,
-              "section": "achievements"
+              "section": "achievements",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -4077,12 +4077,12 @@
           {
             "rank": 6,
             "metadata": {
-              "source_type": "linkedin",
-              "project": "JugaadHub",
+              "source": "linkedin",
               "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
               "section": "projects",
-              "source": "linkedin",
-              "linkedin_post_id": "linkedin_3"
+              "project": "JugaadHub",
+              "linkedin_post_id": "linkedin_3",
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -4105,7 +4105,7 @@
       "question": "Does Rohan have experience with Redis?",
       "query_type": "skills",
       "confidence": "high",
-      "retrieval_latency_ms": 107.34,
+      "retrieval_latency_ms": 117.57,
       "precision_at_k": {
         "1": 1.0,
         "3": 0.6667,
@@ -4135,7 +4135,7 @@
       "question": "Does Rohan have experience with Docker?",
       "query_type": "skills",
       "confidence": "high",
-      "retrieval_latency_ms": 81.74,
+      "retrieval_latency_ms": 109.67,
       "precision_at_k": {
         "1": 0.0,
         "3": 0.3333,
@@ -4165,7 +4165,7 @@
       "question": "What databases does Rohan have experience with?",
       "query_type": "skills",
       "confidence": "high",
-      "retrieval_latency_ms": 88.22,
+      "retrieval_latency_ms": 127.01,
       "precision_at_k": {
         "1": 1.0,
         "3": 0.3333,
@@ -4195,7 +4195,7 @@
       "question": "Where is Rohan pursuing his BTech?",
       "query_type": "education",
       "confidence": "low",
-      "retrieval_latency_ms": 59.55,
+      "retrieval_latency_ms": 81.4,
       "precision_at_k": {
         "1": 0.0,
         "3": 0.3333,
@@ -4228,8 +4228,8 @@
             "rank": 1,
             "metadata": {
               "source": "resume",
-              "page": 1,
-              "section": "other"
+              "section": "other",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -4247,8 +4247,8 @@
             "rank": 2,
             "metadata": {
               "source": "resume",
-              "section": "education",
-              "page": 1
+              "page": 1,
+              "section": "education"
             },
             "channels": [
               "dense"
@@ -4265,12 +4265,12 @@
           {
             "rank": 3,
             "metadata": {
-              "project": "JugaadHub",
               "source_type": "linkedin",
-              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
-              "linkedin_post_id": "linkedin_3",
+              "source": "linkedin",
               "section": "projects",
-              "source": "linkedin"
+              "project": "JugaadHub",
+              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
+              "linkedin_post_id": "linkedin_3"
             },
             "channels": [
               "dense"
@@ -4287,10 +4287,10 @@
           {
             "rank": 4,
             "metadata": {
-              "page": 1,
               "project": "JugaadHub",
               "section": "projects",
-              "source": "resume"
+              "source": "resume",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -4308,8 +4308,8 @@
             "rank": 5,
             "metadata": {
               "page": 1,
-              "section": "skills",
-              "source": "resume"
+              "source": "resume",
+              "section": "skills"
             },
             "channels": [
               "dense"
@@ -4326,11 +4326,11 @@
           {
             "rank": 6,
             "metadata": {
-              "source": "resume",
               "role": "Tech Team Member",
               "section": "experience",
-              "page": 1,
-              "company": "IEEE"
+              "source": "resume",
+              "company": "IEEE",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -4347,9 +4347,9 @@
           {
             "rank": 7,
             "metadata": {
+              "section": "achievements",
               "source": "resume",
-              "page": 1,
-              "section": "achievements"
+              "page": 1
             },
             "channels": [
               "dense"
@@ -4366,12 +4366,12 @@
           {
             "rank": 8,
             "metadata": {
-              "linkedin_post_id": "linkedin_9",
-              "source": "linkedin",
               "source_type": "linkedin",
-              "section": "achievements",
               "event": "Smart India Hackathon",
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)"
+              "source": "linkedin",
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
+              "section": "achievements",
+              "linkedin_post_id": "linkedin_9"
             },
             "channels": [
               "dense"
@@ -4388,12 +4388,12 @@
           {
             "rank": 9,
             "metadata": {
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_7",
               "event": "Smart India Hackathon",
-              "source": "linkedin",
               "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
-              "section": "achievements"
+              "section": "achievements",
+              "linkedin_post_id": "linkedin_7",
+              "source_type": "linkedin",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -4410,12 +4410,12 @@
           {
             "rank": 10,
             "metadata": {
-              "linkedin_post_id": "linkedin_6",
-              "section": "achievements",
               "source": "linkedin",
+              "linkedin_post_id": "linkedin_6",
               "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
-              "event": "Smart India Hackathon",
-              "source_type": "linkedin"
+              "section": "achievements",
+              "source_type": "linkedin",
+              "event": "Smart India Hackathon"
             },
             "channels": [
               "dense"
@@ -4452,13 +4452,13 @@
           {
             "rank": 12,
             "metadata": {
-              "project": "JugaadHub",
-              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
-              "source": "linkedin",
               "technologies": "TypeScript, React",
-              "linkedin_post_id": "linkedin_5",
               "section": "achievements",
+              "linkedin_post_id": "linkedin_5",
+              "project": "JugaadHub",
               "source_type": "linkedin",
+              "source": "linkedin",
+              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
               "event": "HackXtract"
             },
             "channels": [
@@ -4476,10 +4476,10 @@
           {
             "rank": 13,
             "metadata": {
-              "page": 1,
-              "source": "resume",
               "project": "VideoTube",
-              "section": "projects"
+              "page": 1,
+              "section": "projects",
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -4496,11 +4496,11 @@
           {
             "rank": 14,
             "metadata": {
-              "section": "other",
-              "linkedin_post_id": "linkedin_8",
               "source": "linkedin",
-              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
-              "source_type": "linkedin"
+              "section": "other",
+              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_8",
+              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)"
             },
             "channels": [
               "dense"
@@ -4517,13 +4517,13 @@
           {
             "rank": 15,
             "metadata": {
-              "technologies": "Node.js, MongoDB, React",
-              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
               "section": "projects",
-              "project": "VideoTube",
               "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_2",
               "source": "linkedin",
-              "linkedin_post_id": "linkedin_2"
+              "project": "VideoTube",
+              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
+              "technologies": "Node.js, MongoDB, React"
             },
             "channels": [
               "dense"
@@ -4540,14 +4540,14 @@
           {
             "rank": 16,
             "metadata": {
-              "technologies": "React",
-              "linkedin_post_id": "linkedin_4",
-              "source": "linkedin",
               "source_type": "linkedin",
-              "project": "JugaadHub",
-              "section": "achievements",
+              "source": "linkedin",
+              "technologies": "React",
+              "event": "Orbix Hackathon",
               "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "event": "Orbix Hackathon"
+              "section": "achievements",
+              "project": "JugaadHub",
+              "linkedin_post_id": "linkedin_4"
             },
             "channels": [
               "dense"
@@ -4564,14 +4564,14 @@
           {
             "rank": 17,
             "metadata": {
-              "project": "JugaadHub",
               "technologies": "Gemini",
-              "section": "achievements",
-              "source_type": "linkedin",
-              "event": "Hacknite",
               "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
               "source": "linkedin",
-              "linkedin_post_id": "linkedin_0"
+              "section": "achievements",
+              "linkedin_post_id": "linkedin_0",
+              "event": "Hacknite",
+              "source_type": "linkedin",
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -4588,11 +4588,11 @@
           {
             "rank": 18,
             "metadata": {
-              "source": "resume",
-              "section": "experience",
+              "role": "Club Coordinator",
               "page": 1,
               "company": "Association for Computing Machinery - ICPC",
-              "role": "Club Coordinator"
+              "source": "resume",
+              "section": "experience"
             },
             "channels": [
               "dense"
@@ -4609,13 +4609,13 @@
           {
             "rank": 19,
             "metadata": {
-              "source_type": "linkedin",
-              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
-              "project": "CollabSphere",
               "source": "linkedin",
+              "project": "CollabSphere",
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "source_type": "linkedin",
               "section": "projects",
-              "linkedin_post_id": "linkedin_1"
+              "linkedin_post_id": "linkedin_1",
+              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React"
             },
             "channels": [
               "dense"
@@ -4635,8 +4635,8 @@
             "rank": 1,
             "metadata": {
               "source": "resume",
-              "page": 1,
-              "section": "other"
+              "section": "other",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -4655,8 +4655,8 @@
             "rank": 2,
             "metadata": {
               "source": "resume",
-              "section": "education",
-              "page": 1
+              "page": 1,
+              "section": "education"
             },
             "channels": [
               "dense"
@@ -4674,12 +4674,12 @@
           {
             "rank": 3,
             "metadata": {
-              "project": "JugaadHub",
               "source_type": "linkedin",
-              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
-              "linkedin_post_id": "linkedin_3",
+              "source": "linkedin",
               "section": "projects",
-              "source": "linkedin"
+              "project": "JugaadHub",
+              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
+              "linkedin_post_id": "linkedin_3"
             },
             "channels": [
               "dense"
@@ -4697,10 +4697,10 @@
           {
             "rank": 4,
             "metadata": {
-              "page": 1,
               "project": "JugaadHub",
               "section": "projects",
-              "source": "resume"
+              "source": "resume",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -4719,8 +4719,8 @@
             "rank": 5,
             "metadata": {
               "page": 1,
-              "section": "skills",
-              "source": "resume"
+              "source": "resume",
+              "section": "skills"
             },
             "channels": [
               "dense"
@@ -4738,11 +4738,11 @@
           {
             "rank": 6,
             "metadata": {
-              "source": "resume",
               "role": "Tech Team Member",
               "section": "experience",
-              "page": 1,
-              "company": "IEEE"
+              "source": "resume",
+              "company": "IEEE",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -4765,7 +4765,7 @@
       "question": "What degree is Rohan pursuing?",
       "query_type": "education",
       "confidence": "low",
-      "retrieval_latency_ms": 27.9,
+      "retrieval_latency_ms": 37.21,
       "precision_at_k": {
         "1": 0.0,
         "3": 0.3333,
@@ -4799,9 +4799,9 @@
           {
             "rank": 1,
             "metadata": {
-              "page": 1,
+              "section": "education",
               "source": "resume",
-              "section": "education"
+              "page": 1
             },
             "channels": [
               "bm25",
@@ -4821,9 +4821,9 @@
           {
             "rank": 2,
             "metadata": {
-              "section": "other",
               "source": "resume",
-              "page": 1
+              "page": 1,
+              "section": "other"
             },
             "channels": [
               "dense"
@@ -4840,10 +4840,10 @@
           {
             "rank": 3,
             "metadata": {
-              "source": "resume",
-              "page": 1,
               "role": "Tech Team Member",
+              "source": "resume",
               "company": "IEEE",
+              "page": 1,
               "section": "experience"
             },
             "channels": [
@@ -4861,8 +4861,8 @@
           {
             "rank": 4,
             "metadata": {
-              "source": "resume",
               "page": 1,
+              "source": "resume",
               "section": "skills"
             },
             "channels": [
@@ -4880,9 +4880,9 @@
           {
             "rank": 5,
             "metadata": {
-              "source": "resume",
+              "page": 1,
               "section": "achievements",
-              "page": 1
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -4899,9 +4899,9 @@
           {
             "rank": 6,
             "metadata": {
+              "source": "resume",
               "page": 1,
               "section": "projects",
-              "source": "resume",
               "project": "JugaadHub"
             },
             "channels": [
@@ -4919,10 +4919,10 @@
           {
             "rank": 7,
             "metadata": {
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_9",
-              "section": "achievements",
               "event": "Smart India Hackathon",
+              "linkedin_post_id": "linkedin_9",
+              "source_type": "linkedin",
+              "section": "achievements",
               "source": "linkedin",
               "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)"
             },
@@ -4941,9 +4941,9 @@
           {
             "rank": 8,
             "metadata": {
-              "project": "CollabSphere",
-              "section": "projects",
               "page": 1,
+              "section": "projects",
+              "project": "CollabSphere",
               "source": "resume"
             },
             "channels": [
@@ -4963,10 +4963,10 @@
             "metadata": {
               "section": "achievements",
               "event": "Smart India Hackathon",
+              "source_type": "linkedin",
               "linkedin_post_id": "linkedin_6",
-              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
               "source": "linkedin",
-              "source_type": "linkedin"
+              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)"
             },
             "channels": [
               "dense"
@@ -4983,12 +4983,12 @@
           {
             "rank": 10,
             "metadata": {
+              "section": "achievements",
+              "event": "Smart India Hackathon",
               "source": "linkedin",
-              "source_type": "linkedin",
               "linkedin_post_id": "linkedin_7",
               "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
-              "section": "achievements",
-              "event": "Smart India Hackathon"
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -5005,11 +5005,11 @@
           {
             "rank": 11,
             "metadata": {
-              "role": "Club Coordinator",
+              "section": "experience",
+              "company": "Association for Computing Machinery - ICPC",
               "page": 1,
               "source": "resume",
-              "section": "experience",
-              "company": "Association for Computing Machinery - ICPC"
+              "role": "Club Coordinator"
             },
             "channels": [
               "dense"
@@ -5026,12 +5026,12 @@
           {
             "rank": 12,
             "metadata": {
-              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
-              "source": "linkedin",
-              "section": "projects",
-              "source_type": "linkedin",
               "project": "JugaadHub",
-              "linkedin_post_id": "linkedin_3"
+              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_3",
+              "section": "projects",
+              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -5048,9 +5048,9 @@
           {
             "rank": 13,
             "metadata": {
-              "page": 1,
-              "source": "resume",
               "section": "projects",
+              "source": "resume",
+              "page": 1,
               "project": "VideoTube"
             },
             "channels": [
@@ -5068,14 +5068,14 @@
           {
             "rank": 14,
             "metadata": {
-              "section": "achievements",
-              "linkedin_post_id": "linkedin_5",
-              "source": "linkedin",
-              "technologies": "TypeScript, React",
               "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
-              "source_type": "linkedin",
               "project": "JugaadHub",
-              "event": "HackXtract"
+              "event": "HackXtract",
+              "technologies": "TypeScript, React",
+              "source": "linkedin",
+              "section": "achievements",
+              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_5"
             },
             "channels": [
               "dense"
@@ -5092,11 +5092,11 @@
           {
             "rank": 15,
             "metadata": {
-              "section": "other",
-              "source": "linkedin",
-              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
               "linkedin_post_id": "linkedin_8",
-              "source_type": "linkedin"
+              "section": "other",
+              "source_type": "linkedin",
+              "source": "linkedin",
+              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)"
             },
             "channels": [
               "dense"
@@ -5113,14 +5113,14 @@
           {
             "rank": 16,
             "metadata": {
-              "event": "Orbix Hackathon",
-              "source": "linkedin",
-              "linkedin_post_id": "linkedin_4",
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "project": "JugaadHub",
-              "technologies": "React",
               "section": "achievements",
-              "source_type": "linkedin"
+              "linkedin_post_id": "linkedin_4",
+              "technologies": "React",
+              "source_type": "linkedin",
+              "project": "JugaadHub",
+              "source": "linkedin",
+              "event": "Orbix Hackathon",
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)"
             },
             "channels": [
               "dense"
@@ -5137,14 +5137,14 @@
           {
             "rank": 17,
             "metadata": {
-              "project": "JugaadHub",
-              "technologies": "Gemini",
-              "source": "linkedin",
-              "event": "Hacknite",
               "section": "achievements",
-              "source_type": "linkedin",
+              "event": "Hacknite",
               "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
-              "linkedin_post_id": "linkedin_0"
+              "source": "linkedin",
+              "project": "JugaadHub",
+              "linkedin_post_id": "linkedin_0",
+              "source_type": "linkedin",
+              "technologies": "Gemini"
             },
             "channels": [
               "dense"
@@ -5161,13 +5161,13 @@
           {
             "rank": 18,
             "metadata": {
-              "technologies": "Node.js, MongoDB, React",
-              "project": "VideoTube",
               "section": "projects",
-              "source": "linkedin",
               "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_2",
+              "source": "linkedin",
               "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
-              "linkedin_post_id": "linkedin_2"
+              "project": "VideoTube",
+              "technologies": "Node.js, MongoDB, React"
             },
             "channels": [
               "dense"
@@ -5184,13 +5184,13 @@
           {
             "rank": 19,
             "metadata": {
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
-              "project": "CollabSphere",
-              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_1",
               "source": "linkedin",
-              "section": "projects"
+              "section": "projects",
+              "project": "CollabSphere",
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "linkedin_post_id": "linkedin_1",
+              "source_type": "linkedin",
+              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React"
             },
             "channels": [
               "dense"
@@ -5209,9 +5209,9 @@
           {
             "rank": 1,
             "metadata": {
-              "section": "other",
               "source": "resume",
-              "page": 1
+              "page": 1,
+              "section": "other"
             },
             "channels": [
               "dense"
@@ -5229,9 +5229,9 @@
           {
             "rank": 2,
             "metadata": {
-              "page": 1,
+              "section": "education",
               "source": "resume",
-              "section": "education"
+              "page": 1
             },
             "channels": [
               "bm25",
@@ -5252,9 +5252,9 @@
           {
             "rank": 3,
             "metadata": {
-              "source": "resume",
+              "page": 1,
               "section": "achievements",
-              "page": 1
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -5272,8 +5272,8 @@
           {
             "rank": 4,
             "metadata": {
-              "source": "resume",
               "page": 1,
+              "source": "resume",
               "section": "skills"
             },
             "channels": [
@@ -5292,9 +5292,9 @@
           {
             "rank": 5,
             "metadata": {
+              "source": "resume",
               "page": 1,
               "section": "projects",
-              "source": "resume",
               "project": "JugaadHub"
             },
             "channels": [
@@ -5313,10 +5313,10 @@
           {
             "rank": 6,
             "metadata": {
-              "source": "resume",
-              "page": 1,
               "role": "Tech Team Member",
+              "source": "resume",
               "company": "IEEE",
+              "page": 1,
               "section": "experience"
             },
             "channels": [
@@ -5340,7 +5340,7 @@
       "question": "What is Rohan's CGPA?",
       "query_type": "education",
       "confidence": "high",
-      "retrieval_latency_ms": 51.87,
+      "retrieval_latency_ms": 72.17,
       "precision_at_k": {
         "1": 1.0,
         "3": 0.3333,
@@ -5375,8 +5375,8 @@
             "rank": 1,
             "metadata": {
               "section": "education",
-              "page": 1,
-              "source": "resume"
+              "source": "resume",
+              "page": 1
             },
             "channels": [
               "bm25",
@@ -5398,8 +5398,8 @@
             "rank": 2,
             "metadata": {
               "section": "other",
-              "source": "resume",
-              "page": 1
+              "page": 1,
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -5416,12 +5416,12 @@
           {
             "rank": 3,
             "metadata": {
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_3",
               "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
-              "project": "JugaadHub",
+              "source_type": "linkedin",
               "section": "projects",
-              "source": "linkedin"
+              "linkedin_post_id": "linkedin_3",
+              "source": "linkedin",
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -5438,12 +5438,12 @@
           {
             "rank": 4,
             "metadata": {
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
               "source_type": "linkedin",
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
               "linkedin_post_id": "linkedin_9",
+              "section": "achievements",
               "source": "linkedin",
-              "event": "Smart India Hackathon",
-              "section": "achievements"
+              "event": "Smart India Hackathon"
             },
             "channels": [
               "dense"
@@ -5460,12 +5460,12 @@
           {
             "rank": 5,
             "metadata": {
-              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
+              "section": "achievements",
+              "source_type": "linkedin",
               "linkedin_post_id": "linkedin_6",
               "event": "Smart India Hackathon",
               "source": "linkedin",
-              "source_type": "linkedin",
-              "section": "achievements"
+              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)"
             },
             "channels": [
               "dense"
@@ -5482,12 +5482,12 @@
           {
             "rank": 6,
             "metadata": {
-              "linkedin_post_id": "linkedin_7",
               "source_type": "linkedin",
-              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
+              "section": "achievements",
               "event": "Smart India Hackathon",
-              "source": "linkedin",
-              "section": "achievements"
+              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
+              "linkedin_post_id": "linkedin_7",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -5504,14 +5504,14 @@
           {
             "rank": 7,
             "metadata": {
-              "source": "linkedin",
-              "event": "Orbix Hackathon",
+              "source_type": "linkedin",
               "technologies": "React",
               "section": "achievements",
-              "project": "JugaadHub",
               "linkedin_post_id": "linkedin_4",
               "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "source_type": "linkedin"
+              "event": "Orbix Hackathon",
+              "source": "linkedin",
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -5528,14 +5528,14 @@
           {
             "rank": 8,
             "metadata": {
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
-              "linkedin_post_id": "linkedin_5",
-              "event": "HackXtract",
               "technologies": "TypeScript, React",
-              "project": "JugaadHub",
+              "source": "linkedin",
               "section": "achievements",
-              "source": "linkedin"
+              "project": "JugaadHub",
+              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
+              "event": "HackXtract",
+              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_5"
             },
             "channels": [
               "dense"
@@ -5552,13 +5552,13 @@
           {
             "rank": 9,
             "metadata": {
-              "section": "projects",
-              "source": "linkedin",
               "source_type": "linkedin",
+              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
+              "source": "linkedin",
               "linkedin_post_id": "linkedin_2",
               "technologies": "Node.js, MongoDB, React",
               "project": "VideoTube",
-              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)"
+              "section": "projects"
             },
             "channels": [
               "dense"
@@ -5596,9 +5596,9 @@
           {
             "rank": 11,
             "metadata": {
-              "section": "skills",
               "source": "resume",
-              "page": 1
+              "page": 1,
+              "section": "skills"
             },
             "channels": [
               "dense"
@@ -5616,8 +5616,8 @@
             "rank": 12,
             "metadata": {
               "section": "achievements",
-              "page": 1,
-              "source": "resume"
+              "source": "resume",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -5634,11 +5634,11 @@
           {
             "rank": 13,
             "metadata": {
-              "source": "resume",
-              "page": 1,
-              "section": "experience",
               "company": "IEEE",
-              "role": "Tech Team Member"
+              "role": "Tech Team Member",
+              "section": "experience",
+              "source": "resume",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -5655,10 +5655,10 @@
           {
             "rank": 14,
             "metadata": {
-              "source": "resume",
-              "section": "projects",
               "project": "JugaadHub",
-              "page": 1
+              "page": 1,
+              "source": "resume",
+              "section": "projects"
             },
             "channels": [
               "dense"
@@ -5675,14 +5675,14 @@
           {
             "rank": 15,
             "metadata": {
-              "source_type": "linkedin",
-              "source": "linkedin",
               "project": "JugaadHub",
               "section": "achievements",
               "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "technologies": "Gemini",
+              "source": "linkedin",
               "linkedin_post_id": "linkedin_0",
-              "event": "Hacknite",
-              "technologies": "Gemini"
+              "source_type": "linkedin",
+              "event": "Hacknite"
             },
             "channels": [
               "dense"
@@ -5699,13 +5699,13 @@
           {
             "rank": 16,
             "metadata": {
+              "project": "CollabSphere",
               "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
               "linkedin_post_id": "linkedin_1",
-              "section": "projects",
+              "source": "linkedin",
               "source_type": "linkedin",
-              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
-              "project": "CollabSphere",
-              "source": "linkedin"
+              "section": "projects",
+              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React"
             },
             "channels": [
               "dense"
@@ -5722,11 +5722,11 @@
           {
             "rank": 17,
             "metadata": {
-              "company": "Association for Computing Machinery - ICPC",
               "source": "resume",
-              "page": 1,
               "role": "Club Coordinator",
-              "section": "experience"
+              "company": "Association for Computing Machinery - ICPC",
+              "section": "experience",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -5743,10 +5743,10 @@
           {
             "rank": 18,
             "metadata": {
-              "project": "CollabSphere",
-              "page": 1,
+              "section": "projects",
               "source": "resume",
-              "section": "projects"
+              "project": "CollabSphere",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -5763,10 +5763,10 @@
           {
             "rank": 19,
             "metadata": {
+              "section": "projects",
               "project": "VideoTube",
               "page": 1,
-              "source": "resume",
-              "section": "projects"
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -5786,8 +5786,8 @@
             "rank": 1,
             "metadata": {
               "section": "education",
-              "page": 1,
-              "source": "resume"
+              "source": "resume",
+              "page": 1
             },
             "channels": [
               "bm25",
@@ -5810,8 +5810,8 @@
             "rank": 2,
             "metadata": {
               "section": "other",
-              "source": "resume",
-              "page": 1
+              "page": 1,
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -5829,12 +5829,12 @@
           {
             "rank": 3,
             "metadata": {
-              "linkedin_post_id": "linkedin_7",
               "source_type": "linkedin",
-              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
+              "section": "achievements",
               "event": "Smart India Hackathon",
-              "source": "linkedin",
-              "section": "achievements"
+              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
+              "linkedin_post_id": "linkedin_7",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -5852,12 +5852,12 @@
           {
             "rank": 4,
             "metadata": {
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_3",
               "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
-              "project": "JugaadHub",
+              "source_type": "linkedin",
               "section": "projects",
-              "source": "linkedin"
+              "linkedin_post_id": "linkedin_3",
+              "source": "linkedin",
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -5875,12 +5875,12 @@
           {
             "rank": 5,
             "metadata": {
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
               "source_type": "linkedin",
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
               "linkedin_post_id": "linkedin_9",
+              "section": "achievements",
               "source": "linkedin",
-              "event": "Smart India Hackathon",
-              "section": "achievements"
+              "event": "Smart India Hackathon"
             },
             "channels": [
               "dense"
@@ -5898,14 +5898,14 @@
           {
             "rank": 6,
             "metadata": {
-              "source": "linkedin",
-              "event": "Orbix Hackathon",
+              "source_type": "linkedin",
               "technologies": "React",
               "section": "achievements",
-              "project": "JugaadHub",
               "linkedin_post_id": "linkedin_4",
               "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "source_type": "linkedin"
+              "event": "Orbix Hackathon",
+              "source": "linkedin",
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -5928,7 +5928,7 @@
       "question": "How many problems has Rohan solved on LeetCode?",
       "query_type": "achievement",
       "confidence": "high",
-      "retrieval_latency_ms": 48.0,
+      "retrieval_latency_ms": 75.75,
       "precision_at_k": {
         "1": 1.0,
         "3": 0.3333,
@@ -5962,9 +5962,9 @@
           {
             "rank": 1,
             "metadata": {
+              "source": "resume",
               "page": 1,
-              "section": "achievements",
-              "source": "resume"
+              "section": "achievements"
             },
             "channels": [
               "bm25",
@@ -5983,8 +5983,8 @@
           {
             "rank": 2,
             "metadata": {
-              "page": 1,
               "source": "resume",
+              "page": 1,
               "section": "other"
             },
             "channels": [
@@ -6004,11 +6004,11 @@
           {
             "rank": 3,
             "metadata": {
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
-              "linkedin_post_id": "linkedin_8",
               "section": "other",
-              "source": "linkedin"
+              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
+              "source": "linkedin",
+              "linkedin_post_id": "linkedin_8",
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -6027,12 +6027,12 @@
           {
             "rank": 4,
             "metadata": {
-              "event": "Smart India Hackathon",
-              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
               "linkedin_post_id": "linkedin_6",
-              "source_type": "linkedin",
               "source": "linkedin",
-              "section": "achievements"
+              "source_type": "linkedin",
+              "event": "Smart India Hackathon",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)"
             },
             "channels": [
               "bm25",
@@ -6051,12 +6051,12 @@
           {
             "rank": 5,
             "metadata": {
-              "event": "Smart India Hackathon",
-              "source": "linkedin",
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
               "section": "achievements",
-              "linkedin_post_id": "linkedin_9",
               "source_type": "linkedin",
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)"
+              "linkedin_post_id": "linkedin_9",
+              "source": "linkedin",
+              "event": "Smart India Hackathon"
             },
             "channels": [
               "bm25",
@@ -6075,12 +6075,12 @@
           {
             "rank": 6,
             "metadata": {
-              "source": "linkedin",
-              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
-              "linkedin_post_id": "linkedin_7",
               "source_type": "linkedin",
               "section": "achievements",
-              "event": "Smart India Hackathon"
+              "event": "Smart India Hackathon",
+              "linkedin_post_id": "linkedin_7",
+              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -6097,9 +6097,9 @@
           {
             "rank": 7,
             "metadata": {
-              "page": 1,
+              "section": "education",
               "source": "resume",
-              "section": "education"
+              "page": 1
             },
             "channels": [
               "dense"
@@ -6116,13 +6116,13 @@
           {
             "rank": 8,
             "metadata": {
-              "technologies": "Node.js, MongoDB, React",
-              "linkedin_post_id": "linkedin_2",
-              "source": "linkedin",
               "project": "VideoTube",
+              "source": "linkedin",
               "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_2",
               "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
-              "section": "projects"
+              "section": "projects",
+              "technologies": "Node.js, MongoDB, React"
             },
             "channels": [
               "bm25",
@@ -6141,11 +6141,11 @@
           {
             "rank": 9,
             "metadata": {
-              "source": "resume",
               "company": "IEEE",
+              "source": "resume",
+              "page": 1,
               "section": "experience",
-              "role": "Tech Team Member",
-              "page": 1
+              "role": "Tech Team Member"
             },
             "channels": [
               "dense"
@@ -6162,11 +6162,11 @@
           {
             "rank": 10,
             "metadata": {
-              "project": "JugaadHub",
-              "linkedin_post_id": "linkedin_3",
               "source_type": "linkedin",
-              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
               "section": "projects",
+              "linkedin_post_id": "linkedin_3",
+              "project": "JugaadHub",
+              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
               "source": "linkedin"
             },
             "channels": [
@@ -6184,14 +6184,14 @@
           {
             "rank": 11,
             "metadata": {
-              "event": "Orbix Hackathon",
-              "section": "achievements",
               "linkedin_post_id": "linkedin_4",
-              "technologies": "React",
+              "project": "JugaadHub",
               "source": "linkedin",
+              "event": "Orbix Hackathon",
+              "technologies": "React",
               "source_type": "linkedin",
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "project": "JugaadHub"
+              "section": "achievements",
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)"
             },
             "channels": [
               "dense"
@@ -6208,9 +6208,9 @@
           {
             "rank": 12,
             "metadata": {
-              "source": "resume",
+              "page": 1,
               "section": "skills",
-              "page": 1
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -6227,14 +6227,14 @@
           {
             "rank": 13,
             "metadata": {
-              "section": "achievements",
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
-              "linkedin_post_id": "linkedin_5",
               "technologies": "TypeScript, React",
               "event": "HackXtract",
+              "linkedin_post_id": "linkedin_5",
               "project": "JugaadHub",
-              "source": "linkedin"
+              "source": "linkedin",
+              "source_type": "linkedin",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)"
             },
             "channels": [
               "dense"
@@ -6251,10 +6251,10 @@
           {
             "rank": 14,
             "metadata": {
-              "project": "CollabSphere",
+              "source": "resume",
               "section": "projects",
-              "page": 1,
-              "source": "resume"
+              "project": "CollabSphere",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -6273,9 +6273,9 @@
             "metadata": {
               "section": "experience",
               "source": "resume",
+              "role": "Club Coordinator",
               "page": 1,
-              "company": "Association for Computing Machinery - ICPC",
-              "role": "Club Coordinator"
+              "company": "Association for Computing Machinery - ICPC"
             },
             "channels": [
               "dense"
@@ -6292,13 +6292,13 @@
           {
             "rank": 16,
             "metadata": {
-              "section": "achievements",
-              "technologies": "Gemini",
-              "source_type": "linkedin",
-              "source": "linkedin",
-              "project": "JugaadHub",
               "event": "Hacknite",
+              "source_type": "linkedin",
               "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "section": "achievements",
+              "project": "JugaadHub",
+              "source": "linkedin",
+              "technologies": "Gemini",
               "linkedin_post_id": "linkedin_0"
             },
             "channels": [
@@ -6316,9 +6316,9 @@
           {
             "rank": 17,
             "metadata": {
+              "source": "resume",
               "page": 1,
               "section": "projects",
-              "source": "resume",
               "project": "JugaadHub"
             },
             "channels": [
@@ -6336,13 +6336,13 @@
           {
             "rank": 18,
             "metadata": {
-              "linkedin_post_id": "linkedin_1",
-              "project": "CollabSphere",
+              "section": "projects",
               "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
               "source_type": "linkedin",
-              "source": "linkedin",
-              "section": "projects"
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "project": "CollabSphere",
+              "linkedin_post_id": "linkedin_1",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -6359,9 +6359,9 @@
           {
             "rank": 19,
             "metadata": {
-              "page": 1,
-              "source": "resume",
               "section": "projects",
+              "source": "resume",
+              "page": 1,
               "project": "VideoTube"
             },
             "channels": [
@@ -6381,9 +6381,9 @@
           {
             "rank": 1,
             "metadata": {
+              "source": "resume",
               "page": 1,
-              "section": "achievements",
-              "source": "resume"
+              "section": "achievements"
             },
             "channels": [
               "bm25",
@@ -6403,8 +6403,8 @@
           {
             "rank": 2,
             "metadata": {
-              "page": 1,
               "source": "resume",
+              "page": 1,
               "section": "other"
             },
             "channels": [
@@ -6425,11 +6425,11 @@
           {
             "rank": 3,
             "metadata": {
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
-              "linkedin_post_id": "linkedin_8",
               "section": "other",
-              "source": "linkedin"
+              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
+              "source": "linkedin",
+              "linkedin_post_id": "linkedin_8",
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -6449,12 +6449,12 @@
           {
             "rank": 4,
             "metadata": {
-              "event": "Smart India Hackathon",
-              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
               "linkedin_post_id": "linkedin_6",
-              "source_type": "linkedin",
               "source": "linkedin",
-              "section": "achievements"
+              "source_type": "linkedin",
+              "event": "Smart India Hackathon",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)"
             },
             "channels": [
               "bm25",
@@ -6474,12 +6474,12 @@
           {
             "rank": 5,
             "metadata": {
-              "source": "linkedin",
-              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
-              "linkedin_post_id": "linkedin_7",
               "source_type": "linkedin",
               "section": "achievements",
-              "event": "Smart India Hackathon"
+              "event": "Smart India Hackathon",
+              "linkedin_post_id": "linkedin_7",
+              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -6497,9 +6497,9 @@
           {
             "rank": 6,
             "metadata": {
-              "page": 1,
+              "section": "education",
               "source": "resume",
-              "section": "education"
+              "page": 1
             },
             "channels": [
               "dense"
@@ -6522,7 +6522,7 @@
       "question": "Did Rohan clear the Google Big Code Challenge?",
       "query_type": "achievement",
       "confidence": "high",
-      "retrieval_latency_ms": 94.48,
+      "retrieval_latency_ms": 157.67,
       "precision_at_k": {
         "1": 1.0,
         "3": 0.3333,
@@ -6554,8 +6554,8 @@
           {
             "rank": 1,
             "metadata": {
-              "page": 1,
               "source": "resume",
+              "page": 1,
               "section": "achievements"
             },
             "channels": [
@@ -6577,11 +6577,11 @@
           {
             "rank": 2,
             "metadata": {
-              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
               "linkedin_post_id": "linkedin_3",
+              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
+              "source": "linkedin",
               "source_type": "linkedin",
               "project": "JugaadHub",
-              "source": "linkedin",
               "section": "projects"
             },
             "channels": [
@@ -6601,12 +6601,12 @@
           {
             "rank": 3,
             "metadata": {
-              "section": "achievements",
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
-              "event": "Smart India Hackathon",
+              "source": "linkedin",
               "source_type": "linkedin",
               "linkedin_post_id": "linkedin_9",
-              "source": "linkedin"
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
+              "section": "achievements",
+              "event": "Smart India Hackathon"
             },
             "channels": [
               "bm25",
@@ -6625,13 +6625,13 @@
           {
             "rank": 4,
             "metadata": {
-              "linkedin_post_id": "linkedin_1",
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
-              "section": "projects",
-              "source": "linkedin",
               "project": "CollabSphere",
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "linkedin_post_id": "linkedin_1",
+              "source_type": "linkedin",
               "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
-              "source_type": "linkedin"
+              "source": "linkedin",
+              "section": "projects"
             },
             "channels": [
               "bm25",
@@ -6650,11 +6650,11 @@
           {
             "rank": 5,
             "metadata": {
-              "source_type": "linkedin",
               "section": "achievements",
+              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
+              "source_type": "linkedin",
               "linkedin_post_id": "linkedin_6",
               "source": "linkedin",
-              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
               "event": "Smart India Hackathon"
             },
             "channels": [
@@ -6672,14 +6672,14 @@
           {
             "rank": 6,
             "metadata": {
-              "project": "JugaadHub",
-              "linkedin_post_id": "linkedin_4",
+              "technologies": "React",
               "source_type": "linkedin",
               "source": "linkedin",
-              "technologies": "React",
+              "project": "JugaadHub",
+              "event": "Orbix Hackathon",
               "section": "achievements",
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "event": "Orbix Hackathon"
+              "linkedin_post_id": "linkedin_4",
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)"
             },
             "channels": [
               "dense"
@@ -6696,14 +6696,14 @@
           {
             "rank": 7,
             "metadata": {
-              "technologies": "Gemini",
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_0",
               "section": "achievements",
-              "event": "Hacknite",
               "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "technologies": "Gemini",
+              "project": "JugaadHub",
+              "event": "Hacknite",
+              "linkedin_post_id": "linkedin_0",
               "source": "linkedin",
-              "project": "JugaadHub"
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -6722,14 +6722,14 @@
           {
             "rank": 8,
             "metadata": {
-              "project": "JugaadHub",
-              "section": "achievements",
-              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
+              "event": "HackXtract",
               "technologies": "TypeScript, React",
               "source": "linkedin",
               "linkedin_post_id": "linkedin_5",
-              "event": "HackXtract",
-              "source_type": "linkedin"
+              "project": "JugaadHub",
+              "source_type": "linkedin",
+              "section": "achievements",
+              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)"
             },
             "channels": [
               "dense"
@@ -6747,11 +6747,11 @@
             "rank": 9,
             "metadata": {
               "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
-              "source_type": "linkedin",
+              "event": "Smart India Hackathon",
               "source": "linkedin",
               "linkedin_post_id": "linkedin_7",
               "section": "achievements",
-              "event": "Smart India Hackathon"
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -6768,10 +6768,10 @@
           {
             "rank": 10,
             "metadata": {
-              "source": "resume",
-              "section": "projects",
+              "page": 1,
               "project": "CollabSphere",
-              "page": 1
+              "source": "resume",
+              "section": "projects"
             },
             "channels": [
               "bm25",
@@ -6790,9 +6790,9 @@
           {
             "rank": 11,
             "metadata": {
+              "source": "resume",
               "section": "projects",
               "project": "VideoTube",
-              "source": "resume",
               "page": 1
             },
             "channels": [
@@ -6812,13 +6812,13 @@
           {
             "rank": 12,
             "metadata": {
-              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
+              "linkedin_post_id": "linkedin_2",
               "technologies": "Node.js, MongoDB, React",
               "section": "projects",
-              "linkedin_post_id": "linkedin_2",
-              "source": "linkedin",
               "source_type": "linkedin",
-              "project": "VideoTube"
+              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
+              "project": "VideoTube",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -6835,9 +6835,9 @@
           {
             "rank": 13,
             "metadata": {
-              "source": "resume",
               "section": "skills",
-              "page": 1
+              "page": 1,
+              "source": "resume"
             },
             "channels": [
               "bm25",
@@ -6857,8 +6857,8 @@
             "rank": 14,
             "metadata": {
               "page": 1,
-              "section": "other",
-              "source": "resume"
+              "source": "resume",
+              "section": "other"
             },
             "channels": [
               "dense"
@@ -6876,9 +6876,9 @@
             "rank": 15,
             "metadata": {
               "source": "resume",
-              "section": "projects",
               "page": 1,
-              "project": "JugaadHub"
+              "project": "JugaadHub",
+              "section": "projects"
             },
             "channels": [
               "bm25",
@@ -6899,9 +6899,9 @@
             "metadata": {
               "section": "other",
               "source_type": "linkedin",
+              "source": "linkedin",
               "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
-              "linkedin_post_id": "linkedin_8",
-              "source": "linkedin"
+              "linkedin_post_id": "linkedin_8"
             },
             "channels": [
               "dense"
@@ -6920,8 +6920,8 @@
             "metadata": {
               "page": 1,
               "section": "experience",
-              "role": "Tech Team Member",
               "company": "IEEE",
+              "role": "Tech Team Member",
               "source": "resume"
             },
             "channels": [
@@ -6983,8 +6983,8 @@
           {
             "rank": 1,
             "metadata": {
-              "page": 1,
               "source": "resume",
+              "page": 1,
               "section": "achievements"
             },
             "channels": [
@@ -7007,11 +7007,11 @@
           {
             "rank": 2,
             "metadata": {
-              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
               "linkedin_post_id": "linkedin_3",
+              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
+              "source": "linkedin",
               "source_type": "linkedin",
               "project": "JugaadHub",
-              "source": "linkedin",
               "section": "projects"
             },
             "channels": [
@@ -7032,12 +7032,12 @@
           {
             "rank": 3,
             "metadata": {
-              "section": "achievements",
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
-              "event": "Smart India Hackathon",
+              "source": "linkedin",
               "source_type": "linkedin",
               "linkedin_post_id": "linkedin_9",
-              "source": "linkedin"
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
+              "section": "achievements",
+              "event": "Smart India Hackathon"
             },
             "channels": [
               "bm25",
@@ -7057,13 +7057,13 @@
           {
             "rank": 4,
             "metadata": {
-              "linkedin_post_id": "linkedin_1",
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
-              "section": "projects",
-              "source": "linkedin",
               "project": "CollabSphere",
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "linkedin_post_id": "linkedin_1",
+              "source_type": "linkedin",
               "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
-              "source_type": "linkedin"
+              "source": "linkedin",
+              "section": "projects"
             },
             "channels": [
               "bm25",
@@ -7083,14 +7083,14 @@
           {
             "rank": 5,
             "metadata": {
-              "technologies": "Gemini",
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_0",
               "section": "achievements",
-              "event": "Hacknite",
               "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "technologies": "Gemini",
+              "project": "JugaadHub",
+              "event": "Hacknite",
+              "linkedin_post_id": "linkedin_0",
               "source": "linkedin",
-              "project": "JugaadHub"
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -7110,14 +7110,14 @@
           {
             "rank": 6,
             "metadata": {
-              "project": "JugaadHub",
-              "linkedin_post_id": "linkedin_4",
+              "technologies": "React",
               "source_type": "linkedin",
               "source": "linkedin",
-              "technologies": "React",
+              "project": "JugaadHub",
+              "event": "Orbix Hackathon",
               "section": "achievements",
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "event": "Orbix Hackathon"
+              "linkedin_post_id": "linkedin_4",
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)"
             },
             "channels": [
               "dense"
@@ -7140,7 +7140,7 @@
       "question": "What was Rohan's rank in the International Mathematics Olympiad?",
       "query_type": "achievement",
       "confidence": "high",
-      "retrieval_latency_ms": 16.68,
+      "retrieval_latency_ms": 22.59,
       "precision_at_k": {
         "1": 1.0,
         "3": 0.3333,
@@ -7170,9 +7170,9 @@
           {
             "rank": 1,
             "metadata": {
-              "page": 1,
               "source": "resume",
-              "section": "achievements"
+              "section": "achievements",
+              "page": 1
             },
             "channels": [
               "bm25",
@@ -7193,8 +7193,8 @@
           {
             "rank": 2,
             "metadata": {
-              "page": 1,
               "section": "education",
+              "page": 1,
               "source": "resume"
             },
             "channels": [
@@ -7213,8 +7213,8 @@
             "rank": 3,
             "metadata": {
               "page": 1,
-              "section": "other",
-              "source": "resume"
+              "source": "resume",
+              "section": "other"
             },
             "channels": [
               "dense"
@@ -7231,11 +7231,11 @@
           {
             "rank": 4,
             "metadata": {
-              "role": "Tech Team Member",
-              "section": "experience",
-              "page": 1,
+              "source": "resume",
               "company": "IEEE",
-              "source": "resume"
+              "page": 1,
+              "role": "Tech Team Member",
+              "section": "experience"
             },
             "channels": [
               "dense"
@@ -7252,14 +7252,14 @@
           {
             "rank": 5,
             "metadata": {
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "project": "JugaadHub",
-              "source_type": "linkedin",
-              "event": "Orbix Hackathon",
               "section": "achievements",
-              "source": "linkedin",
               "technologies": "React",
-              "linkedin_post_id": "linkedin_4"
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
+              "linkedin_post_id": "linkedin_4",
+              "event": "Orbix Hackathon",
+              "project": "JugaadHub",
+              "source": "linkedin",
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -7277,8 +7277,8 @@
             "rank": 6,
             "metadata": {
               "page": 1,
-              "source": "resume",
-              "section": "skills"
+              "section": "skills",
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -7295,12 +7295,12 @@
           {
             "rank": 7,
             "metadata": {
-              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
               "source_type": "linkedin",
-              "section": "achievements",
+              "event": "Smart India Hackathon",
               "linkedin_post_id": "linkedin_7",
-              "source": "linkedin",
-              "event": "Smart India Hackathon"
+              "section": "achievements",
+              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -7317,12 +7317,12 @@
           {
             "rank": 8,
             "metadata": {
-              "source": "linkedin",
-              "event": "Smart India Hackathon",
+              "section": "achievements",
               "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
-              "linkedin_post_id": "linkedin_9",
               "source_type": "linkedin",
-              "section": "achievements"
+              "source": "linkedin",
+              "linkedin_post_id": "linkedin_9",
+              "event": "Smart India Hackathon"
             },
             "channels": [
               "dense"
@@ -7339,12 +7339,12 @@
           {
             "rank": 9,
             "metadata": {
+              "linkedin_post_id": "linkedin_6",
               "source": "linkedin",
+              "source_type": "linkedin",
               "event": "Smart India Hackathon",
               "section": "achievements",
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
-              "linkedin_post_id": "linkedin_6"
+              "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)"
             },
             "channels": [
               "dense"
@@ -7361,14 +7361,14 @@
           {
             "rank": 10,
             "metadata": {
-              "project": "JugaadHub",
-              "technologies": "Gemini",
-              "source": "linkedin",
-              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
               "section": "achievements",
+              "source": "linkedin",
+              "project": "JugaadHub",
+              "source_type": "linkedin",
+              "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
+              "technologies": "Gemini",
               "linkedin_post_id": "linkedin_0",
-              "event": "Hacknite",
-              "source_type": "linkedin"
+              "event": "Hacknite"
             },
             "channels": [
               "dense"
@@ -7385,11 +7385,11 @@
           {
             "rank": 11,
             "metadata": {
-              "role": "Club Coordinator",
               "company": "Association for Computing Machinery - ICPC",
-              "source": "resume",
               "page": 1,
-              "section": "experience"
+              "section": "experience",
+              "source": "resume",
+              "role": "Club Coordinator"
             },
             "channels": [
               "dense"
@@ -7406,10 +7406,10 @@
           {
             "rank": 12,
             "metadata": {
-              "project": "JugaadHub",
-              "section": "projects",
               "page": 1,
-              "source": "resume"
+              "section": "projects",
+              "source": "resume",
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -7426,12 +7426,12 @@
           {
             "rank": 13,
             "metadata": {
-              "project": "JugaadHub",
               "section": "projects",
-              "source": "linkedin",
+              "linkedin_post_id": "linkedin_3",
+              "project": "JugaadHub",
               "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
               "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_3"
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -7449,9 +7449,9 @@
             "rank": 14,
             "metadata": {
               "page": 1,
+              "section": "projects",
               "source": "resume",
-              "project": "CollabSphere",
-              "section": "projects"
+              "project": "CollabSphere"
             },
             "channels": [
               "dense"
@@ -7468,14 +7468,14 @@
           {
             "rank": 15,
             "metadata": {
-              "technologies": "TypeScript, React",
-              "source": "linkedin",
-              "linkedin_post_id": "linkedin_5",
-              "project": "JugaadHub",
-              "section": "achievements",
               "source_type": "linkedin",
+              "source": "linkedin",
+              "technologies": "TypeScript, React",
+              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
+              "linkedin_post_id": "linkedin_5",
+              "section": "achievements",
               "event": "HackXtract",
-              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)"
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -7492,11 +7492,11 @@
           {
             "rank": 16,
             "metadata": {
-              "source_type": "linkedin",
-              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
               "source": "linkedin",
+              "linkedin_post_id": "linkedin_8",
+              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
               "section": "other",
-              "linkedin_post_id": "linkedin_8"
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -7513,13 +7513,13 @@
           {
             "rank": 17,
             "metadata": {
-              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
-              "linkedin_post_id": "linkedin_2",
               "section": "projects",
-              "project": "VideoTube",
+              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
               "source_type": "linkedin",
-              "technologies": "Node.js, MongoDB, React",
-              "source": "linkedin"
+              "linkedin_post_id": "linkedin_2",
+              "project": "VideoTube",
+              "source": "linkedin",
+              "technologies": "Node.js, MongoDB, React"
             },
             "channels": [
               "dense"
@@ -7536,10 +7536,10 @@
           {
             "rank": 18,
             "metadata": {
-              "page": 1,
               "source": "resume",
               "project": "VideoTube",
-              "section": "projects"
+              "section": "projects",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -7556,13 +7556,13 @@
           {
             "rank": 19,
             "metadata": {
-              "source": "linkedin",
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_1",
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
               "project": "CollabSphere",
-              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
               "section": "projects",
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)"
+              "source_type": "linkedin",
+              "source": "linkedin",
+              "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
+              "linkedin_post_id": "linkedin_1"
             },
             "channels": [
               "dense"
@@ -7581,9 +7581,9 @@
           {
             "rank": 1,
             "metadata": {
-              "page": 1,
               "source": "resume",
-              "section": "achievements"
+              "section": "achievements",
+              "page": 1
             },
             "channels": [
               "bm25",
@@ -7606,8 +7606,8 @@
             "rank": 2,
             "metadata": {
               "page": 1,
-              "section": "other",
-              "source": "resume"
+              "source": "resume",
+              "section": "other"
             },
             "channels": [
               "dense"
@@ -7625,8 +7625,8 @@
           {
             "rank": 3,
             "metadata": {
-              "page": 1,
               "section": "education",
+              "page": 1,
               "source": "resume"
             },
             "channels": [
@@ -7645,11 +7645,11 @@
           {
             "rank": 4,
             "metadata": {
-              "role": "Tech Team Member",
-              "section": "experience",
-              "page": 1,
+              "source": "resume",
               "company": "IEEE",
-              "source": "resume"
+              "page": 1,
+              "role": "Tech Team Member",
+              "section": "experience"
             },
             "channels": [
               "dense"
@@ -7672,7 +7672,7 @@
       "question": "What was Rohan's result at HackXtract?",
       "query_type": "achievement",
       "confidence": "high",
-      "retrieval_latency_ms": 13.05,
+      "retrieval_latency_ms": 17.8,
       "precision_at_k": {
         "1": 1.0,
         "3": 1.0,
@@ -7702,14 +7702,14 @@
           {
             "rank": 1,
             "metadata": {
-              "linkedin_post_id": "linkedin_5",
-              "source": "linkedin",
-              "section": "achievements",
               "event": "HackXtract",
-              "project": "JugaadHub",
-              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
               "source_type": "linkedin",
-              "technologies": "TypeScript, React"
+              "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
+              "section": "achievements",
+              "source": "linkedin",
+              "technologies": "TypeScript, React",
+              "project": "JugaadHub",
+              "linkedin_post_id": "linkedin_5"
             },
             "channels": [],
             "semantic_score": 1.0,
@@ -7733,7 +7733,7 @@
       "question": "What is Rohan's email address?",
       "query_type": "contact",
       "confidence": "high",
-      "retrieval_latency_ms": 1.73,
+      "retrieval_latency_ms": 1.8,
       "precision_at_k": {
         "1": 1.0,
         "3": 1.0,
@@ -7762,7 +7762,7 @@
       "question": "What is Rohan's phone number?",
       "query_type": "contact",
       "confidence": "high",
-      "retrieval_latency_ms": 1.36,
+      "retrieval_latency_ms": 1.47,
       "precision_at_k": {
         "1": 1.0,
         "3": 1.0,
@@ -7791,7 +7791,7 @@
       "question": "What is Rohan's favorite football team?",
       "query_type": "unsupported",
       "confidence": "low",
-      "retrieval_latency_ms": 64.03,
+      "retrieval_latency_ms": 97.93,
       "precision_at_k": {},
       "recall_at_k": {},
       "first_relevant_rank": null,
@@ -7815,9 +7815,9 @@
             "metadata": {
               "source": "resume",
               "company": "IEEE",
-              "role": "Tech Team Member",
+              "page": 1,
               "section": "experience",
-              "page": 1
+              "role": "Tech Team Member"
             },
             "channels": [
               "bm25",
@@ -7837,12 +7837,12 @@
           {
             "rank": 2,
             "metadata": {
+              "linkedin_post_id": "linkedin_3",
               "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
-              "section": "projects",
-              "project": "JugaadHub",
-              "source": "linkedin",
               "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_3"
+              "section": "projects",
+              "source": "linkedin",
+              "project": "JugaadHub"
             },
             "channels": [
               "bm25",
@@ -7861,12 +7861,12 @@
           {
             "rank": 3,
             "metadata": {
-              "section": "achievements",
-              "event": "Smart India Hackathon",
-              "source_type": "linkedin",
-              "source": "linkedin",
               "linkedin_post_id": "linkedin_9",
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)"
+              "source": "linkedin",
+              "event": "Smart India Hackathon",
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
+              "section": "achievements",
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -7885,12 +7885,12 @@
           {
             "rank": 4,
             "metadata": {
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_6",
               "section": "achievements",
+              "event": "Smart India Hackathon",
               "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
               "source": "linkedin",
-              "event": "Smart India Hackathon"
+              "linkedin_post_id": "linkedin_6",
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -7909,12 +7909,12 @@
           {
             "rank": 5,
             "metadata": {
-              "source": "linkedin",
-              "section": "achievements",
               "project": "JugaadHub",
-              "event": "HackXtract",
               "linkedin_post_id": "linkedin_5",
               "source_type": "linkedin",
+              "event": "HackXtract",
+              "section": "achievements",
+              "source": "linkedin",
               "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
               "technologies": "TypeScript, React"
             },
@@ -7935,12 +7935,12 @@
           {
             "rank": 6,
             "metadata": {
-              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
               "event": "Smart India Hackathon",
+              "linkedin_post_id": "linkedin_7",
               "section": "achievements",
-              "source": "linkedin",
               "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_7"
+              "source": "linkedin",
+              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)"
             },
             "channels": [
               "bm25",
@@ -7959,14 +7959,14 @@
           {
             "rank": 7,
             "metadata": {
-              "source_type": "linkedin",
+              "project": "JugaadHub",
+              "source": "linkedin",
+              "technologies": "React",
               "event": "Orbix Hackathon",
               "section": "achievements",
-              "technologies": "React",
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "source": "linkedin",
               "linkedin_post_id": "linkedin_4",
-              "project": "JugaadHub"
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -7986,8 +7986,8 @@
             "rank": 8,
             "metadata": {
               "section": "other",
-              "source": "resume",
-              "page": 1
+              "page": 1,
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -8004,14 +8004,14 @@
           {
             "rank": 9,
             "metadata": {
-              "technologies": "Gemini",
-              "project": "JugaadHub",
-              "section": "achievements",
-              "linkedin_post_id": "linkedin_0",
               "source_type": "linkedin",
+              "project": "JugaadHub",
               "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
               "source": "linkedin",
-              "event": "Hacknite"
+              "technologies": "Gemini",
+              "event": "Hacknite",
+              "linkedin_post_id": "linkedin_0",
+              "section": "achievements"
             },
             "channels": [
               "bm25",
@@ -8030,9 +8030,9 @@
           {
             "rank": 10,
             "metadata": {
+              "source": "resume",
               "section": "skills",
-              "page": 1,
-              "source": "resume"
+              "page": 1
             },
             "channels": [
               "dense"
@@ -8051,8 +8051,8 @@
             "metadata": {
               "page": 1,
               "section": "projects",
-              "source": "resume",
-              "project": "JugaadHub"
+              "project": "JugaadHub",
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -8088,9 +8088,9 @@
           {
             "rank": 13,
             "metadata": {
-              "section": "education",
+              "source": "resume",
               "page": 1,
-              "source": "resume"
+              "section": "education"
             },
             "channels": [
               "dense"
@@ -8127,10 +8127,10 @@
           {
             "rank": 15,
             "metadata": {
-              "source": "resume",
-              "page": 1,
               "section": "experience",
               "company": "Association for Computing Machinery - ICPC",
+              "page": 1,
+              "source": "resume",
               "role": "Club Coordinator"
             },
             "channels": [
@@ -8148,13 +8148,13 @@
           {
             "rank": 16,
             "metadata": {
-              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
-              "source": "linkedin",
-              "project": "VideoTube",
-              "linkedin_post_id": "linkedin_2",
-              "section": "projects",
               "source_type": "linkedin",
-              "technologies": "Node.js, MongoDB, React"
+              "technologies": "Node.js, MongoDB, React",
+              "linkedin_post_id": "linkedin_2",
+              "project": "VideoTube",
+              "source": "linkedin",
+              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
+              "section": "projects"
             },
             "channels": [
               "dense"
@@ -8171,10 +8171,10 @@
           {
             "rank": 17,
             "metadata": {
-              "source": "resume",
-              "project": "CollabSphere",
+              "section": "projects",
               "page": 1,
-              "section": "projects"
+              "source": "resume",
+              "project": "CollabSphere"
             },
             "channels": [
               "dense"
@@ -8191,11 +8191,11 @@
           {
             "rank": 18,
             "metadata": {
-              "section": "other",
               "linkedin_post_id": "linkedin_8",
+              "source": "linkedin",
               "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
-              "source_type": "linkedin",
-              "source": "linkedin"
+              "section": "other",
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -8212,12 +8212,12 @@
           {
             "rank": 19,
             "metadata": {
-              "section": "projects",
-              "project": "CollabSphere",
-              "source": "linkedin",
-              "linkedin_post_id": "linkedin_1",
               "source_type": "linkedin",
               "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
+              "linkedin_post_id": "linkedin_1",
+              "section": "projects",
+              "source": "linkedin",
+              "project": "CollabSphere",
               "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React"
             },
             "channels": [
@@ -8238,8 +8238,8 @@
             "rank": 1,
             "metadata": {
               "section": "other",
-              "source": "resume",
-              "page": 1
+              "page": 1,
+              "source": "resume"
             },
             "channels": [
               "dense"
@@ -8259,9 +8259,9 @@
             "metadata": {
               "source": "resume",
               "company": "IEEE",
-              "role": "Tech Team Member",
+              "page": 1,
               "section": "experience",
-              "page": 1
+              "role": "Tech Team Member"
             },
             "channels": [
               "bm25",
@@ -8282,12 +8282,12 @@
           {
             "rank": 3,
             "metadata": {
+              "linkedin_post_id": "linkedin_3",
               "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
-              "section": "projects",
-              "project": "JugaadHub",
-              "source": "linkedin",
               "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_3"
+              "section": "projects",
+              "source": "linkedin",
+              "project": "JugaadHub"
             },
             "channels": [
               "bm25",
@@ -8307,12 +8307,12 @@
           {
             "rank": 4,
             "metadata": {
-              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
               "event": "Smart India Hackathon",
+              "linkedin_post_id": "linkedin_7",
               "section": "achievements",
-              "source": "linkedin",
               "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_7"
+              "source": "linkedin",
+              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)"
             },
             "channels": [
               "bm25",
@@ -8332,12 +8332,12 @@
           {
             "rank": 5,
             "metadata": {
-              "section": "achievements",
-              "event": "Smart India Hackathon",
-              "source_type": "linkedin",
-              "source": "linkedin",
               "linkedin_post_id": "linkedin_9",
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)"
+              "source": "linkedin",
+              "event": "Smart India Hackathon",
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
+              "section": "achievements",
+              "source_type": "linkedin"
             },
             "channels": [
               "bm25",
@@ -8357,12 +8357,12 @@
           {
             "rank": 6,
             "metadata": {
-              "source": "linkedin",
-              "section": "achievements",
               "project": "JugaadHub",
-              "event": "HackXtract",
               "linkedin_post_id": "linkedin_5",
               "source_type": "linkedin",
+              "event": "HackXtract",
+              "section": "achievements",
+              "source": "linkedin",
               "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)",
               "technologies": "TypeScript, React"
             },
@@ -8389,7 +8389,7 @@
       "question": "What is Rohan's favorite programming language?",
       "query_type": "unsupported",
       "confidence": "low",
-      "retrieval_latency_ms": 54.97,
+      "retrieval_latency_ms": 85.57,
       "precision_at_k": {},
       "recall_at_k": {},
       "first_relevant_rank": null,
@@ -8413,9 +8413,9 @@
           {
             "rank": 1,
             "metadata": {
-              "page": 1,
               "section": "skills",
-              "source": "resume"
+              "source": "resume",
+              "page": 1
             },
             "channels": [
               "bm25",
@@ -8434,9 +8434,9 @@
           {
             "rank": 2,
             "metadata": {
+              "source": "resume",
               "page": 1,
-              "section": "other",
-              "source": "resume"
+              "section": "other"
             },
             "channels": [
               "dense"
@@ -8453,11 +8453,11 @@
           {
             "rank": 3,
             "metadata": {
-              "page": 1,
-              "role": "Club Coordinator",
               "source": "resume",
               "company": "Association for Computing Machinery - ICPC",
-              "section": "experience"
+              "page": 1,
+              "section": "experience",
+              "role": "Club Coordinator"
             },
             "channels": [
               "bm25",
@@ -8476,12 +8476,12 @@
           {
             "rank": 4,
             "metadata": {
-              "event": "Smart India Hackathon",
-              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
-              "source": "linkedin",
               "section": "achievements",
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_7"
+              "linkedin_post_id": "linkedin_7",
+              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
+              "event": "Smart India Hackathon",
+              "source": "linkedin",
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -8498,12 +8498,12 @@
           {
             "rank": 5,
             "metadata": {
-              "section": "projects",
-              "linkedin_post_id": "linkedin_3",
-              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
-              "project": "JugaadHub",
               "source": "linkedin",
-              "source_type": "linkedin"
+              "source_type": "linkedin",
+              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
+              "linkedin_post_id": "linkedin_3",
+              "section": "projects",
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -8520,9 +8520,9 @@
           {
             "rank": 6,
             "metadata": {
+              "source": "resume",
               "page": 1,
-              "section": "achievements",
-              "source": "resume"
+              "section": "achievements"
             },
             "channels": [
               "dense"
@@ -8539,11 +8539,11 @@
           {
             "rank": 7,
             "metadata": {
-              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
-              "linkedin_post_id": "linkedin_8",
               "source": "linkedin",
               "section": "other",
-              "source_type": "linkedin"
+              "date": "You uploaded a feed photo on January 27, 2026 at 6:46 PM (GMT)",
+              "source_type": "linkedin",
+              "linkedin_post_id": "linkedin_8"
             },
             "channels": [
               "bm25",
@@ -8562,12 +8562,12 @@
           {
             "rank": 8,
             "metadata": {
-              "source_type": "linkedin",
-              "source": "linkedin",
-              "event": "Smart India Hackathon",
               "section": "achievements",
               "linkedin_post_id": "linkedin_9",
-              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)"
+              "date": "You uploaded a feed photo on October 16, 2025 at 6:55 PM (GMT)",
+              "source_type": "linkedin",
+              "event": "Smart India Hackathon",
+              "source": "linkedin"
             },
             "channels": [
               "dense"
@@ -8584,11 +8584,11 @@
           {
             "rank": 9,
             "metadata": {
-              "linkedin_post_id": "linkedin_6",
+              "source": "linkedin",
+              "source_type": "linkedin",
               "section": "achievements",
               "date": "You uploaded a feed photo on March 27, 2026 at 11:55 AM (GMT)",
-              "source_type": "linkedin",
-              "source": "linkedin",
+              "linkedin_post_id": "linkedin_6",
               "event": "Smart India Hackathon"
             },
             "channels": [
@@ -8607,8 +8607,8 @@
             "rank": 10,
             "metadata": {
               "source": "resume",
-              "section": "education",
-              "page": 1
+              "page": 1,
+              "section": "education"
             },
             "channels": [
               "dense"
@@ -8626,11 +8626,11 @@
             "rank": 11,
             "metadata": {
               "linkedin_post_id": "linkedin_5",
-              "source_type": "linkedin",
-              "source": "linkedin",
-              "section": "achievements",
-              "project": "JugaadHub",
               "event": "HackXtract",
+              "source_type": "linkedin",
+              "section": "achievements",
+              "source": "linkedin",
+              "project": "JugaadHub",
               "technologies": "TypeScript, React",
               "date": "You uploaded a feed photo on March 29, 2026 at 9:22 AM (GMT)"
             },
@@ -8649,11 +8649,11 @@
           {
             "rank": 12,
             "metadata": {
-              "section": "experience",
+              "source": "resume",
               "page": 1,
-              "role": "Tech Team Member",
               "company": "IEEE",
-              "source": "resume"
+              "role": "Tech Team Member",
+              "section": "experience"
             },
             "channels": [
               "dense"
@@ -8671,9 +8671,9 @@
             "rank": 13,
             "metadata": {
               "page": 1,
-              "section": "projects",
               "project": "CollabSphere",
-              "source": "resume"
+              "source": "resume",
+              "section": "projects"
             },
             "channels": [
               "dense"
@@ -8690,10 +8690,10 @@
           {
             "rank": 14,
             "metadata": {
-              "project": "JugaadHub",
+              "source": "resume",
               "section": "projects",
               "page": 1,
-              "source": "resume"
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"
@@ -8710,14 +8710,14 @@
           {
             "rank": 15,
             "metadata": {
+              "section": "achievements",
+              "event": "Orbix Hackathon",
+              "source": "linkedin",
               "project": "JugaadHub",
               "linkedin_post_id": "linkedin_4",
-              "section": "achievements",
-              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
-              "source": "linkedin",
               "source_type": "linkedin",
-              "technologies": "React",
-              "event": "Orbix Hackathon"
+              "date": "You uploaded a feed photo on April 4, 2026 at 11:05 AM (GMT)",
+              "technologies": "React"
             },
             "channels": [
               "dense"
@@ -8734,10 +8734,10 @@
           {
             "rank": 16,
             "metadata": {
-              "project": "VideoTube",
               "section": "projects",
-              "page": 1,
-              "source": "resume"
+              "source": "resume",
+              "project": "VideoTube",
+              "page": 1
             },
             "channels": [
               "dense"
@@ -8754,13 +8754,13 @@
           {
             "rank": 17,
             "metadata": {
-              "source": "linkedin",
               "project": "CollabSphere",
+              "source": "linkedin",
+              "section": "projects",
+              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
               "source_type": "linkedin",
               "technologies": "Next.js, TypeScript, Redis, PostgreSQL, WebSockets, WebRTC, Node.js, React",
-              "date": "You uploaded a feed photo on August 15, 2026 at 12:48 PM (GMT)",
-              "linkedin_post_id": "linkedin_1",
-              "section": "projects"
+              "linkedin_post_id": "linkedin_1"
             },
             "channels": [
               "dense"
@@ -8777,14 +8777,14 @@
           {
             "rank": 18,
             "metadata": {
-              "section": "achievements",
-              "source": "linkedin",
-              "technologies": "Gemini",
               "date": "You uploaded a feed photo on August 23, 2026 at 11:59 AM (GMT)",
-              "event": "Hacknite",
-              "source_type": "linkedin",
+              "technologies": "Gemini",
+              "source": "linkedin",
+              "linkedin_post_id": "linkedin_0",
               "project": "JugaadHub",
-              "linkedin_post_id": "linkedin_0"
+              "event": "Hacknite",
+              "section": "achievements",
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -8801,13 +8801,13 @@
           {
             "rank": 19,
             "metadata": {
-              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
               "technologies": "Node.js, MongoDB, React",
-              "section": "projects",
-              "project": "VideoTube",
-              "source": "linkedin",
+              "source_type": "linkedin",
+              "date": "You uploaded a feed photo on June 7, 2026 at 4:50 PM (GMT)",
               "linkedin_post_id": "linkedin_2",
-              "source_type": "linkedin"
+              "source": "linkedin",
+              "section": "projects",
+              "project": "VideoTube"
             },
             "channels": [
               "dense"
@@ -8826,9 +8826,9 @@
           {
             "rank": 1,
             "metadata": {
+              "source": "resume",
               "page": 1,
-              "section": "other",
-              "source": "resume"
+              "section": "other"
             },
             "channels": [
               "dense"
@@ -8846,9 +8846,9 @@
           {
             "rank": 2,
             "metadata": {
-              "page": 1,
               "section": "skills",
-              "source": "resume"
+              "source": "resume",
+              "page": 1
             },
             "channels": [
               "bm25",
@@ -8868,12 +8868,12 @@
           {
             "rank": 3,
             "metadata": {
-              "event": "Smart India Hackathon",
-              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
-              "source": "linkedin",
               "section": "achievements",
-              "source_type": "linkedin",
-              "linkedin_post_id": "linkedin_7"
+              "linkedin_post_id": "linkedin_7",
+              "date": "You uploaded a feed photo on February 20, 2026 at 1:04 PM (GMT)",
+              "event": "Smart India Hackathon",
+              "source": "linkedin",
+              "source_type": "linkedin"
             },
             "channels": [
               "dense"
@@ -8891,11 +8891,11 @@
           {
             "rank": 4,
             "metadata": {
-              "page": 1,
-              "role": "Club Coordinator",
               "source": "resume",
               "company": "Association for Computing Machinery - ICPC",
-              "section": "experience"
+              "page": 1,
+              "section": "experience",
+              "role": "Club Coordinator"
             },
             "channels": [
               "bm25",
@@ -8915,9 +8915,9 @@
           {
             "rank": 5,
             "metadata": {
+              "source": "resume",
               "page": 1,
-              "section": "achievements",
-              "source": "resume"
+              "section": "achievements"
             },
             "channels": [
               "dense"
@@ -8935,12 +8935,12 @@
           {
             "rank": 6,
             "metadata": {
-              "section": "projects",
-              "linkedin_post_id": "linkedin_3",
-              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
-              "project": "JugaadHub",
               "source": "linkedin",
-              "source_type": "linkedin"
+              "source_type": "linkedin",
+              "date": "You uploaded a feed photo on June 6, 2026 at 10:08 AM (GMT)",
+              "linkedin_post_id": "linkedin_3",
+              "section": "projects",
+              "project": "JugaadHub"
             },
             "channels": [
               "dense"

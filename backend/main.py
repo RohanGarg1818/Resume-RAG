@@ -23,6 +23,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.routes.chat import router as chat_router
+from backend.routes.comparison import router as comparison_router
 from backend.routes.document import router as documents_router
 from backend.routes.voice import router as voice_router
 
@@ -67,18 +68,62 @@ app = FastAPI(
 # CORS
 # ---------------------------------------------------------
 
-frontend_url = os.getenv(
-    "FRONTEND_URL",
-    "https://rohan-resume-three.vercel.app",
+# Browsers only accept a credentialed (cookie) response when the server
+# echoes the exact requesting origin, so origins must be listed explicitly;
+# a "*" wildcard is not allowed together with allow_credentials=True.
+#
+#   CORS_ALLOWED_ORIGINS  comma-separated list of extra allowed origins
+#   FRONTEND_URL          the deployed frontend origin
+#
+# Local development origins (Next.js on 3000/3001, Vite on 5173, via both
+# localhost and 127.0.0.1) are allowed unless CORS_ALLOW_LOCALHOST=false,
+# which production deployments should set.
+
+DEFAULT_FRONTEND_URL = "https://rohan-resume-three.vercel.app"
+
+LOCAL_DEV_ORIGINS = tuple(
+    f"http://{host}:{port}"
+    for host in ("localhost", "127.0.0.1")
+    for port in (3000, 3001, 5173)
 )
+
+
+def _normalise_origin(origin: str) -> str:
+    # An origin never has a path or trailing slash; "https://x.app/" in an
+    # env var would otherwise silently fail to match the browser's Origin.
+    return origin.strip().rstrip("/")
+
+
+def get_allowed_origins() -> list[str]:
+    origins: list[str] = []
+    candidates = [
+        os.getenv("FRONTEND_URL", DEFAULT_FRONTEND_URL),
+        *os.getenv("CORS_ALLOWED_ORIGINS", "").split(","),
+    ]
+    if os.getenv("CORS_ALLOW_LOCALHOST", "true").strip().lower() not in {
+        "0", "false", "no", "off",
+    }:
+        candidates.extend(LOCAL_DEV_ORIGINS)
+    for candidate in candidates:
+        origin = _normalise_origin(candidate)
+        if not origin:
+            continue
+        if origin == "*":
+            raise RuntimeError(
+                "CORS_ALLOWED_ORIGINS must list explicit origins; '*' cannot be "
+                "used with cookie-based sessions."
+            )
+        if origin not in origins:
+            origins.append(origin)
+    return origins
+
+
+allowed_origins = get_allowed_origins()
+logger.info("CORS allowed origins: %s", allowed_origins)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "https://rohan-resume-three.vercel.app",
-        "http://localhost:5173"
-    ],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -90,6 +135,7 @@ app.add_middleware(
 # ---------------------------------------------------------
 
 app.include_router(chat_router)
+app.include_router(comparison_router)
 app.include_router(voice_router)
 app.include_router(documents_router)
 app.include_router(
@@ -138,6 +184,29 @@ def run_retrieval_evaluation_endpoint():
     """Run retrieval metrics locally; this endpoint never calls Groq."""
     return run_retrieval_evaluation()
 
+
+
+@app.get("/api/index/status", tags=["Health"])
+def index_status() -> dict:
+    """Read-only facts about the permanent index for the UI's status panel."""
+    from src.embeddings import MODEL_NAME
+    from src.rag import get_model_name
+    from src.reranker import RERANKER_ENABLED, RERANKER_MODEL
+    from src.vector_store import collection_snapshot, get_collection
+
+    snapshot = collection_snapshot(get_collection())
+    by_source: dict[str, int] = {}
+    for metadata in snapshot["metadatas"]:
+        source = str(metadata.get("source", "unknown"))
+        by_source[source] = by_source.get(source, 0) + 1
+    return {
+        "chunks": len(snapshot["ids"]),
+        "by_source": by_source,
+        "embedding_model": MODEL_NAME,
+        "reranker_model": RERANKER_MODEL if RERANKER_ENABLED else None,
+        "llm_model": get_model_name(),
+        "llm_location": "cloud",
+    }
 
 
 @app.get(

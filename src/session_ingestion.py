@@ -2,8 +2,10 @@
 import hashlib
 from typing import BinaryIO
 
+from src.compare import extract_candidate_name
 from src.document_loader import load_document
 from src.embeddings import embed_documents
+from src.session_store import set_candidate_name
 from src.vector_store import add_session_documents
 
 
@@ -12,7 +14,7 @@ CHUNK_OVERLAP = 120
 
 # Keep embedding batches small to reduce peak memory usage on Render.
 EMBED_BATCH_SIZE = 8
-
+    
 
 def chunk_text(
     text: str,
@@ -124,6 +126,7 @@ def ingest_file(
                     1,
                 )[-1].lower(),
                 "chunk_index": chunk_index,
+                "owner_id": "uploaded_candidate",
             }
 
             if page_data.get("page") is not None:
@@ -141,6 +144,20 @@ def ingest_file(
         raise ValueError(
             "The uploaded file contains no readable text."
         )
+
+    # ---------------------------------------------------------------
+    # Extract candidate name from the document header.
+    # ---------------------------------------------------------------
+
+    candidate_name = extract_candidate_name(all_chunks)
+    set_candidate_name(session_id, candidate_name)
+
+    # Add candidate_name and owner metadata to all chunk metadata
+    # so retrieval can label which candidate each chunk belongs to.
+    for metadata in all_metadatas:
+        metadata["candidate_name"] = candidate_name
+        metadata["owner_name"] = candidate_name
+        metadata["owner_type"] = "candidate"
 
     # ---------------------------------------------------------------
     # Generate embeddings in small batches.

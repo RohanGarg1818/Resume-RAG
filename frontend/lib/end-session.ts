@@ -1,7 +1,9 @@
+import { apiFetch } from "@/lib/config";
+
 export async function endRagSession() {
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/session/end`, 
+  const response = await apiFetch(
+    "/api/session/end",
     {
       method: "POST",
       credentials: "include",

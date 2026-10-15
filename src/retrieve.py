@@ -69,6 +69,7 @@ from src.embeddings import embed_query
 from src.errors import RetrievalError
 from src.section_parser import SECTIONS
 from src.vector_store import (
+    collection_snapshot,
     composite_text,
     get_collection,
     query_vectors,
@@ -121,6 +122,9 @@ NUMERIC_MATCH_BONUS = 0.20
 METADATA_MATCH_BONUS = 0.15
 AI_RELEVANCE_BONUS = 0.15
 SESSION_RELEVANCE_BONUS = 0.08
+
+# A query term found in at most this share of documents counts as specific.
+SPECIFIC_TERM_MAX_DF = float(os.getenv("RETRIEVAL_SPECIFIC_TERM_MAX_DF", "0.2"))
 
 # Relevance thresholds.
 #
@@ -180,6 +184,31 @@ _TECHNICAL_EXPANSIONS: dict[str, tuple[str, ...]] = {
     "ai": ("machine learning", "llm", "rag"),
     "microservices": ("restful api", "node.js", "backend"),
     "deployment": ("render", "vercel", "docker", "cloud"),
+    "deploy": ("render", "vercel", "docker", "cloud"),
+    "hosting": ("render", "vercel", "cloud"),
+    # Common resume abbreviations.  Without these, "Where is he pursuing his
+    # BTech?" shares no token with "Bachelor of Technology" and the
+    # education chunk is ranked below unrelated chunks.
+    "btech": ("bachelor of technology", "degree"),
+    "b.tech": ("bachelor of technology", "degree"),
+    "mtech": ("master of technology", "degree"),
+    "m.tech": ("master of technology", "degree"),
+    "bsc": ("bachelor of science", "degree"),
+    "msc": ("master of science", "degree"),
+    "mba": ("master of business administration", "degree"),
+    "bachelor": ("degree",),
+    "master": ("degree",),
+    "degree": ("bachelor", "university"),
+    "cgpa": ("gpa", "grade"),
+    "gpa": ("cgpa", "grade"),
+    "dsa": ("data structures", "algorithms"),
+    "oop": ("object-oriented programming",),
+    "dbms": ("database",),
+    "postgres": ("postgresql",),
+    "mongo": ("mongodb",),
+    "js": ("javascript",),
+    "ts": ("typescript",),
+    "ml": ("machine learning",),
 }
 
 
@@ -213,6 +242,10 @@ _STOPWORDS = frozenset(
 # Contact detection
 # ============================================================================
 
+# Single tokens that unambiguously ask for contact details.  Ambiguous verbs
+# such as "reach", "connect", "touch" and "address" are deliberately NOT
+# here: "Which round did he reach?" or "How did he address scalability?" are
+# profile questions, so those words only count inside contact phrases below.
 _CONTACT_TERMS = {
     "email",
     "mail",
@@ -226,13 +259,38 @@ _CONTACT_TERMS = {
     "contact",
     "contactdetails",
     "contactinformation",
-    "reach",
-    "reachme",
-    "connect",
-    "connection",
-    "touch",
-    "address",
 }
+
+_CONTACT_PHRASES = (
+    "get in touch",
+    "in touch with",
+    "how can i contact",
+    "how do i contact",
+    "how can i reach",
+    "how do i reach",
+    "how to reach",
+    "how can i get in touch",
+    "ways to contact",
+    "ways to reach",
+    "contact him",
+    "contact her",
+    "contact rohan",
+    "reach him",
+    "reach her",
+    "reach rohan",
+    "reach out to",
+    "connect with him",
+    "connect with her",
+    "connect with rohan",
+    "email address",
+    "phone number",
+    "mobile number",
+    "github profile",
+    "github link",
+    "linkedin profile",
+    "linkedin link",
+    "linkedin url",
+)
 
 
 def is_contact_query(query: str) -> bool:
@@ -242,30 +300,12 @@ def is_contact_query(query: str) -> bool:
         _content_tokens(normalized)
     )
 
-    if tokens & _CONTACT_TERMS:
+    if tokens & _CONTACT_TERMS_N:
         return True
-
-    contact_phrases = (
-        "get in touch",
-        "in touch with",
-        "how can i contact",
-        "how do i contact",
-        "how can i reach",
-        "how do i reach",
-        "how can i get in touch",
-        "ways to contact",
-        "ways to reach",
-        "contact him",
-        "contact her",
-        "contact rohan",
-        "reach him",
-        "reach her",
-        "reach rohan",
-    )
 
     return any(
         phrase in normalized
-        for phrase in contact_phrases
+        for phrase in _CONTACT_PHRASES
     )
 
 
@@ -290,6 +330,11 @@ _PROFILE_OVERVIEW_TERMS = frozenset(
         "overview",
         "summary",
         "summarize",
+        "summarise",
+        "summarizing",
+        "summarising",
+        "summarized",
+        "summarised",
         "profile",
         "background",
         "introduction",
@@ -297,7 +342,44 @@ _PROFILE_OVERVIEW_TERMS = frozenset(
         "about",
         "describe",
         "candidate",
+        "everything",
+        "entire",
+        "rundown",
     }
+)
+
+
+# Phrase matches for broad requests.  Checked against the normalised query
+# because words such as "profile", "about", "him", and "who" are stopwords
+# and therefore never appear in _content_tokens().
+_PROFILE_OVERVIEW_PHRASES = (
+    "tell me about",
+    "about his profile",
+    "about her profile",
+    "about rohan",
+    "tell me everything",
+    "everything about",
+    "summarise his",
+    "summarise the",
+    "summarize his",
+    "summarize the",
+    "his profile",
+    "her profile",
+    "their profile",
+    "full profile",
+    "entire profile",
+    "whole profile",
+    "the profile",
+    "who is he",
+    "who is she",
+    "who is this person",
+    "walk me through",
+    "give me a summary",
+    "give me an overview",
+    "tell me the summary",
+    "tell me an overview",
+    "his resume",
+    "her resume",
 )
 
 
@@ -330,6 +412,18 @@ _SECTION_SYNONYMS: dict[str, str] = {
     "academic": "education",
     "academics": "education",
     "graduate": "education",
+    "graduation": "education",
+    "btech": "education",
+    "b.tech": "education",
+    "mtech": "education",
+    "m.tech": "education",
+    "bachelor": "education",
+    "bachelors": "education",
+    "master": "education",
+    "masters": "education",
+    "percentage": "education",
+    "marks": "education",
+    "class": "education",
 
     # Skills
     "skill": "skills",
@@ -439,7 +533,6 @@ _EVALUATION_TERMS = frozenset(
         "recommendation",
         "qualified",
         "qualification",
-        "experience",
     }
 )
 
@@ -457,7 +550,6 @@ _LIST_TERMS = frozenset(
         "databases",
         "projects",
         "achievements",
-        "experience",
         "companies",
         "roles",
         "frameworks",
@@ -621,6 +713,170 @@ def _candidate_text(
 
 
 # ============================================================================
+# Vocabulary normalisation
+# ============================================================================
+#
+# Query tokens pass through ``_normalise`` which strips a plural "s"
+# ("skills" -> "skill", "technologies" -> "technologie").  The vocabulary
+# sets above are written in natural spelling, so plural entries such as
+# "technologies", "languages", "tools" or "companies" could never match a
+# query token.  Normalising each vocabulary once with the same function makes
+# intent/section detection consistent with tokenisation.
+
+def _normalised_vocab(words) -> frozenset[str]:
+    return frozenset(_normalise(word) for word in words)
+
+
+_CONTACT_TERMS_N = _normalised_vocab(_CONTACT_TERMS)
+_LIST_TERMS_N = _normalised_vocab(_LIST_TERMS)
+_EVALUATION_TERMS_N = _normalised_vocab(_EVALUATION_TERMS)
+_PROFILE_OVERVIEW_TERMS_N = _normalised_vocab(_PROFILE_OVERVIEW_TERMS)
+_PROJECT_SELECTION_TERMS_N = _normalised_vocab(_PROJECT_SELECTION_TERMS)
+_AI_TERMS_N = _normalised_vocab(_AI_TERMS)
+_SECTION_SYNONYMS_N: dict[str, str] = {
+    _normalise(word): section for word, section in _SECTION_SYNONYMS.items()
+}
+_TECHNICAL_EXPANSIONS_N: dict[str, tuple[str, ...]] = {
+    _normalise(word): terms for word, terms in _TECHNICAL_EXPANSIONS.items()
+}
+
+
+# ============================================================================
+# Corpus index (cached per collection snapshot)
+# ============================================================================
+
+_INDEX_CACHE: dict[tuple, dict[str, Any]] = {}
+_INDEX_CACHE_LIMIT = 16
+
+
+def _corpus_index(collection: Any) -> dict[str, Any]:
+    """Tokenised view of a collection used by every lexical signal.
+
+    Built once per collection snapshot instead of re-reading and
+    re-tokenising the whole collection for each query and each channel.
+    """
+    snapshot = collection_snapshot(collection)
+    key = snapshot["key"]
+    cached = _INDEX_CACHE.get(key)
+    if cached is not None:
+        return cached
+
+    documents = snapshot["documents"][:LEXICAL_SCAN_LIMIT]
+    metadatas = snapshot["metadatas"][:LEXICAL_SCAN_LIMIT]
+    composites = [
+        composite_text(document, metadata)
+        for document, metadata in zip(documents, metadatas)
+    ]
+    token_lists = [
+        [
+            _normalise(token)
+            for token in _TOKEN_RE.findall(composite.lower())
+            if _normalise(token) not in _STOPWORDS
+            and len(_normalise(token)) > 1
+        ]
+        for composite in composites
+    ]
+    document_frequency: dict[str, int] = {}
+    for tokens in token_lists:
+        for token in set(tokens):
+            document_frequency[token] = document_frequency.get(token, 0) + 1
+
+    index = {
+        "key": key,
+        "documents": documents,
+        "metadatas": metadatas,
+        "composites": composites,
+        "composites_lower": [composite.lower() for composite in composites],
+        "token_lists": token_lists,
+        "token_sets": [set(tokens) for tokens in token_lists],
+        "document_frequency": document_frequency,
+        "size": len(documents),
+        "average_length": (
+            sum(len(tokens) for tokens in token_lists) / max(len(token_lists), 1)
+        ),
+    }
+    if len(_INDEX_CACHE) >= _INDEX_CACHE_LIMIT:
+        _INDEX_CACHE.pop(next(iter(_INDEX_CACHE)))
+    _INDEX_CACHE[key] = index
+    return index
+
+
+def _idf(token: str, index: dict[str, Any] | None) -> float:
+    """BM25-style IDF; unseen tokens get the maximum weight."""
+    if not index or not index.get("size"):
+        return 1.0
+    total = index["size"]
+    frequency = index["document_frequency"].get(token, 0)
+    return math.log(1 + (total - frequency + 0.5) / (frequency + 0.5))
+
+
+def _weighted_coverage(
+    query_tokens: set[str],
+    matched: set[str],
+    index: dict[str, Any] | None,
+) -> float:
+    """IDF-weighted share of query tokens present in a candidate.
+
+    Plain coverage treats "experience" and "docker" as equally informative,
+    so generic words dominated ranking for questions such as "Does he have
+    experience with Docker?".  Weighting by IDF makes the rare, specific
+    term decide.
+    """
+    if not query_tokens:
+        return 0.0
+    total = sum(_idf(token, index) for token in query_tokens)
+    if total <= 0:
+        return len(matched) / len(query_tokens)
+    return sum(_idf(token, index) for token in matched) / total
+
+
+_ACRONYM_SKIP = frozenset({"of", "for", "and", "the", "in", "at", "on", "&", "-"})
+
+
+def _entity_aliases(value: str) -> set[str]:
+    """Lower-case aliases for an organisation/project/event name.
+
+    "Association for Computing Machinery - ICPC" -> {full name,
+    "association for computing machinery", "icpc", "acm"}.  Only aliases of
+    at least three characters are produced so short tokens never match by
+    accident.
+    """
+    value = _normalise_text(value)
+    aliases = {value}
+    parts = [part.strip() for part in re.split(r"\s+[-–|/]\s+|[()]", value) if part.strip()]
+    if len(parts) > 1:
+        aliases.update(parts)
+    for part in parts or [value]:
+        words = [word for word in re.split(r"\s+", part) if word and word not in _ACRONYM_SKIP]
+        if len(words) >= 2:
+            aliases.add("".join(word[0] for word in words))
+    return {alias for alias in aliases if len(alias) >= 3}
+
+
+def _alias_in_text(alias: str, text: str) -> bool:
+    return bool(re.search(rf"(?<![a-z0-9]){re.escape(alias)}(?![a-z0-9])", text))
+
+
+def _safe_index(collection: Any) -> dict[str, Any] | None:
+    try:
+        return _corpus_index(collection)
+    except Exception as exc:  # retrieval must never fail on a lexical aid
+        logger.warning("Corpus index unavailable: %s", exc)
+        return None
+
+
+def _exclude_contact_cards(chunks: list[RetrievedChunk]) -> list[RetrievedChunk]:
+    """Drop phone/email header chunks from non-contact retrieval.
+
+    They were the top hit for many unrelated questions (the cross-encoder
+    rewards the candidate's name), pushing real evidence down, lowering
+    confidence into false refusals, and leaking personal details into the
+    LLM context.  Explicit contact questions use ``_retrieve_contact``.
+    """
+    return [chunk for chunk in chunks if not _is_contact_card_chunk(chunk)]
+
+
+# ============================================================================
 # Query intent
 # ============================================================================
 
@@ -630,9 +886,9 @@ def is_profile_overview_query(
     tokens = _content_tokens(query)
 
     normalized = _normalise_text(query)
-    return bool(tokens & _PROFILE_OVERVIEW_TERMS) or any(
+    return bool(tokens & _PROFILE_OVERVIEW_TERMS_N) or any(
         phrase in normalized
-        for phrase in ("tell me about", "about his profile", "about rohan")
+        for phrase in _PROFILE_OVERVIEW_PHRASES
     )
 
 
@@ -652,7 +908,7 @@ def is_project_selection_query(
     return bool(
         tokens & project_terms
     ) and bool(
-        tokens & _PROJECT_SELECTION_TERMS
+        tokens & _PROJECT_SELECTION_TERMS_N
     )
 
 
@@ -663,7 +919,7 @@ def is_list_query(
 
     query_lower = _normalise_text(query)
 
-    if tokens & _LIST_TERMS:
+    if tokens & _LIST_TERMS_N:
         return True
 
     list_phrases = (
@@ -679,6 +935,11 @@ def is_list_query(
         "tell me all",
         "list all",
         "how many projects",
+        "work experience",
+        "professional experience",
+        "his experience",
+        "her experience",
+        "internships",
     )
 
     return any(
@@ -882,12 +1143,22 @@ def analyse_query(
     tokens = _content_tokens(query)
 
     topics = {
-        _SECTION_SYNONYMS[token]
+        _SECTION_SYNONYMS_N[token]
         for token in tokens
-        if token in _SECTION_SYNONYMS
+        if token in _SECTION_SYNONYMS_N
     }
 
     query_lower = query.lower()
+
+    # "experience with Docker" asks about a skill, not the work-experience
+    # section; only keep the experience topic when another job word exists.
+    if re.search(r"\bexperience\s+(?:with|in|using|on|of)\b", query_lower):
+        other_experience_words = {
+            token for token in tokens
+            if _SECTION_SYNONYMS_N.get(token) == "experience" and token != "experience"
+        }
+        if not other_experience_words:
+            topics.discard("experience")
 
     # Contact intent.
     if is_contact_query(query):
@@ -949,7 +1220,7 @@ def expand_query(query: str, analysis: dict[str, Any] | None = None) -> dict[str
     tokens = set(analysis.get("tokens", set()))
     expansions: set[str] = set()
     for token in tokens:
-        expansions.update(_TECHNICAL_EXPANSIONS.get(token, ()))
+        expansions.update(_TECHNICAL_EXPANSIONS_N.get(token, ()))
 
     # A query about a named item benefits from retaining its exact spelling in
     # the lexical channel.  This field is populated after metadata inspection.
@@ -972,13 +1243,30 @@ def _bm25_scores(
         return [0.0] * len(documents)
 
     tokenized = [list(_content_tokens(document)) for document in documents]
+    return _bm25_from_tokens(query_tokens, tokenized)
+
+
+def _bm25_from_tokens(
+    query_tokens: set[str],
+    tokenized: list[list[str]],
+    document_frequency: dict[str, int] | None = None,
+) -> list[float]:
+    """BM25 over pre-tokenised documents.
+
+    Note: documents are tokenised as *lists* (term frequencies preserved);
+    the previous implementation tokenised into sets, so every term
+    frequency was 1 and BM25 degenerated into IDF-weighted overlap.
+    """
+    if not query_tokens or not tokenized:
+        return [0.0] * len(tokenized)
     lengths = [len(tokens) for tokens in tokenized]
     average_length = sum(lengths) / max(len(lengths), 1)
-    document_frequency = {
-        token: sum(token in tokens for tokens in tokenized)
-        for token in query_tokens
-    }
-    total_documents = len(documents)
+    if document_frequency is None:
+        document_frequency = {
+            token: sum(token in tokens for tokens in tokenized)
+            for token in query_tokens
+        }
+    total_documents = len(tokenized)
     scores: list[float] = []
     k1, b = 1.5, 0.75
     for tokens, length in zip(tokenized, lengths):
@@ -987,8 +1275,8 @@ def _bm25_scores(
             frequency = tokens.count(token)
             if not frequency:
                 continue
-            idf = math.log(1 + (total_documents - document_frequency[token] + 0.5)
-                           / (document_frequency[token] + 0.5))
+            df = document_frequency.get(token, 0)
+            idf = math.log(1 + (total_documents - df + 0.5) / (df + 0.5))
             denominator = frequency + k1 * (
                 1 - b + b * length / max(average_length, 1.0)
             )
@@ -1010,33 +1298,36 @@ def _lexical_candidates(
     returned chunk so debug output makes the retrieval channel auditable.
     """
     try:
-        count = collection.count()
-        if not count:
-            return []
-        result = collection.get(include=["documents", "metadatas"])
+        index = _corpus_index(collection)
     except Exception as exc:
         logger.warning("Lexical candidate generation failed: %s", exc)
         return []
+    if not index["size"]:
+        return []
 
-    pairs = list(zip(result.get("documents", []) or [], result.get("metadatas", []) or []))
-    pairs = pairs[:LEXICAL_SCAN_LIMIT]
-    composites = [composite_text(str(document or ""), dict(metadata or {}))
-                  for document, metadata in pairs]
     expanded = expand_query(query, analysis)
     lexical_tokens = _content_tokens(query) | _content_tokens(" ".join(expanded["terms"]))
-    scores = _bm25_scores(lexical_tokens, composites)
+    scores = _bm25_from_tokens(
+        lexical_tokens,
+        index["token_lists"],
+        index["document_frequency"],
+    )
     query_numbers = _extract_numbers(query)
-    entities = [str(entity).lower() for entity in analysis.get("entities", [])]
+    entity_aliases = [
+        alias
+        for entity in analysis.get("entities", [])
+        for alias in _entity_aliases(str(entity))
+    ]
     sections = set(analysis.get("topics", []))
 
     candidates: list[RetrievedChunk] = []
-    for index, ((document, metadata), bm25) in enumerate(zip(pairs, scores)):
-        metadata = dict(metadata or {})
-        text = str(document or "")
-        searchable = composites[index].lower()
+    for position, bm25 in enumerate(scores):
+        metadata = dict(index["metadatas"][position])
+        text = index["documents"][position]
+        searchable = index["composites_lower"][position]
         phrase = _phrase_match(query, searchable)
         number_hit = bool(query_numbers & _extract_numbers(searchable))
-        entity_hit = any(entity in searchable for entity in entities)
+        entity_hit = any(_alias_in_text(alias, searchable) for alias in entity_aliases)
         section_hit = str(metadata.get("section", "")).lower() in sections
         # Small deterministic boosts make exact facts eligible even if their
         # body is short.  Hybrid scoring still decides final relevance.
@@ -1254,26 +1545,20 @@ def extract_query_entities(
     from the permanent metadata.
 
     This is intentionally metadata-driven rather than
-    relying on an LLM.
+    relying on an LLM.  Organisation and event names are also matched by
+    their acronyms and dash-separated parts, so "ACM ICPC" resolves to
+    "Association for Computing Machinery - ICPC".  Aliases are matched on
+    word boundaries only.
     """
 
-    query_lower = query.lower()
+    query_lower = _normalise_text(query)
 
     try:
-        collection = get_collection()
-
-        result = collection.get(
-            include=[
-                "metadatas"
-            ]
-        )
+        index = _corpus_index(get_collection())
 
         entities: set[str] = set()
 
-        for metadata in result.get(
-            "metadatas",
-            [],
-        ):
+        for metadata in index["metadatas"]:
             if not metadata:
                 continue
 
@@ -1290,13 +1575,19 @@ def extract_query_entities(
 
                 value_str = str(value)
 
-                if (
-                    value_str.lower()
-                    in query_lower
+                if value_str.lower() in query_lower:
+                    entities.add(value_str)
+                    continue
+
+                # Roles are generic phrases; only match them verbatim.
+                if key == "role":
+                    continue
+
+                if any(
+                    _alias_in_text(alias, query_lower)
+                    for alias in _entity_aliases(value_str)
                 ):
-                    entities.add(
-                        value_str
-                    )
+                    entities.add(value_str)
 
         return sorted(
             entities,
@@ -1353,6 +1644,37 @@ def _score_candidates(
     )
 
     query_lower = raw_query.lower()
+    query_entities = {str(entity).lower() for entity in analysis.get("entities", [])}
+
+    # IDF statistics for weighted lexical coverage: the collection index
+    # when the caller supplied one, otherwise the candidate pool itself.
+    idf_index = analysis.get("index")
+    if not idf_index:
+        pool_frequency: dict[str, int] = {}
+        for chunk in candidates:
+            for token in _content_tokens(_candidate_text(chunk)):
+                pool_frequency[token] = pool_frequency.get(token, 0) + 1
+        idf_index = {"size": len(candidates), "document_frequency": pool_frequency}
+
+    # The query's most discriminative term(s) present in the corpus: the
+    # lowest document frequency, provided that term is still rare
+    # (<= SPECIFIC_TERM_MAX_DF of documents).  Matching it is strong,
+    # specific evidence ("docker", "redis", "leetcode").
+    document_frequency = idf_index.get("document_frequency", {})
+    corpus_size = max(int(idf_index.get("size", 0) or 0), 1)
+    present = {
+        token: document_frequency[token]
+        for token in tokens
+        if document_frequency.get(token, 0) > 0 and not token.isdigit()
+    }
+    discriminative_terms: set[str] = set()
+    if present:
+        rarest = min(present.values())
+        if rarest <= max(2, SPECIFIC_TERM_MAX_DF * corpus_size):
+            discriminative_terms = {
+                token for token, frequency in present.items() if frequency == rarest
+            }
+
     max_bm25 = max(
         (float(chunk.get("lexical_retrieval_score", 0.0)) for chunk in candidates),
         default=0.0,
@@ -1406,9 +1728,13 @@ def _score_candidates(
             & candidate_tokens
         )
 
-        lexical_coverage = (
-            len(matched)
-            / total_tokens
+        lexical_coverage = _weighted_coverage(tokens, matched, idf_index)
+        # A matched query term that occurs in very few documents (e.g.
+        # "docker", "leetcode", "prisma") is strong, specific evidence even
+        # when the chunk shares few other words with the question.
+        specific_terms = sorted(
+            token for token in matched
+            if token in discriminative_terms
         )
         bm25_score = float(chunk.get("lexical_retrieval_score", 0.0))
         bm25_normalized = bm25_score / max_bm25 if max_bm25 else 0.0
@@ -1446,8 +1772,8 @@ def _score_candidates(
         entity_hits = [
             name
             for name in entity_names
-            if name.lower()
-            in query_lower
+            if name.lower() in query_lower
+            or name.lower() in query_entities
         ]
 
         entity_hit = bool(
@@ -1505,12 +1831,12 @@ def _score_candidates(
         # ------------------------------------------------------------
 
         ai_query = bool(
-            tokens & _AI_TERMS
+            tokens & _AI_TERMS_N
         )
 
         ai_matches = (
             candidate_tokens
-            & _AI_TERMS
+            & _AI_TERMS_N
         )
 
         ai_hit = (
@@ -1724,6 +2050,7 @@ def _score_candidates(
                 "matched_numbers": sorted(
                     matched_numbers
                 ),
+                "specific_terms": specific_terms,
                 "entity_hits": entity_hits,
                 "metadata_matches": sorted(
                     metadata_matches
@@ -1868,6 +2195,7 @@ def _confidence(
     lexical_coverage = float(best_chunk.get("lexical_score", 0.0))
     strong_evidence = bool(
         lexical_coverage >= 0.5
+        or best_chunk.get("specific_terms")
         or best_chunk.get(
             "entity_bonus"
         )
@@ -1876,6 +2204,9 @@ def _confidence(
         )
         or best_chunk.get(
             "exact_phrase_bonus"
+        )
+        or best_chunk.get(
+            "topic_bonus"
         )
     )
 
@@ -1889,6 +2220,41 @@ def _confidence(
     ):
         return "high"
 
+    return "low"
+
+
+# A cross-encoder logit at or above this value means the model itself judged
+# the passage relevant (ms-marco logits for unrelated passages sit around
+# -8 to -11 on this corpus).
+RERANKER_CONFIDENT_SCORE = float(
+    os.getenv("RETRIEVAL_RERANKER_CONFIDENT_SCORE", "0.0")
+)
+
+
+def _context_confidence(
+    chunks: list[RetrievedChunk],
+    window: int = 3,
+) -> str:
+    """Confidence for the selected context as a whole.
+
+    The previous gate only looked at ``chunks[0]``.  After cross-encoder
+    reranking and MMR the first chunk is not necessarily the one carrying
+    the strongest explicit evidence, so a correct education chunk at rank 2
+    could still produce a "low" verdict and an unnecessary refusal.  We
+    take the best verdict among the leading chunks, and also accept a
+    confident cross-encoder judgement.
+    """
+    if not chunks:
+        return "none"
+    leading = chunks[:max(1, window)]
+    if any(_confidence(chunk) == "high" for chunk in leading):
+        return "high"
+    if any(
+        chunk.get("reranker_score") is not None
+        and float(chunk["reranker_score"]) >= RERANKER_CONFIDENT_SCORE
+        for chunk in leading
+    ):
+        return "high"
     return "low"
 
 
@@ -1926,6 +2292,48 @@ def _token_similarity(
     return intersection / union
 
 
+# Weight of the cross-encoder probability in the fused relevance score.
+RERANKER_FUSION_WEIGHT = float(
+    os.getenv("RETRIEVAL_RERANKER_FUSION_WEIGHT", "0.6")
+)
+
+
+def _sigmoid(value: float) -> float:
+    if value >= 0:
+        return 1.0 / (1.0 + math.exp(-value))
+    exp_value = math.exp(value)
+    return exp_value / (1.0 + exp_value)
+
+
+def _fused_relevance(
+    chunk: RetrievedChunk,
+    pool: list[RetrievedChunk],
+) -> float:
+    """Combine cross-encoder and hybrid evidence on comparable scales.
+
+    The cross-encoder logit is mapped through a sigmoid (its calibrated
+    probability of relevance) instead of min-max normalisation.  Min-max
+    stretched meaningless differences between uniformly negative logits
+    (e.g. -10.2 vs -11.1, both "irrelevant") across the full [0, 1] range,
+    letting noise outrank chunks with strong lexical/entity evidence.  With
+    a sigmoid both are ~0, so hybrid evidence decides unless the
+    cross-encoder is actually confident.
+    """
+    best_hybrid = max(
+        (float(item.get("final_score", 0.0)) for item in pool),
+        default=0.0,
+    )
+    hybrid = float(chunk.get("final_score", 0.0))
+    hybrid_norm = hybrid / best_hybrid if best_hybrid > 0 else 0.0
+    reranker_score = chunk.get("reranker_score")
+    if reranker_score is None:
+        return hybrid_norm
+    return (
+        RERANKER_FUSION_WEIGHT * _sigmoid(float(reranker_score))
+        + (1.0 - RERANKER_FUSION_WEIGHT) * hybrid_norm
+    )
+
+
 def _apply_diversity(
     query: str,
     chunks: list[RetrievedChunk],
@@ -1946,21 +2354,21 @@ def _apply_diversity(
         project questions
     """
 
-    if len(chunks) <= top_k:
-        return chunks[:top_k]
+    # Even when no chunk will be dropped, order by fused relevance: the
+    # incoming order is raw cross-encoder order, which ignores hybrid
+    # evidence entirely.
+    if not chunks:
+        return []
 
     selected: list[RetrievedChunk] = []
 
     remaining = list(
         chunks
     )
-    reranker_values = [float(chunk.get("reranker_score", chunk.get("final_score", 0.0))) for chunk in chunks]
-    hybrid_values = [float(chunk.get("final_score", 0.0)) for chunk in chunks]
-    reranker_low, reranker_high = min(reranker_values), max(reranker_values)
-    hybrid_low, hybrid_high = min(hybrid_values), max(hybrid_values)
-
-    def normalise_score(value: float, low: float, high: float) -> float:
-        return (value - low) / (high - low) if high > low else 1.0
+    relevance_by_id = {
+        id(chunk): _fused_relevance(chunk, chunks)
+        for chunk in chunks
+    }
 
     while (
         remaining
@@ -1971,27 +2379,7 @@ def _apply_diversity(
 
         for chunk in remaining:
 
-            reranker_score = float(
-                chunk.get(
-                    "reranker_score",
-                    0.0,
-                )
-            )
-
-            hybrid_score = float(
-                chunk.get(
-                    "final_score",
-                    0.0,
-                )
-            )
-
-            # Cross-encoder logits and hybrid scores use different scales.
-            # Rank-normalising each candidate set avoids a negative logit
-            # overwhelming explicit entity/section/numeric evidence.
-            relevance = (
-                0.60 * normalise_score(reranker_score, reranker_low, reranker_high)
-                + 0.40 * normalise_score(hybrid_score, hybrid_low, hybrid_high)
-            )
+            relevance = relevance_by_id[id(chunk)]
 
             redundancy = 0.0
 
@@ -2239,13 +2627,15 @@ def _retrieve_combined(
     # Combine
     # ------------------------------------------------------------------
 
-    candidates = (
+    candidates = _exclude_contact_cards(
         resume_candidates
         + session_candidates
     )
 
     if not candidates:
         return [], "none"
+
+    analysis.setdefault("index", _safe_index(resume_collection))
 
     # ------------------------------------------------------------------
     # Hybrid scoring
@@ -2284,14 +2674,28 @@ def _retrieve_combined(
     analysis["final_trace"] = _debug_chunks(final_chunks, limit=MAX_FINAL_CHUNKS)
 
     # ------------------------------------------------------------------
+    # Section diversity for broad profile queries
+    # ------------------------------------------------------------------
+
+    if is_profile_overview_query(query):
+        # Ensure at least one representative chunk from each major section
+        # is included, so the LLM gets a comprehensive profile view.
+        sections_seen = {
+            str(c["metadata"].get("section", "")).lower()
+            for c in final_chunks
+        }
+        for chunk in scored:
+            section = str(chunk["metadata"].get("section", "")).lower()
+            if section in OVERVIEW_SECTIONS and section not in sections_seen:
+                if chunk not in final_chunks:
+                    final_chunks.append(chunk)
+                    sections_seen.add(section)
+
+    # ------------------------------------------------------------------
     # Confidence
     # ------------------------------------------------------------------
 
-    confidence = _confidence(
-        final_chunks[0]
-        if final_chunks
-        else None
-    )
+    confidence = _context_confidence(final_chunks)
 
     # ------------------------------------------------------------------
     # Logging
@@ -2377,13 +2781,12 @@ def is_evaluation_query(
         "qualified for",
         "recommend hiring",
         "why should we hire",
-        "does he have experience",
     )
 
     return (
         bool(
             tokens
-            & _EVALUATION_TERMS
+            & _EVALUATION_TERMS_N
         )
         or any(
             pattern in query_lower
@@ -2427,10 +2830,11 @@ def _retrieve_evaluation(
     dense_candidates = _raw_to_candidates(raw)
     for candidate in dense_candidates:
         candidate["candidate_channels"] = ["dense"]
-    candidates = _merge_candidates(
+    candidates = _exclude_contact_cards(_merge_candidates(
         dense_candidates,
         _lexical_candidates(collection, query, analysis),
-    )
+    ))
+    analysis["index"] = _safe_index(collection)
 
     scored = _score_candidates(
         candidates,
@@ -2482,108 +2886,181 @@ def _retrieve_evaluation(
 # Overview retrieval
 # ============================================================================
 
+_EMAIL_RE = re.compile(r"[\w.+-]+@[\w-]+\.[\w.]+")
+_PHONE_RE = re.compile(r"\+?\d[\d\s().-]{8,}\d")
+
+
+def _is_contact_card_chunk(chunk: RetrievedChunk) -> bool:
+    """True for header/contact chunks carrying personal contact details.
+
+    A broad profile overview must never surface a phone number or email
+    address: those chunks are reserved for explicit contact queries, which
+    are routed separately by is_contact_query().
+    """
+    text = str(chunk.get("text", ""))
+    metadata = chunk.get("metadata", {}) or {}
+    section = str(metadata.get("section", "")).lower()
+
+    has_email = bool(_EMAIL_RE.search(text))
+    has_phone = bool(_PHONE_RE.search(text))
+
+    if section == "other":
+        return has_email or has_phone
+
+    return has_email and has_phone
+
+
+def _select_overview_chunks(
+    scored: list[RetrievedChunk],
+    ranked: list[RetrievedChunk],
+    limit: int,
+) -> list[RetrievedChunk]:
+    """Build the final overview context with guaranteed section coverage.
+
+    Pass 1 takes the best reranked chunk of every overview section.
+    Pass 2 adds any overview section the reranker dropped, using the best
+    hybrid-scored chunk for that section.
+    Passes 3-4 fill the remaining slots from the reranked, then hybrid order.
+
+    Coverage first, then quality: a broad query must never lose education,
+    skills, or experience to unrelated but higher-scoring chunks.
+    """
+    selected: list[RetrievedChunk] = []
+    seen: set[int] = set()
+    sections_seen: set[str] = set()
+
+    def _add(chunk: RetrievedChunk) -> None:
+        key = id(chunk)
+        if key not in seen:
+            seen.add(key)
+            selected.append(chunk)
+
+    def _section(chunk: RetrievedChunk) -> str:
+        return str(chunk["metadata"].get("section", "")).lower()
+
+    for chunk in ranked:
+        if len(selected) >= limit:
+            break
+        section = _section(chunk)
+        if section in OVERVIEW_SECTIONS and section not in sections_seen:
+            _add(chunk)
+            sections_seen.add(section)
+
+    for chunk in scored:
+        if len(selected) >= limit:
+            break
+        section = _section(chunk)
+        if section in OVERVIEW_SECTIONS and section not in sections_seen:
+            _add(chunk)
+            sections_seen.add(section)
+
+    for chunk in ranked:
+        if len(selected) >= limit:
+            break
+        _add(chunk)
+
+    for chunk in scored:
+        if len(selected) >= limit:
+            break
+        _add(chunk)
+
+    return selected
+
+
 def _retrieve_overview(
     query: str,
     top_k: int,
+    session_id: str | None = None,
 ) -> list[RetrievedChunk]:
     """
     Retrieve representative evidence across major sections.
 
-    Unlike plain semantic search, this intentionally preserves
-    section diversity.
+    Unlike plain semantic search, this intentionally preserves section
+    diversity, so a broad request such as "tell me everything about him"
+    or "summarise his profile" is answered from every relevant section
+    instead of being refused for low relevance.
+
+    Reads the permanent profile and, when a session upload is active, the
+    session collection as well.
     """
-
-    collection = get_collection()
-
-    count = collection.count()
-
-    if count == 0:
-        return []
 
     analysis = analyse_query(query)
     analysis["entities"] = extract_query_entities(query)
-    query_embedding = embed_query(expand_query(query, analysis)["semantic_query"])
+    query_embedding = embed_query(
+        expand_query(query, analysis)["semantic_query"]
+    )
 
-    candidate_count = (
-        _optimal_candidate_count(
-            top_k=max(
-                top_k,
-                8,
-            ),
+    collections = [get_collection()]
+
+    if session_id:
+        collections.append(
+            get_session_collection(session_id)
+        )
+
+    candidates: list[RetrievedChunk] = []
+
+    for collection in collections:
+
+        count = collection.count()
+
+        if count == 0:
+            continue
+
+        candidate_count = _optimal_candidate_count(
+            top_k=max(top_k, 8),
             collection_count=count,
             min_candidates=30,
         )
-    )
 
-    raw = query_vectors(
-        query_embedding,
-        n_results=candidate_count,
-    )
+        dense_candidates = _query_collection(
+            collection,
+            query_embedding,
+            candidate_count,
+        )
+        for candidate in dense_candidates:
+            candidate["candidate_channels"] = ["dense"]
 
-    dense_candidates = _raw_to_candidates(raw)
-    for candidate in dense_candidates:
-        candidate["candidate_channels"] = ["dense"]
-    candidates = _merge_candidates(
-        dense_candidates,
-        _lexical_candidates(collection, query, analysis),
-    )
+        candidates.extend(
+            _merge_candidates(
+                dense_candidates,
+                _lexical_candidates(collection, query, analysis),
+            )
+        )
+
+    if not candidates:
+        return []
+
+    # Contact cards belong to explicit contact queries only; a broad
+    # overview must not leak a phone number or email address.
+    candidates = [
+        chunk
+        for chunk in candidates
+        if not _is_contact_card_chunk(chunk)
+    ]
+
+    if not candidates:
+        return []
 
     scored = _score_candidates(
         candidates,
         analysis,
     )
 
-    # Prefer one representative chunk from each major section.
-    selected: list[
-        RetrievedChunk
-    ] = []
+    limit = min(
+        max(top_k * 2, 8),
+        MAX_FINAL_CHUNKS,
+    )
 
-    sections_seen: set[
-        str
-    ] = set()
-
-    for chunk in scored:
-
-        section = str(
-            chunk["metadata"].get(
-                "section",
-                "",
-            )
-        ).lower()
-
-        if (
-            section in OVERVIEW_SECTIONS
-            and section not in sections_seen
-        ):
-            selected.append(
-                chunk
-            )
-
-            sections_seen.add(
-                section
-            )
-
-    # Fill remaining candidates.
-    for chunk in scored:
-
-        if len(selected) >= max(
-            top_k * 2,
-            8,
-        ):
-            break
-
-        if chunk not in selected:
-            selected.append(
-                chunk
-            )
-
-    return _rerank_candidates(
+    ranked = _rerank_candidates(
         query=query,
-        candidates=selected,
-        top_k=min(
-            top_k,
-            MAX_FINAL_CHUNKS,
-        ),
+        candidates=scored,
+        top_k=limit,
+    )
+
+    return _select_overview_chunks(
+        scored,
+        ranked,
+        limit,
     )
 
 
@@ -2599,8 +3076,11 @@ def _retrieve_entity(
     """
     Retrieve chunks belonging to an exact entity.
 
-    First attempt:
-        metadata exact match
+    Candidates:
+        1. chunks whose metadata names the entity (owned evidence), and
+        2. chunks whose text mentions the entity or one of its aliases
+           (e.g. the resume achievements bullet that mentions a hackathon
+           that only has its own metadata on a LinkedIn post).
 
     Fallback:
         semantic retrieval + hybrid scoring
@@ -2616,47 +3096,25 @@ def _retrieve_entity(
     entity_lower = (
         entity.lower().strip()
     )
-
-    # ---------------------------------------------------------------
-    # Exact metadata retrieval
-    # ---------------------------------------------------------------
+    aliases = _entity_aliases(entity)
 
     exact_chunks: list[
         RetrievedChunk
     ] = []
 
     try:
-        result = collection.get(
-            include=[
-                "documents",
-                "metadatas",
-            ],
-        )
+        index = _corpus_index(collection)
 
-        documents = result.get(
-            "documents",
-            [],
-        )
-
-        metadatas = result.get(
-            "metadatas",
-            [],
-        )
-
-        for index, document in enumerate(
-            documents
+        for position, document in enumerate(
+            index["documents"]
         ):
 
             if not document:
                 continue
 
-            metadata = (
-                metadatas[index]
-                if index < len(metadatas)
-                else {}
-            )
+            metadata = index["metadatas"][position]
 
-            matched = any(
+            owned = any(
                 metadata.get(key)
                 and str(
                     metadata[key]
@@ -2669,28 +3127,32 @@ def _retrieve_entity(
                     "event",
                 )
             )
+            mentioned = not owned and any(
+                _alias_in_text(alias, index["composites_lower"][position])
+                for alias in aliases
+            )
 
-            if not matched:
+            if not (owned or mentioned):
                 continue
 
-            exact_chunks.append(
-                {
-                    "text": document,
-                    "metadata": dict(
-                        metadata or {}
-                    ),
-                    "distance": 0.0,
-                    "similarity": 1.0,
-                    "semantic_score": 1.0,
-                    "final_score": 1.5,
-                    "entity_bonus": ENTITY_MATCH_BONUS,
-                    "exact_phrase_bonus": EXACT_PHRASE_BONUS,
-                    "matched_keywords": [],
-                    "reasons": [
-                        f"exact-entity:{entity}"
-                    ],
-                }
-            )
+            chunk = {
+                "text": document,
+                "metadata": dict(metadata),
+                "distance": 0.0 if owned else 0.5,
+                "similarity": 1.0 if owned else 0.5,
+                "semantic_score": 1.0 if owned else 0.5,
+                "final_score": 1.5 if owned else 1.0,
+                "entity_bonus": ENTITY_MATCH_BONUS,
+                "exact_phrase_bonus": EXACT_PHRASE_BONUS if owned else 0.0,
+                "matched_keywords": [],
+                "candidate_channels": ["entity_metadata" if owned else "entity_mention"],
+                "reasons": [
+                    f"exact-entity:{entity}" if owned else f"entity-mention:{entity}"
+                ],
+            }
+            if _is_contact_card_chunk(chunk):
+                continue
+            exact_chunks.append(chunk)
 
     except Exception:
         logger.exception(
@@ -2701,6 +3163,7 @@ def _retrieve_entity(
     if exact_chunks:
         entity_analysis = analyse_query(query or entity)
         entity_analysis["entities"] = [entity]
+        entity_analysis["index"] = _safe_index(collection)
         exact_chunks = _score_candidates(exact_chunks, entity_analysis)
         return _rerank_candidates(
             query=query or entity,
@@ -2723,12 +3186,13 @@ def _retrieve_entity(
         ),
     )
 
-    candidates = _raw_to_candidates(
+    candidates = _exclude_contact_cards(_raw_to_candidates(
         raw
-    )
+    ))
 
     analysis = analyse_query(query or entity)
     analysis["entities"] = [entity]
+    analysis["index"] = _safe_index(collection)
 
     scored = _score_candidates(
         candidates,
@@ -3060,10 +3524,10 @@ def _retrieve_project_candidates(
                 ] = source_name
                 candidate["candidate_channels"] = ["dense"]
 
-            candidates = _merge_candidates(
+            candidates = _exclude_contact_cards(_merge_candidates(
                 dense_candidates,
                 _lexical_candidates(collection, query, analysis),
-            )
+            ))
             for candidate in candidates:
                 candidate["_retrieval_source"] = source_name
             all_candidates.extend(candidates)
@@ -3106,6 +3570,94 @@ def _retrieve_project_candidates(
 # Main retrieval router
 # ============================================================================
 
+# Personal or subjective attributes that can never be inferred from skills,
+# projects or experience (see system-prompt rule 9).  A question about one of
+# these is only answerable if the retrieved text states it explicitly.
+_EXPLICIT_ONLY_TERMS = (
+    "favorite", "favourite", "prefer", "preferred", "preference",
+    "hobby", "hobbies", "salary", "ctc", "compensation", "expected pay",
+    "age", "birthday", "date of birth", "dob", "religion", "marital",
+    "married", "weakness", "weaknesses", "personality",
+)
+
+
+def _explicit_only_terms(query: str) -> list[str]:
+    normalized = _normalise_text(query)
+    return [
+        term for term in _EXPLICIT_ONLY_TERMS
+        if re.search(rf"(?<![a-z]){re.escape(term)}(?![a-z])", normalized)
+    ]
+
+
+def _apply_explicit_evidence_gate(
+    query: str,
+    result: RetrievalResult,
+) -> RetrievalResult:
+    """Downgrade confidence when a preference/personal-attribute question has
+    no chunk that mentions the attribute.  Routes such as list retrieval
+    used to report "high" for "What is his favorite programming language?"
+    simply because the skills section exists, inviting the LLM to guess."""
+    terms = _explicit_only_terms(query)
+    if not terms or not result.get("chunks"):
+        return result
+    texts = [_candidate_text(chunk).lower() for chunk in result["chunks"]]
+    supported = any(
+        re.search(rf"(?<![a-z]){re.escape(term)}(?![a-z])", text)
+        for term in terms
+        for text in texts
+    )
+    if not supported:
+        result["confidence"] = "low"
+        result.setdefault("diagnostics", {})["explicit_evidence_missing"] = terms
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Adaptive context selection
+# ---------------------------------------------------------------------------
+#
+# Every route used to pad the context to top_k chunks even when only one
+# chunk was relevant, so the LLM routinely received several unrelated
+# chunks (a precision and grounding problem: unrelated facts invite
+# unrelated claims).  After ranking, a chunk beyond the first is kept only if
+# it carries real evidence: the cross-encoder considers it plausibly relevant
+# or its hybrid score is close to the best chunk's.
+
+CONTEXT_MIN_CHUNKS = int(os.getenv("RETRIEVAL_CONTEXT_MIN_CHUNKS", "1"))
+CONTEXT_RERANKER_KEEP = float(os.getenv("RETRIEVAL_CONTEXT_RERANKER_KEEP", "-2.0"))
+CONTEXT_HYBRID_RATIO = float(os.getenv("RETRIEVAL_CONTEXT_HYBRID_RATIO", "0.75"))
+
+# Broad routes intentionally return wide evidence; they are not trimmed.
+_UNTRIMMED_QUERY_TYPES = frozenset({"profile_overview", "evaluation", "contact"})
+
+
+def select_context(
+    chunks: list[RetrievedChunk],
+    min_chunks: int = CONTEXT_MIN_CHUNKS,
+    reranker_keep: float = CONTEXT_RERANKER_KEEP,
+    hybrid_ratio: float = CONTEXT_HYBRID_RATIO,
+) -> list[RetrievedChunk]:
+    """Drop trailing chunks that have no evidence of relevance.
+
+    Order is preserved.  The first ``min_chunks`` chunks are always kept.
+    """
+    if len(chunks) <= max(1, min_chunks):
+        return chunks
+    best_hybrid = max(float(chunk.get("final_score", 0.0)) for chunk in chunks)
+    selected: list[RetrievedChunk] = []
+    for position, chunk in enumerate(chunks):
+        reranker_score = chunk.get("reranker_score")
+        hybrid = float(chunk.get("final_score", 0.0))
+        keep = (
+            position < min_chunks
+            or (reranker_score is not None and float(reranker_score) >= reranker_keep)
+            or (best_hybrid > 0 and hybrid >= hybrid_ratio * best_hybrid)
+        )
+        if keep:
+            selected.append(chunk)
+    return selected
+
+
 def retrieve_full(
     query: str,
     top_k: int = DEFAULT_TOP_K,
@@ -3115,6 +3667,36 @@ def retrieve_full(
 ) -> RetrievalResult:
     """
     Main retrieval entry point.
+
+    Routes the query (see ``_route_and_retrieve``) and then applies
+    post-retrieval context selection and evidence gates.
+    """
+    result = _route_and_retrieve(
+        query,
+        top_k=top_k,
+        min_similarity=min_similarity,
+        session_id=session_id,
+        debug=debug,
+    )
+    if is_contact_query(query or ""):
+        return result
+    diagnostics = result.setdefault("diagnostics", {})
+    if diagnostics.get("query_type") not in _UNTRIMMED_QUERY_TYPES:
+        before = len(result.get("chunks", []))
+        result["chunks"] = select_context(result.get("chunks", []))
+        diagnostics["context_trimmed"] = before - len(result["chunks"])
+    return _apply_explicit_evidence_gate(query, result)
+
+
+def _route_and_retrieve(
+    query: str,
+    top_k: int = DEFAULT_TOP_K,
+    min_similarity: float = ABSOLUTE_FLOOR,
+    session_id: str | None = None,
+    debug: bool = False,
+) -> RetrievalResult:
+    """
+    Query router (formerly the body of ``retrieve_full``).
     """
 
     if not query or not query.strip():
@@ -3268,16 +3850,12 @@ def retrieve_full(
     # 3. Profile overview
     # ---------------------------------------------------------------
 
-    if (
-        is_profile_overview_query(
-            query
-        )
-        and not session_id
-    ):
+    if is_profile_overview_query(query):
 
         chunks = _retrieve_overview(
             query,
             top_k=top_k,
+            session_id=session_id,
         )
 
         return {
@@ -3300,6 +3878,8 @@ def retrieve_full(
                     analysis[
                         "topics"
                     ],
+                "session_id":
+                    session_id,
                 "candidates_considered":
                     len(chunks),
             },

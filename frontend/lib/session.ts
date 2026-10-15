@@ -1,9 +1,9 @@
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+import { apiFetch } from "@/lib/config";
 
 export async function startRagSession() {
-  const response = await fetch(`${API_URL}/api/session/start`, {
+  const response = await apiFetch("/api/session/start", {
     method: "POST",
+    // Required so the browser stores the HttpOnly rag_session_id cookie.
     credentials: "include",
   });
 
@@ -13,7 +13,7 @@ export async function startRagSession() {
     console.error("Failed to start RAG session:", {
       status: response.status,
       body: errorText,
-      url: `${API_URL}/api/session/start`,
+      url: response.url,
     });
 
     throw new Error(
@@ -25,7 +25,7 @@ export async function startRagSession() {
 }
 
 export async function endRagSession() {
-  const response = await fetch(`${API_URL}/api/session/end`, {
+  const response = await apiFetch("/api/session/end", {
     method: "POST",
     credentials: "include",
   });

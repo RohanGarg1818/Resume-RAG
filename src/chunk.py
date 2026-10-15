@@ -17,6 +17,7 @@ Every chunk carries metadata:
 """
 
 import hashlib
+import re
 from typing import Any
 
 from src.extract import extract_pages, PageDict
@@ -33,6 +34,11 @@ DEFAULT_CHUNK_SIZE = 700   # characters per chunk target
 DEFAULT_OVERLAP = 100      # characters repeated between consecutive chunks
 
 _BULLET_PREFIXES = ("•", "-", "*", "◦", "‣")
+
+# Owner identity for the permanent resume (Rohan Garg).
+_OWNER_ID = "rohan"
+_OWNER_NAME = "Rohan Garg"
+_OWNER_TYPE = "primary"
 
 
 def build_blocks(pages: list[PageDict]) -> list[dict[str, Any]]:
@@ -136,6 +142,43 @@ def build_blocks(pages: list[PageDict]) -> list[dict[str, Any]]:
     return blocks
 
 
+# "Backend & Databases: Node.js, Express.js, ..." style category lines.
+_CATEGORY_LINE = re.compile(r"^\s*([A-Z][A-Za-z0-9 &/+.,()-]{1,40}?)\s*:\s*\S")
+
+# Sections whose body is usually a set of "Category: item, item" lines.
+_CATEGORY_SECTIONS = ("skills",)
+
+
+def split_category_lines(text: str) -> list[tuple[str | None, str]]:
+    """Split a skills-style block into one piece per labelled category line.
+
+    A single skills chunk mixing languages, databases, tools and coursework
+    is a poor retrieval unit: the cross-encoder scores long comma lists
+    badly and every skills question receives the whole block.  One chunk per
+    category ("Tools & Infrastructure: Git, Docker, ...") is precise while a
+    broad "what are his skills" question still gets every category through
+    section-level list retrieval.
+
+    Wrapped continuation lines (no "Label:" prefix) stay with the previous
+    category.  Returns ``[(category_or_None, text), ...]``; a block without
+    at least two category lines is returned unchanged as one piece.
+    """
+    pieces: list[tuple[str | None, list[str]]] = []
+    for line in text.split("\n"):
+        if not line.strip():
+            continue
+        match = _CATEGORY_LINE.match(line)
+        if match:
+            pieces.append((match.group(1).strip(), [line]))
+        elif pieces:
+            pieces[-1][1].append(line)
+        else:
+            pieces.append((None, [line]))
+    if sum(1 for category, _ in pieces if category) < 2:
+        return [(None, text.strip())] if text.strip() else []
+    return [(category, "\n".join(lines).strip()) for category, lines in pieces]
+
+
 def _split_block(text: str, chunk_size: int, overlap: int) -> list[str]:
     """Split a block of text into <=chunk_size pieces at line boundaries."""
     text = text.strip()
@@ -183,14 +226,25 @@ def chunk_pages(
         fallback_section = (
             detect_section(block_text) if block["section"] == "header" else block["section"]
         )
-        for piece in _split_block(block_text, chunk_size, overlap):
-            metadata: dict[str, Any] = {
-                "source": "resume",
-                "section": fallback_section,
-                "page": page_number,
-            }
-            metadata.update(block["entity"])
-            chunks.append({"text": piece, "metadata": metadata})
+        if fallback_section in _CATEGORY_SECTIONS:
+            categorised = split_category_lines(block_text)
+        else:
+            categorised = [(None, block_text)]
+
+        for category, category_text in categorised:
+            for piece in _split_block(category_text, chunk_size, overlap):
+                metadata: dict[str, Any] = {
+                    "source": "resume",
+                    "section": fallback_section,
+                    "page": page_number,
+                    "owner_id": _OWNER_ID,
+                    "owner_name": _OWNER_NAME,
+                    "owner_type": _OWNER_TYPE,
+                }
+                if category:
+                    metadata["skill_category"] = category
+                metadata.update(block["entity"])
+                chunks.append({"text": piece, "metadata": metadata})
     return chunks
 
 

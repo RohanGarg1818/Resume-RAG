@@ -33,11 +33,28 @@ class Source(BaseModel):
 
     source: str
     citation_id: str | None = None
+    citation_ids: list[str] = Field(default_factory=list)
     section: str | None = None
     page: int | None = None
     project: str | None = None
     company: str | None = None
     role: str | None = None
+    candidate: str | None = None
+    score: float | None = Field(
+        default=None,
+        description="Cosine similarity 0-1 between the question and this passage.",
+    )
+    excerpt: str | None = None
+
+
+class RetrievalSummary(BaseModel):
+    """Compact retrieval facts shown under each answer."""
+
+    chunks: int = 0
+    latency_ms: float = 0.0
+    llm_latency_ms: float = 0.0
+    confidence: str | None = None
+    route: str | None = None
 
 
 class ChatResponse(BaseModel):
@@ -46,4 +63,5 @@ class ChatResponse(BaseModel):
     answer: str
     sources: list[Source] = Field(default_factory=list)
     conversation_id: str
+    retrieval: RetrievalSummary | None = None
     debug: dict | None = None

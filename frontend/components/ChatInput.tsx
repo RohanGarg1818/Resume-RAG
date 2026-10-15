@@ -3,10 +3,15 @@
 
 import {
   FormEvent,
+  KeyboardEvent,
   useEffect,
   useRef,
   useState,
 } from "react";
+
+import Icon from "@/components/Icon";
+
+export type ResponseMode = "standard" | "recruiter";
 
 interface ChatInputProps {
   onSubmit: (
@@ -15,6 +20,9 @@ interface ChatInputProps {
   ) => Promise<void>;
   disabled?: boolean;
   autoSubmitVoice?: boolean;
+  mode?: ResponseMode;
+  onModeChange?: (mode: ResponseMode) => void;
+  placeholder?: string;
 }
 
 interface SpeechRecognitionEventLike {
@@ -54,6 +62,9 @@ export default function ChatInput({
   onSubmit,
   disabled = false,
   autoSubmitVoice = false,
+  mode = "standard",
+  onModeChange,
+  placeholder = "Ask about Rohan's experience, projects or skills…",
 }: ChatInputProps) {
   const [message, setMessage] = useState("");
   const [isListening, setIsListening] = useState(false);
@@ -62,6 +73,23 @@ export default function ChatInput({
 
   const recognitionRef =
     useRef<SpeechRecognitionLike | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // "/" focuses the query box from anywhere outside a text field.
+  useEffect(() => {
+    function onKey(event: globalThis.KeyboardEvent) {
+      const target = event.target as HTMLElement | null;
+      const typing =
+        target &&
+        (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable);
+      if (event.key === "/" && !typing && !event.metaKey && !event.ctrlKey) {
+        event.preventDefault();
+        textareaRef.current?.focus();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   const messageRef = useRef("");
 
@@ -148,11 +176,7 @@ export default function ChatInput({
     recognitionRef.current.start();
   }
 
-  async function handleSubmit(
-    event: FormEvent<HTMLFormElement>
-  ) {
-    event.preventDefault();
-
+  async function submitCurrent() {
     const trimmed = message.trim();
 
     if (!trimmed || disabled) {
@@ -162,60 +186,122 @@ export default function ChatInput({
     setMessage("");
     messageRef.current = "";
 
-    await onSubmit(trimmed,false);
+    await onSubmit(trimmed, false);
   }
+
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>
+  ) {
+    event.preventDefault();
+    await submitCurrent();
+  }
+
+  // Enter or Cmd/Ctrl+Enter sends; Shift+Enter adds a new line.
+  function handleKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) {
+      event.preventDefault();
+      void submitCurrent();
+    }
+  }
+
+  const modes: { value: ResponseMode; label: string }[] = [
+    { value: "standard", label: "Standard" },
+    { value: "recruiter", label: "Recruiter" },
+  ];
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center gap-2 rounded-2xl border border-zinc-800 bg-zinc-950 p-2"
+      className="rr-well rr-composer"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
+        padding: "14px 14px 10px 16px",
+        borderRadius: 16,
+        transition: "box-shadow 200ms var(--ease)",
+      }}
     >
-      
-      <input
+      <label htmlFor="rr-query" className="sr-only">
+        Question
+      </label>
+      <textarea
+        id="rr-query"
+        ref={textareaRef}
+        rows={2}
         value={message}
         onChange={(event) => {
           setMessage(event.target.value);
           messageRef.current = event.target.value;
         }}
-        placeholder={
-          isListening
-            ? "Listening..."
-            : "Ask about the candidate..."
-        }
+        onKeyDown={handleKeyDown}
+        placeholder={isListening ? "Listening…" : placeholder}
         disabled={disabled}
-        className="flex-1 bg-transparent px-3 py-3 text-sm text-white outline-none placeholder:text-zinc-600"
+        style={{
+          resize: "none",
+          border: 0,
+          outline: "none",
+          background: "transparent",
+          width: "100%",
+          fontSize: 15,
+          lineHeight: 1.55,
+          color: "var(--text)",
+          fontFamily: "inherit",
+        }}
       />
 
-      {speechSupported && (
-        <button
-          type="button"
-          onClick={toggleListening}
-          disabled={disabled}
-          aria-label={
-            isListening
-              ? "Stop listening"
-              : "Start voice input"
-              
-          }
-          className={`flex h-11 w-11 items-center justify-center rounded-xl text-lg transition ${
-            isListening
-              ? "bg-white text-black"
-              : "bg-zinc-900 text-zinc-300 hover:bg-zinc-800 hover:text-white"
-          } disabled:cursor-not-allowed disabled:opacity-40`}
-        >
-          {isListening ? "■" : "🎤"}
-        </button>
-      )}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+        {onModeChange && (
+          <div className="rr-seg" role="group" aria-label="Answer mode">
+            {modes.map((item) => (
+              <button
+                key={item.value}
+                type="button"
+                aria-pressed={mode === item.value}
+                onClick={() => onModeChange(item.value)}
+                title={item.value === "recruiter" ? "Focus answers on verified role fit and gaps" : "Direct grounded answers"}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        )}
 
-      <button
-        type="submit"
-        disabled={
-          disabled || !message.trim()
-        }
-        className="rounded-xl bg-white px-4 py-3 text-sm font-medium text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-40"
-      >
-        {disabled ? "..." : "Ask"}
-      </button>
+        <span style={{ flex: 1 }} />
+
+        <span className="rr-lbl rr-hide-sm" style={{ fontSize: 10, display: "inline-flex", gap: 4, alignItems: "center" }}>
+          <span className="rr-kbd">/</span> focus
+        </span>
+
+        {speechSupported && (
+          <button
+            type="button"
+            onClick={toggleListening}
+            disabled={disabled}
+            aria-pressed={isListening}
+            aria-label={isListening ? "Stop listening" : "Start voice input"}
+            className="rr-btn rr-btn-neu rr-icon-btn"
+            style={isListening ? { color: "var(--blue-hi)", boxShadow: "var(--neu-in), 0 0 0 1px var(--blue-line)" } : undefined}
+          >
+            <Icon name={isListening ? "stop" : "mic"} />
+          </button>
+        )}
+
+        <button
+          type="submit"
+          disabled={disabled || !message.trim()}
+          className="rr-btn rr-btn-primary"
+          aria-label="Send question"
+        >
+          {disabled ? "Answering" : "Ask"}
+          <span
+            className="rr-kbd"
+            style={{ background: "rgba(255,255,255,.14)", borderColor: "rgba(255,255,255,.2)", color: "#fff", boxShadow: "none", height: 18 }}
+          >
+            ↵
+          </span>
+        </button>
+      </div>
     </form>
   );
 }

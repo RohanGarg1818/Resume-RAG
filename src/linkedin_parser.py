@@ -83,6 +83,9 @@ def infer_linkedin_metadata(text: str) -> dict[str, Any]:
     metadata: dict[str, Any] = {
         "source": "linkedin",
         "source_type": "linkedin",
+        "owner_id": "rohan",
+        "owner_name": "Rohan Garg",
+        "owner_type": "primary",
     }
 
     # Projects

@@ -102,9 +102,18 @@ def _save_json(path: Path, payload: Any) -> None:
     path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
-def run_retrieval_evaluation(top_k: int = 6, save: bool = True) -> dict[str, Any]:
-    """Evaluate retrieval only; Groq is never called from this function."""
-    dataset = json.loads(DATASET_PATH.read_text(encoding="utf-8"))
+def run_retrieval_evaluation(
+    top_k: int = 6,
+    save: bool = True,
+    dataset_path: Path | str = DATASET_PATH,
+) -> dict[str, Any]:
+    """Evaluate retrieval only; Groq is never called from this function.
+
+    ``dataset_path`` lets the same harness score the held-out set
+    (``holdout.json``), which is never used for tuning and therefore acts as
+    an overfitting check for the main dataset.
+    """
+    dataset = json.loads(Path(dataset_path).read_text(encoding="utf-8"))
     question_results: list[dict[str, Any]] = []
     precision_at: dict[int, list[float]] = {k: [] for k in (1, 3, 5, top_k)}
     recall_at: dict[int, list[float]] = {k: [] for k in (1, 3, 5, top_k)}
@@ -114,6 +123,7 @@ def run_retrieval_evaluation(top_k: int = 6, save: bool = True) -> dict[str, Any
     section_accuracy: list[float] = []
     refusal: list[float] = []
     latency: list[float] = []
+    context_sizes: list[float] = []
 
     for item in dataset:
         started = time.perf_counter()
@@ -154,6 +164,8 @@ def run_retrieval_evaluation(top_k: int = 6, save: bool = True) -> dict[str, Any
             "debug": result.get("diagnostics", {}).get("debug", {}),
         })
         latency.append(elapsed)
+        if not unsupported:
+            context_sizes.append(float(len(chunks)))
 
     primary_precision = _mean(precision_at[top_k])
     primary_recall = _mean(recall_at[top_k])
@@ -167,6 +179,14 @@ def run_retrieval_evaluation(top_k: int = 6, save: bool = True) -> dict[str, Any
         "precision_at_k": {str(k): round(_mean(values), 4) for k, values in precision_at.items()},
         "recall_at_k": {str(k): round(_mean(values), 4) for k, values in recall_at.items()},
         "f1_at_k": round(f1, 4),
+        "f1_at_k_by_k": {
+            str(k): round(
+                2 * _mean(precision_at[k]) * _mean(recall_at[k])
+                / (_mean(precision_at[k]) + _mean(recall_at[k])), 4)
+            if _mean(precision_at[k]) + _mean(recall_at[k]) else 0.0
+            for k in precision_at
+        },
+        "avg_context_chunks": round(_mean(context_sizes), 2),
         "hit_at_1": round(_mean(hits[1]), 4),
         "hit_at_3": round(_mean(hits[3]), 4),
         "hit_at_5": round(_mean(hits[5]), 4),
@@ -191,5 +211,19 @@ def run_retrieval_evaluation(top_k: int = 6, save: bool = True) -> dict[str, Any
 
 
 if __name__ == "__main__":
-    outcome = run_retrieval_evaluation()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Retrieval-only evaluation")
+    parser.add_argument("--dataset", default=str(DATASET_PATH))
+    parser.add_argument("--top-k", type=int, default=6)
+    parser.add_argument("--no-save", action="store_true")
+    args = parser.parse_args()
+    is_main_dataset = Path(args.dataset).resolve() == DATASET_PATH.resolve()
+    outcome = run_retrieval_evaluation(
+        top_k=args.top_k,
+        # Only the main dataset updates latest/history so held-out runs do
+        # not overwrite the tracked baseline.
+        save=not args.no_save and is_main_dataset,
+        dataset_path=args.dataset,
+    )
     print(json.dumps(outcome["summary"], indent=2))

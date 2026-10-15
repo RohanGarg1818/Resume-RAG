@@ -13,6 +13,7 @@ class Session:
     created_at: float = field(default_factory=time.time)
     last_activity: float = field(default_factory=time.time)
     files: dict[str, dict] = field(default_factory=dict)
+    candidate_name: str | None = None
 
 
 _sessions: dict[str, Session] = {}
@@ -34,6 +35,24 @@ def create_session() -> str:
 def get_session(session_id: str) -> Session | None:
     with _lock:
         return _sessions.get(session_id)
+
+
+def set_candidate_name(session_id: str, name: str) -> bool:
+    """Store the extracted candidate name for a session."""
+    with _lock:
+        session = _sessions.get(session_id)
+        if not session:
+            return False
+        session.candidate_name = name
+        session.last_activity = time.time()
+        return True
+
+
+def get_candidate_name(session_id: str) -> str | None:
+    """Return the stored candidate name, or None."""
+    with _lock:
+        session = _sessions.get(session_id)
+        return session.candidate_name if session else None
 
 
 def touch_session(session_id: str) -> bool:

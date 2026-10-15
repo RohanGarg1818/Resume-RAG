@@ -39,6 +39,7 @@ def chat_endpoint(
             answer=result["answer"],
             sources=result.get("sources", []),
             conversation_id=result["conversation_id"],
+            retrieval=result.get("retrieval"),
             debug=result.get("debug"),
         )
 

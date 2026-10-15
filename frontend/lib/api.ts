@@ -1,25 +1,17 @@
-
-import type { ChatRequest, ChatResponse } from "@/types/chat";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-if (!API_URL) {
-  throw new Error("NEXT_PUBLIC_API_URL is not configured.");
-}
+import { apiFetch } from "@/lib/config";
+import type { ChatRequest, ChatResponse, IndexStatus } from "@/types/chat";
 
 export async function sendMessage(
   request: ChatRequest
 ): Promise<ChatResponse> {
-  const response = await fetch(`${API_URL}/api/chat`, {
+  const response = await apiFetch("/api/chat", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
 
-    // Important:
-    // Sends the rag_session_id cookie to the backend so the
-    // backend knows which temporary RAG collection belongs
-    // to this browser session.
+    // Sends the rag_session_id cookie so the backend can include this
+    // browser session's uploaded documents in retrieval.
     credentials: "include",
 
     body: JSON.stringify(request),
@@ -42,4 +34,13 @@ export async function sendMessage(
   }
 
   return response.json();
+}
+
+export async function fetchIndexStatus(): Promise<IndexStatus | null> {
+  try {
+    const response = await apiFetch("/api/index/status");
+    return response.ok ? response.json() : null;
+  } catch {
+    return null;
+  }
 }
